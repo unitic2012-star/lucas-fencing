@@ -1,0 +1,7 @@
+.tmp.drivedownload/
+.tmp.driveupload/
+.gitdata/
+*.MOV
+*.mov
+*.HEIC
+*.heic
