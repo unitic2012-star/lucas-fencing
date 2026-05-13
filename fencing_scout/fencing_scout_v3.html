@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>花剑侦察 v3 · Lucas Li</title>
+<title>Fencing Scout v3 · Lucas Li</title>
 <style>
 :root{
   --bg:#0d0d0c;--bg2:#161614;--bg3:#1e1e1c;--bg4:#262624;
@@ -103,6 +103,15 @@ textarea:focus{border-color:var(--acc);}
 .pool-name{flex:1;font-size:12px;}
 .pool-prob{font-family:var(--mono);font-size:11px;min-width:32px;text-align:right;}
 .pool-win-prob{font-size:10px;padding:1px 5px;border-radius:3px;}
+.en{display:block;}
+.zh{display:block;font-size:.82em;color:var(--t3);font-weight:500;line-height:1.35;margin-top:1px;}
+.bi{display:inline-flex;flex-direction:column;gap:1px;line-height:1.15;}
+.bi .zh{font-size:.78em;}
+.logo .zh,.ph .zh{font-size:10px;}
+.ni{align-items:flex-start;}
+.ni .bi{gap:2px;}
+.ct .zh,.sc .zh,.ls .zh{font-size:9px;color:var(--t3);font-weight:500;text-transform:none;letter-spacing:0;}
+th .zh{font-size:8px;text-transform:none;letter-spacing:0;color:var(--t3);}
 ::-webkit-scrollbar{width:4px;height:4px;}
 ::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px;}
 @media(max-width:700px){.shell{grid-template-columns:1fr;}.sb{position:static;height:auto;}.g4{grid-template-columns:repeat(2,1fr);}.g2{grid-template-columns:1fr;}}
@@ -112,137 +121,137 @@ textarea:focus{border-color:var(--acc);}
 <div class="shell">
 <aside class="sb">
   <div class="logo">
-    <h1>Lucas Li · 花剑侦察 v3</h1>
+    <h1><span class="en">Lucas Li · Fencing Scout v3</span><span class="zh">花剑侦察 v3</span></h1>
     <p>#100326747 · C26 · Orange Coast</p>
     <div class="ls-row">
-      <div class="ls"><div class="v" style="color:var(--acc)">T62</div><div class="l">全国排名</div></div>
-      <div class="ls"><div class="v" style="color:var(--gld)">136</div><div class="l">积分</div></div>
-      <div class="ls"><div class="v" style="color:var(--grn)">68.2%</div><div class="l">胜率</div></div>
+      <div class="ls"><div class="v" style="color:var(--acc)">T62</div><div class="l"><span class="en">National Rank</span><span class="zh">全国排名</span></div></div>
+      <div class="ls"><div class="v" style="color:var(--gld)">136</div><div class="l"><span class="en">Points</span><span class="zh">积分</span></div></div>
+      <div class="ls"><div class="v" style="color:var(--grn)">68.2%</div><div class="l"><span class="en">Win Rate</span><span class="zh">胜率</span></div></div>
     </div>
   </div>
   <div style="margin-bottom:4px;">
-    <div class="nl" style="margin-top:8px;">功能</div>
-    <div class="ni on" onclick="nav('ov')">📊 排名概览</div>
-    <div class="ni" onclick="nav('rl')">🏆 完整排行榜</div>
-    <div class="ni" onclick="nav('az')">🔍 赛事分析</div>
-    <div class="ni" onclick="nav('pl')">🎱 Pool 分组预测</div>
-    <div class="ni" onclick="nav('h2')">⚔️ 头对头记录</div>
-    <div class="ni" onclick="nav('pt')">🎯 积分路径</div>
+    <div class="nl" style="margin-top:8px;"><span class="en">Tools</span><span class="zh">功能</span></div>
+    <div class="ni on" onclick="nav('ov')">📊 <span class="bi"><span class="en">Rank Overview</span><span class="zh">排名概览</span></span></div>
+    <div class="ni" onclick="nav('rl')">🏆 <span class="bi"><span class="en">Full Ranking</span><span class="zh">完整排行榜</span></span></div>
+    <div class="ni" onclick="nav('az')">🔍 <span class="bi"><span class="en">Event Analysis</span><span class="zh">赛事分析</span></span></div>
+    <div class="ni" onclick="nav('pl')">🎱 <span class="bi"><span class="en">Pool Predictor</span><span class="zh">Pool 分组预测</span></span></div>
+    <div class="ni" onclick="nav('h2')">⚔️ <span class="bi"><span class="en">Head-to-Head</span><span class="zh">头对头记录</span></span></div>
+    <div class="ni" onclick="nav('pt')">🎯 <span class="bi"><span class="en">Points Path</span><span class="zh">积分路径</span></span></div>
   </div>
   <div class="db-info">
-    <div style="color:var(--t2);">对手数据库 v3</div>
-    <div>886 位 fencer</div>
-    <div>922 场对战记录</div>
-    <div>465 位交手过</div>
-    <div>Y14/Cadet/Junior 专项</div>
-    <div>Pool/DE 胜负拆分</div>
-    <div style="margin-top:4px;">更新: 2026-05-07</div>
+    <div style="color:var(--t2);"><span class="en">Opponent Database v3</span><span class="zh">对手数据库 v3</span></div>
+    <div>886 fencers <span class="zh">886 位选手</span></div>
+    <div>922 bout records <span class="zh">922 场对战记录</span></div>
+    <div>465 met opponents <span class="zh">465 位交手过</span></div>
+    <div>Y14/Cadet/Junior focus <span class="zh">Y14/Cadet/Junior 专项</span></div>
+    <div>Pool/DE split records <span class="zh">Pool/DE 胜负拆分</span></div>
+    <div style="margin-top:4px;">Updated: 2026-05-07 <span class="zh">更新日期</span></div>
   </div>
 </aside>
 <main>
 
 <div class="page on" id="p-ov">
-  <div class="ph"><h1>全国积分排名概览</h1><p>Y14 Men's Foil · 2025 National Points List · 245人 · 数据 2026-05-05</p></div>
+  <div class="ph"><h1><span class="en">National Points Overview</span><span class="zh">全国积分排名概览</span></h1><p>Y14 Men's Foil · 2025 National Points List · 245 fencers · Data 2026-05-05<span class="zh">Y14 男子花剑 · 2025 全国积分榜 · 245人 · 数据 2026-05-05</span></p></div>
   <div class="g4" id="ov-s"></div>
   <div class="g2">
-    <div class="card"><div class="ct">Lucas 全国位置</div><div id="ov-pos"></div></div>
-    <div class="card"><div class="ct">Orange Coast 分区</div><div id="ov-oc"></div></div>
+    <div class="card"><div class="ct"><span class="en">Lucas National Position</span><span class="zh">Lucas 全国位置</span></div><div id="ov-pos"></div></div>
+    <div class="card"><div class="ct"><span class="en">Orange Coast Division</span><span class="zh">Orange Coast 分区</span></div><div id="ov-oc"></div></div>
   </div>
-  <div class="card"><div class="ct">LAIFC 俱乐部全员</div><div style="overflow-x:auto"><div id="ov-laifc"></div></div></div>
+  <div class="card"><div class="ct"><span class="en">All LAIFC Fencers</span><span class="zh">LAIFC 俱乐部全员</span></div><div style="overflow-x:auto"><div id="ov-laifc"></div></div></div>
 </div>
 
 <div class="page" id="p-rl">
-  <div class="ph"><h1>完整排行榜</h1><p>245名 · 点表头排序</p></div>
+  <div class="ph"><h1><span class="en">Full Ranking</span><span class="zh">完整排行榜</span></h1><p>245 fencers · tap table headers to sort<span class="zh">245名 · 点击表头排序</span></p></div>
   <div class="tb">
-    <input class="srch" id="rs" placeholder="姓名 / 俱乐部 / 分区..." oninput="rR()" style="flex:1;min-width:150px;">
-    <button class="fb on" id="f-all" onclick="sF('all')">全部</button>
+    <input class="srch" id="rs" placeholder="Name / club / division... 姓名 / 俱乐部 / 分区..." oninput="rR()" style="flex:1;min-width:150px;">
+    <button class="fb on" id="f-all" onclick="sF('all')"><span class="en">All</span><span class="zh">全部</span></button>
     <button class="fb" id="f-laifc" onclick="sF('laifc')">LAIFC</button>
     <button class="fb" id="f-oc" onclick="sF('oc')">Orange Coast</button>
-    <button class="fb" id="f-100" onclick="sF('top100')">前100</button>
-    <button class="fb" id="f-12" onclick="sF('born12')">2012生</button>
+    <button class="fb" id="f-100" onclick="sF('top100')"><span class="en">Top 100</span><span class="zh">前100</span></button>
+    <button class="fb" id="f-12" onclick="sF('born12')"><span class="en">Born 2012</span><span class="zh">2012生</span></button>
   </div>
   <div class="cnt" id="r-cnt"></div>
   <div class="card" style="padding:0 0 1px;overflow-x:auto;">
     <table class="t"><thead><tr>
-      <th onclick="sR('rank')">#</th><th onclick="sR('name')">姓名</th>
-      <th>出生</th><th onclick="sR('div')">分区</th>
-      <th onclick="sR('pts')" style="text-align:right">积分</th>
-      <th>对手胜率(调整后)</th><th>vs Lucas H2H</th>
+      <th onclick="sR('rank')">#</th><th onclick="sR('name')"><span class="en">Name</span><span class="zh">姓名</span></th>
+      <th><span class="en">Born</span><span class="zh">出生</span></th><th onclick="sR('div')"><span class="en">Division</span><span class="zh">分区</span></th>
+      <th onclick="sR('pts')" style="text-align:right"><span class="en">Points</span><span class="zh">积分</span></th>
+      <th><span class="en">Opponent WR (Adj.)</span><span class="zh">对手胜率(调整后)</span></th><th>vs Lucas H2H</th>
     </tr></thead><tbody id="r-body"></tbody></table>
   </div>
 </div>
 
 <div class="page" id="p-az">
-  <div class="ph"><h1>赛事名单分析</h1><p>粘贴 USAFencing 或 AskFred 名单 · 自动匹配 886 位对手 + H2H + Pool/DE 胜率</p></div>
+  <div class="ph"><h1><span class="en">Event Entry Analysis</span><span class="zh">赛事名单分析</span></h1><p>Paste a USA Fencing or AskFred entry list · auto-match 886 opponents + H2H + Pool/DE win rates<span class="zh">粘贴 USAFencing 或 AskFred 名单 · 自动匹配 886 位对手 + H2H + Pool/DE 胜率</span></p></div>
   <div class="g2" style="align-items:start;">
     <div>
-      <div class="ct" style="margin-bottom:5px;">粘贴参赛名单</div>
-      <textarea id="entry" placeholder="直接从 usafencing.com 报名页面全选复制粘贴&#10;&#10;系统自动识别：&#10;• USAFencing 格式（含Approved分隔）&#10;• AskFred 格式&#10;• 纯名字列表&#10;• Member ID（#100XXXXXX 最准确）"></textarea>
+      <div class="ct" style="margin-bottom:5px;"><span class="en">Paste Entry List</span><span class="zh">粘贴参赛名单</span></div>
+      <textarea id="entry" placeholder="Paste directly from the usafencing.com registration page&#10;&#10;Auto-detects:&#10;• USA Fencing format with Approved separators&#10;• AskFred format&#10;• plain name list&#10;• Member ID (#100XXXXXX is best)&#10;&#10;可直接从 usafencing.com 报名页面复制粘贴"></textarea>
       <div style="margin-top:7px;display:flex;gap:7px;flex-wrap:wrap;">
-        <button class="btn btn-p" onclick="analyze()">🔍 分析</button>
-        <button class="btn btn-g" onclick="loadSample()">示例</button>
-        <button class="btn btn-g" onclick="document.getElementById('entry').value=''">清空</button>
+        <button class="btn btn-p" onclick="analyze()">🔍 <span class="bi"><span class="en">Analyze</span><span class="zh">分析</span></span></button>
+        <button class="btn btn-g" onclick="loadSample()"><span class="bi"><span class="en">Sample</span><span class="zh">示例</span></span></button>
+        <button class="btn btn-g" onclick="document.getElementById('entry').value=''"><span class="bi"><span class="en">Clear</span><span class="zh">清空</span></span></button>
       </div>
     </div>
     <div class="card" style="font-size:11px;line-height:1.9;color:var(--t2);">
-      <div class="ct">说明</div>
-      <div>🔴 强：调整胜率≥65% 或 积分≥300</div>
-      <div>🟡 中：调整胜率50-65% 或 积分150-300</div>
-      <div>🟢 弱：调整胜率&lt;50% 且 积分&lt;150</div>
-      <div style="margin-top:6px;color:var(--t3);">胜率已按年龄/赛事类别调整<br>Pool/DE 分别显示历史胜负</div>
+      <div class="ct"><span class="en">Guide</span><span class="zh">说明</span></div>
+      <div>🔴 Strong: adjusted WR ≥65% or points ≥300<span class="zh">强：调整胜率≥65% 或 积分≥300</span></div>
+      <div>🟡 Medium: adjusted WR 50-65% or points 150-300<span class="zh">中：调整胜率50-65% 或 积分150-300</span></div>
+      <div>🟢 Light: adjusted WR &lt;50% and points &lt;150<span class="zh">弱：调整胜率&lt;50% 且 积分&lt;150</span></div>
+      <div style="margin-top:6px;color:var(--t3);">Win rates are adjusted by age/event type<br>Pool/DE show historical split records<span class="zh">胜率已按年龄/赛事类别调整；Pool/DE 分别显示历史胜负</span></div>
     </div>
   </div>
   <div id="az-r"></div>
 </div>
 
 <div class="page" id="p-pl">
-  <div class="ph"><h1>🎱 Pool 分组预测</h1><p>基于 USA Fencing 标准算法：Rating种子 → 蛇形分配 → 同俱乐部强制分开</p></div>
+  <div class="ph"><h1><span class="en">🎱 Pool Predictor</span><span class="zh">Pool 分组预测</span></h1><p>Based on the USA Fencing standard approach: rating seeding → snake assignment → same-club separation<span class="zh">基于 USA Fencing 标准算法：Rating种子 → 蛇形分配 → 同俱乐部强制分开</span></p></div>
   <div class="g2" style="align-items:start;">
     <div>
-      <div class="ct" style="margin-bottom:5px;">粘贴参赛名单</div>
-      <textarea id="pl-entry" placeholder="直接从 usafencing.com 报名页面全选复制粘贴&#10;&#10;支持格式：&#10;• USAFencing 格式（含Approved分隔）&#10;• AskFred 格式&#10;• Member ID（#100XXXXXX）&#10;&#10;系统会自动识别每位选手的评级和积分&#10;并用蛇形算法预测 Lucas 在哪个 Pool"></textarea>
+      <div class="ct" style="margin-bottom:5px;"><span class="en">Paste Entry List</span><span class="zh">粘贴参赛名单</span></div>
+      <textarea id="pl-entry" placeholder="Paste directly from the usafencing.com registration page&#10;&#10;Supported formats:&#10;• USA Fencing format with Approved separators&#10;• AskFred format&#10;• Member ID (#100XXXXXX)&#10;&#10;The system detects rating and points, then predicts Lucas's pool with snake assignment.&#10;&#10;系统会自动识别每位选手的评级和积分，并预测 Lucas 在哪个 Pool"></textarea>
       <div style="margin-top:7px;display:flex;gap:7px;flex-wrap:wrap;">
-        <button class="btn btn-p" onclick="calcPoolFromEntry()">🎱 计算分组</button>
-        <button class="btn btn-g" onclick="loadPoolSample()">示例名单</button>
-        <button class="btn btn-g" onclick="document.getElementById('pl-entry').value=''">清空</button>
+        <button class="btn btn-p" onclick="calcPoolFromEntry()">🎱 <span class="bi"><span class="en">Calculate Pools</span><span class="zh">计算分组</span></span></button>
+        <button class="btn btn-g" onclick="loadPoolSample()"><span class="bi"><span class="en">Sample List</span><span class="zh">示例名单</span></span></button>
+        <button class="btn btn-g" onclick="document.getElementById('pl-entry').value=''"><span class="bi"><span class="en">Clear</span><span class="zh">清空</span></span></button>
       </div>
     </div>
     <div class="card" style="font-size:11px;line-height:1.9;color:var(--t2);">
-      <div class="ct">分组算法说明</div>
-      <div>① 按 <strong style="color:var(--t)">Rating</strong>（A→B→C→D→E→U）排种子</div>
-      <div>② 同 Rating 内按<strong style="color:var(--t)">全国积分</strong>排序</div>
-      <div>③ <strong style="color:var(--t)">蛇形分配</strong>到各 Pool</div>
-      <div>④ <strong style="color:var(--laifc)">LAIFC 同俱乐部强制分开</strong></div>
-      <div style="margin-top:6px;color:var(--t3);">此为预测，实际由赛事主办执行</div>
+      <div class="ct"><span class="en">Pool Algorithm</span><span class="zh">分组算法说明</span></div>
+      <div>① Seed by <strong style="color:var(--t)">Rating</strong> (A→B→C→D→E→U)<span class="zh">按 Rating 排种子</span></div>
+      <div>② Sort same-rating fencers by <strong style="color:var(--t)">national points</strong><span class="zh">同 Rating 内按全国积分排序</span></div>
+      <div>③ Use <strong style="color:var(--t)">snake assignment</strong> across pools<span class="zh">蛇形分配到各 Pool</span></div>
+      <div>④ <strong style="color:var(--laifc)">Separate LAIFC clubmates when possible</strong><span class="zh">LAIFC 同俱乐部尽量分开</span></div>
+      <div style="margin-top:6px;color:var(--t3);">Prediction only; final pools are set by the tournament organizer<span class="zh">此为预测，实际由赛事主办执行</span></div>
     </div>
   </div>
   <div id="pl-r" style="margin-top:10px;"></div>
 </div>
 
 <div class="page" id="p-h2">
-  <div class="ph"><h1>头对头记录</h1><p>Lucas vs 465位对手 · 922场对战 · Pool/DE分别统计</p></div>
+  <div class="ph"><h1><span class="en">Head-to-Head Records</span><span class="zh">头对头记录</span></h1><p>Lucas vs 465 opponents · 922 bouts · Pool/DE split statistics<span class="zh">Lucas vs 465位对手 · 922场对战 · Pool/DE分别统计</span></p></div>
   <div class="g4" id="h2-s"></div>
   <div class="tb">
-    <input class="srch" id="hs" placeholder="搜索对手..." oninput="rH()" style="flex:1;min-width:150px;">
-    <button class="fb on" id="hf-all" onclick="sHF('all')">全部</button>
-    <button class="fb" id="hf-w" onclick="sHF('win')">胜多</button>
-    <button class="fb" id="hf-l" onclick="sHF('loss')">败多</button>
-    <button class="fb" id="hf-5" onclick="sHF('5+')">5场+</button>
-    <button class="fb" id="hf-de" onclick="sHF('de')">有DE记录</button>
+    <input class="srch" id="hs" placeholder="Search opponents... 搜索对手..." oninput="rH()" style="flex:1;min-width:150px;">
+    <button class="fb on" id="hf-all" onclick="sHF('all')"><span class="en">All</span><span class="zh">全部</span></button>
+    <button class="fb" id="hf-w" onclick="sHF('win')"><span class="en">More Wins</span><span class="zh">胜多</span></button>
+    <button class="fb" id="hf-l" onclick="sHF('loss')"><span class="en">More Losses</span><span class="zh">败多</span></button>
+    <button class="fb" id="hf-5" onclick="sHF('5+')"><span class="en">5+ Bouts</span><span class="zh">5场+</span></button>
+    <button class="fb" id="hf-de" onclick="sHF('de')"><span class="en">Has DE</span><span class="zh">有DE记录</span></button>
   </div>
   <div class="cnt" id="h-cnt"></div>
   <div class="card" style="padding:0 0 1px;overflow-x:auto;">
     <table class="t"><thead><tr>
-      <th onclick="sH('bouts')">场数</th><th onclick="sH('name')">对手</th>
-      <th>总胜负</th><th onclick="sH('pct')">Lucas胜率</th>
-      <th>Pool胜负</th><th>DE胜负</th>
-      <th>对手胜率(调整)</th><th>同场次数</th>
+      <th onclick="sH('bouts')"><span class="en">Bouts</span><span class="zh">场数</span></th><th onclick="sH('name')"><span class="en">Opponent</span><span class="zh">对手</span></th>
+      <th><span class="en">Record</span><span class="zh">总胜负</span></th><th onclick="sH('pct')"><span class="en">Lucas WR</span><span class="zh">Lucas胜率</span></th>
+      <th><span class="en">Pool Record</span><span class="zh">Pool胜负</span></th><th><span class="en">DE Record</span><span class="zh">DE胜负</span></th>
+      <th><span class="en">Opponent WR (Adj.)</span><span class="zh">对手胜率(调整)</span></th><th><span class="en">Same Events</span><span class="zh">同场次数</span></th>
     </tr></thead><tbody id="h-body"></tbody></table>
   </div>
 </div>
 
 <div class="page" id="p-pt">
-  <div class="ph"><h1>积分提升路径</h1><p>从 T62(136分) 到各目标排名的距离</p></div>
+  <div class="ph"><h1><span class="en">Points Improvement Path</span><span class="zh">积分提升路径</span></h1><p>Distance from T62 (136 points) to target ranking levels<span class="zh">从 T62(136分) 到各目标排名的距离</span></p></div>
   <div id="pt-r"></div>
 </div>
 
@@ -255,6 +264,8 @@ const OPPONENTS={"100275605":{"name":"LOZANO Veyron Jericho","rating":null,"born
 const LID='100326747';
 const LR=RANKINGS.find(r=>r.id===LID);
 const MPTS=RANKINGS[0].pts;
+const bi=(en,zh)=>'<span class="bi"><span class="en">'+en+'</span><span class="zh">'+zh+'</span></span>';
+const blockBi=(en,zh)=>'<span class="en">'+en+'</span><span class="zh">'+zh+'</span>';
 
 // ── Helpers ────────────────────────────────────────────────
 function pc(p){if(p>=500)return'var(--gld)';if(p>=300)return'var(--org)';if(p>=150)return'var(--acc)';if(p>=80)return'var(--t2)';return'var(--t3)';}
@@ -274,7 +285,7 @@ function threatLvl(uid,pts){
   return'u';
 }
 function threatBadge(t){
-  return{h:'<span class="th th-h">🔴 强</span>',m:'<span class="th th-m">🟡 中</span>',l:'<span class="th th-l">🟢 弱</span>',u:'<span class="th th-u">⚪</span>'}[t]||'';
+  return{h:'<span class="th th-h">'+bi('🔴 Strong','强')+'</span>',m:'<span class="th th-m">'+bi('🟡 Medium','中')+'</span>',l:'<span class="th th-l">'+bi('🟢 Light','弱')+'</span>',u:'<span class="th th-u">⚪</span>'}[t]||'';
 }
 function wrBar(uid,raw){
   const v=adjWR(uid)||wv(raw);
@@ -283,7 +294,7 @@ function wrBar(uid,raw){
   const changed=adj&&raw&&Math.abs(wv(adj)-wv(raw))>1;
   return'<div class="wr"><div class="wrt"><div class="wrf" style="width:'+v+'%;background:'+wc(v)+'"></div></div>'
     +'<span class="wrn" style="color:'+wc(v)+'">'+v.toFixed(1)+'%</span>'
-    +(changed?'<span style="font-size:9px;color:var(--t3);margin-left:2px;" title="原始:'+raw+'">adj</span>':'')
+    +(changed?'<span style="font-size:9px;color:var(--t3);margin-left:2px;" title="Raw / 原始: '+raw+'">adj</span>':'')
     +'</div>';
 }
 function h2hBadge(uid){
@@ -336,10 +347,10 @@ function rOV(){
   const laifc=RANKINGS.filter(r=>r.laifc);
   const oc=RANKINGS.filter(r=>r.oc);
   document.getElementById('ov-s').innerHTML=
-   '<div class="sc"><div class="n" style="color:var(--acc)">T62</div><div class="l">全国/245</div><div class="d" style="color:var(--t3)">并列5人</div></div>'
-  +'<div class="sc"><div class="n" style="color:var(--gld)">136</div><div class="l">当前积分</div><div class="d" style="color:var(--grn)">距#55差16分</div></div>'
-  +'<div class="sc"><div class="n" style="color:var(--grn)">68.2%</div><div class="l">历史总胜率</div><div class="d" style="color:var(--t3)">922场</div></div>'
-  +'<div class="sc"><div class="n">'+laifc.length+'</div><div class="l">LAIFC上榜</div><div class="d" style="color:var(--laifc)">最高#3</div></div>';
+   '<div class="sc"><div class="n" style="color:var(--acc)">T62</div><div class="l">'+blockBi('National / 245','全国/245')+'</div><div class="d" style="color:var(--t3)">'+blockBi('5-way tie','并列5人')+'</div></div>'
+  +'<div class="sc"><div class="n" style="color:var(--gld)">136</div><div class="l">'+blockBi('Current Points','当前积分')+'</div><div class="d" style="color:var(--grn)">'+blockBi('16 pts to #55','距#55差16分')+'</div></div>'
+  +'<div class="sc"><div class="n" style="color:var(--grn)">68.2%</div><div class="l">'+blockBi('Career Win Rate','历史总胜率')+'</div><div class="d" style="color:var(--t3)">'+blockBi('922 bouts','922场')+'</div></div>'
+  +'<div class="sc"><div class="n">'+laifc.length+'</div><div class="l">'+blockBi('LAIFC Listed','LAIFC上榜')+'</div><div class="d" style="color:var(--laifc)">'+blockBi('Best #3','最高#3')+'</div></div>';
 
   const li=RANKINGS.findIndex(r=>r.id===LID);
   const near=RANKINGS.slice(Math.max(0,li-3),Math.min(RANKINGS.length,li+4));
@@ -356,7 +367,7 @@ function rOV(){
     return'<div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid var(--b);'+(isMe?'background:rgba(74,158,255,.05);margin:0 -15px;padding:5px 15px;':'')+'"><span style="font-size:9px;color:var(--oc);width:22px;">OC'+(i+1)+'</span><span style="font-family:var(--mono);font-size:9px;color:var(--t3);width:24px;">#'+r.rank+'</span><span style="flex:1;font-size:12px;'+(isMe?'font-weight:600;color:var(--acc);':'')+'">'+r.name.split(',')[0]+(isMe?' 👈':'')+'</span><span style="font-family:var(--mono);font-size:11px;color:'+pc(r.pts)+'">'+r.pts+'</span></div>';
   }).join('');
 
-  document.getElementById('ov-laifc').innerHTML='<table class="t"><thead><tr><th>#</th><th>姓名</th><th>出生</th><th style="text-align:right">积分</th><th>调整胜率</th><th>vs Lucas</th></tr></thead><tbody>'
+  document.getElementById('ov-laifc').innerHTML='<table class="t"><thead><tr><th>#</th><th>'+blockBi('Name','姓名')+'</th><th>'+blockBi('Born','出生')+'</th><th style="text-align:right">'+blockBi('Points','积分')+'</th><th>'+blockBi('Adjusted WR','调整胜率')+'</th><th>vs Lucas</th></tr></thead><tbody>'
   +laifc.sort((a,b)=>a.rank-b.rank).map(r=>{
     const isMe=r.id===LID;
     return'<tr class="'+(isMe?'me':'lrow')+'"><td><span style="font-family:var(--mono);font-size:10px;color:'+(r.rank<=10?'var(--gld)':r.rank<=50?'var(--t2)':'var(--t3)')+'">#'+r.rank+'</span></td><td><span style="font-size:12px;'+(isMe?'font-weight:600;color:var(--acc);':'')+'">'+r.name+(isMe?' <span class="bx bx-y">YOU</span>':'')+'</span></td><td><span class="bx bx-b">'+r.born+'</span></td><td style="text-align:right"><span style="font-family:var(--mono);font-size:11px;color:'+pc(r.pts)+'">'+r.pts+'</span></td><td>'+wrBar(r.id,'')+'</td><td>'+h2hBadge(r.id)+'</td></tr>';
@@ -376,7 +387,7 @@ function rR(){
   if(rF==='born12')d=d.filter(r=>r.born==='2012');
   if(q)d=d.filter(r=>r.name.toLowerCase().includes(q)||(r.club||'').toLowerCase().includes(q)||(r.div||'').toLowerCase().includes(q));
   d.sort((a,b)=>{let va=a[rSF],vb=b[rSF];if(rSF==='name')return rSD*va.localeCompare(vb);if(rSF==='pts')return rSD*(vb-va);return rSD*(va-vb);});
-  document.getElementById('r-cnt').textContent='显示 '+d.length+' 条';
+  document.getElementById('r-cnt').innerHTML='Showing '+d.length+' rows <span class="zh">显示 '+d.length+' 条</span>';
   document.getElementById('r-body').innerHTML=d.map(r=>{
     const isMe=r.id===LID;
     const bw=Math.max(2,r.pts/MPTS*100).toFixed(1);
@@ -441,20 +452,20 @@ function analyze(){
   const weaker=results.filter(r=>(r.rank?.pts||0)>0&&(r.rank?.pts||0)<LR.pts);
   const hr=high.length/Math.max(results.length,1);
   let vc,vt,vb;
-  if(hr<0.15&&stronger.length<results.length*0.3){vc='vd-go';vt='✅ 建议参加';vb='强对手仅'+Math.round(hr*100)+'%，'+weaker.length+'名对手积分低于Lucas，积分机会好。';}
-  else if(high.length>=5||stronger.length>results.length*0.6){vc='vd-stop';vt='⛔ 竞争激烈';vb=high.length+'名强对手，'+stronger.length+'名积分高于Lucas（'+Math.round(stronger.length/Math.max(results.length,1)*100)+'%）。';}
-  else{vc='vd-warn';vt='⚠️ 中等难度';vb=high.length+'名强对手，'+stronger.length+'名高于、'+weaker.length+'名低于Lucas，结合状态判断。';}
+  if(hr<0.15&&stronger.length<results.length*0.3){vc='vd-go';vt='✅ Recommended';vb='Only '+Math.round(hr*100)+'% strong opponents; '+weaker.length+' fencers have fewer points than Lucas. Good points opportunity.<span class="zh">强对手仅'+Math.round(hr*100)+'%，'+weaker.length+'名对手积分低于Lucas，积分机会好。</span>';}
+  else if(high.length>=5||stronger.length>results.length*0.6){vc='vd-stop';vt='⛔ Tough Field';vb=high.length+' strong opponents; '+stronger.length+' fencers have more points than Lucas ('+Math.round(stronger.length/Math.max(results.length,1)*100)+'%).<span class="zh">'+high.length+'名强对手，'+stronger.length+'名积分高于Lucas。</span>';}
+  else{vc='vd-warn';vt='⚠️ Medium Difficulty';vb=high.length+' strong opponents; '+stronger.length+' above Lucas and '+weaker.length+' below Lucas. Decide with current form.<span class="zh">'+high.length+'名强对手，'+stronger.length+'名高于、'+weaker.length+'名低于Lucas，结合状态判断。</span>';}
   const cutoff=Math.round((parsed.length+1)*0.4);
   document.getElementById('az-r').innerHTML=
    '<div class="vd '+vc+'"><div class="vd-icon">'+vt.charAt(0)+'</div><div><div class="vd-title">'+vt+'</div><div class="vd-body">'+vb+'</div></div></div>'
   +'<div class="g4" style="margin-bottom:10px;">'
-  +'<div class="sc"><div class="n">'+parsed.length+'</div><div class="l">识别选手</div></div>'
-  +'<div class="sc"><div class="n" style="color:var(--red)">'+high.length+'</div><div class="l">🔴 强对手</div></div>'
-  +'<div class="sc"><div class="n" style="color:var(--grn)">'+weaker.length+'</div><div class="l">积分低于Lucas</div></div>'
-  +'<div class="sc"><div class="n" style="color:var(--t3)">'+unk.length+'</div><div class="l">未识别</div></div>'
+  +'<div class="sc"><div class="n">'+parsed.length+'</div><div class="l">'+blockBi('Recognized','识别选手')+'</div></div>'
+  +'<div class="sc"><div class="n" style="color:var(--red)">'+high.length+'</div><div class="l">'+blockBi('🔴 Strong Opponents','强对手')+'</div></div>'
+  +'<div class="sc"><div class="n" style="color:var(--grn)">'+weaker.length+'</div><div class="l">'+blockBi('Below Lucas Points','积分低于Lucas')+'</div></div>'
+  +'<div class="sc"><div class="n" style="color:var(--t3)">'+unk.length+'</div><div class="l">'+blockBi('Unmatched','未识别')+'</div></div>'
   +'</div>'
   +buildPrediction(results,parsed.length+1)
-  +'<div class="card" style="padding:0 0 1px;overflow-x:auto;"><table class="t"><thead><tr><th>威胁</th><th>#</th><th>姓名</th><th style="text-align:right">积分</th><th>调整胜率</th><th>Pool胜负</th><th>DE胜负</th><th>vs Lucas H2H</th></tr></thead><tbody>'
+  +'<div class="card" style="padding:0 0 1px;overflow-x:auto;"><table class="t"><thead><tr><th>'+blockBi('Threat','威胁')+'</th><th>#</th><th>'+blockBi('Name','姓名')+'</th><th style="text-align:right">'+blockBi('Points','积分')+'</th><th>'+blockBi('Adjusted WR','调整胜率')+'</th><th>'+blockBi('Pool Record','Pool胜负')+'</th><th>'+blockBi('DE Record','DE胜负')+'</th><th>vs Lucas H2H</th></tr></thead><tbody>'
   +results.map(r=>{
     const pts=r.rank?.pts||0;const o=r.opp;
     const pw=o?.pool_w||0,pl=o?.pool_l||0,dw=o?.de_w||0,dl=o?.de_l||0;
@@ -464,8 +475,7 @@ function analyze(){
     const deCol=(dw||dl)?(dw>dl?'var(--grn)':dw<dl?'var(--red)':'var(--t2)'):'var(--t3)';
     return'<tr class="'+(r.rank?.laifc?'lrow':'')+'"><td>'+threatBadge(r.threat)+'</td><td><span style="font-family:var(--mono);font-size:10px;color:'+(r.rank?.rank<=10?'var(--gld)':r.rank?.rank<=50?'var(--t2)':'var(--t3)')+'">'+(r.rank?'#'+r.rank.rank:'—')+'</span></td><td><span style="font-size:12px;">'+r.name+'</span>'+(r.rank?.laifc?' <span class="bx bx-l">LAIFC</span>':'')+(r.rank?.oc?' <span class="bx bx-o">OC</span>':'')+'</td><td style="text-align:right"><span style="font-family:var(--mono);font-size:11px;color:'+pc(pts)+'">'+( pts||'—')+'</span>'+(pts&&pts!==LR.pts?'<span style="font-size:9px;color:'+(pts>LR.pts?'var(--red)':'var(--grn)')+'">'+( pts>LR.pts?'▲':'▼')+'</span>':'')+'</td><td>'+wrBar(r.uid,'')+'</td><td><span style="font-size:11px;color:'+poolCol+'">'+poolStr+'</span></td><td><span style="font-size:11px;color:'+deCol+'">'+deStr+'</span></td><td>'+h2hBadge(r.uid)+'</td></tr>';
   }).join('')+'</tbody></table></div>'
-  +(unk.length?'<div class="card"><div class="ct">未识别（'+unk.length+'人）</div><div style="display:flex;flex-wrap:wrap;gap:5px;">'+unk.map(p=>'<span style="background:var(--bg3);border:1px solid var(--b);border-radius:4px;padding:2px 7px;font-size:11px;color:var(--t2)">'+p.name+'</span>').join('')+'</div></div>':'');
-  document.getElementById('pl-status').textContent='名单已加载，可点击计算分组';
+  +(unk.length?'<div class="card"><div class="ct">'+blockBi('Unmatched ('+unk.length+')','未识别（'+unk.length+'人）')+'</div><div style="display:flex;flex-wrap:wrap;gap:5px;">'+unk.map(p=>'<span style="background:var(--bg3);border:1px solid var(--b);border-radius:4px;padding:2px 7px;font-size:11px;color:var(--t2)">'+p.name+'</span>').join('')+'</div></div>':'');
 }
 
 function loadSample(){
@@ -480,7 +490,7 @@ function loadPoolSample(){
 function calcPoolFromEntry(){
   const text=document.getElementById('pl-entry').value.trim();
   if(!text){
-    document.getElementById('pl-r').innerHTML='<div class="card" style="color:var(--t3);text-align:center;padding:20px;">请先粘贴参赛名单</div>';
+    document.getElementById('pl-r').innerHTML='<div class="card" style="color:var(--t3);text-align:center;padding:20px;">Please paste an entry list first<span class="zh">请先粘贴参赛名单</span></div>';
     return;
   }
   lastEntrants=parseEntrants(text);
@@ -489,7 +499,7 @@ function calcPoolFromEntry(){
 
 function calcPool(){
   if(!lastEntrants||lastEntrants.length===0){
-    document.getElementById('pl-r').innerHTML='<div class="card" style="color:var(--t3)">请先在「赛事分析」页面粘贴并分析名单</div>';
+    document.getElementById('pl-r').innerHTML='<div class="card" style="color:var(--t3)">Please paste and analyze an entry list first<span class="zh">请先粘贴并分析名单</span></div>';
     return;
   }
   const fencers=lastEntrants.filter(p=>p.uid).map(p=>{
@@ -565,7 +575,7 @@ function calcPool(){
   if(lucasPool>=0){
     const lp=pools[lucasPool];
     html+='<div class="card" style="margin-bottom:10px;border:1px solid rgba(74,158,255,.3);background:rgba(74,158,255,.04);">';
-    html+='<div class="ct">🎯 Lucas 预测所在 Pool '+(lucasPool+1)+' （共'+lp.length+'人）</div>';
+    html+='<div class="ct">'+blockBi('🎯 Lucas Predicted Pool '+(lucasPool+1)+' ('+lp.length+' fencers)','Lucas 预测所在 Pool '+(lucasPool+1)+'（共'+lp.length+'人）')+'</div>';
     html+='<div style="margin-bottom:10px;">';
     lp.forEach(f=>{
       if(f.isLucas){
@@ -580,11 +590,11 @@ function calcPool(){
         const col=pct>=60?'var(--grn)':pct>=40?'var(--org)':'var(--red)';
         const h2hD=OPPONENTS[f.uid];
         const pw=h2hD?.pool_w||0,pl=h2hD?.pool_l||0;
-        const poolRec=(pw||pl)?pw+'W-'+pl+'L':'无记录';
+        const poolRec=(pw||pl)?pw+'W-'+pl+'L':'No record';
         html+='<div class="pool-fencer">';
         html+='<span class="seed-num" style="color:var(--t3)">S'+f.seed+'</span>';
         html+='<span class="pool-name">'+f.name+(f.laifc?' <span class="bx bx-l">LAIFC</span>':'')+'</span>';
-        html+='<span style="font-size:10px;color:var(--t3);margin-right:4px;">Pool历史:'+poolRec+'</span>';
+        html+='<span style="font-size:10px;color:var(--t3);margin-right:4px;">Pool history: '+poolRec+'<span class="zh">Pool历史</span></span>';
         html+='<div style="width:40px;height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;margin-right:4px;"><div style="width:'+pct+'%;height:100%;background:'+col+'"></div></div>';
         html+='<span style="font-family:var(--mono);font-size:11px;color:'+col+'">'+pct+'%</span>';
         html+='</div>';
@@ -596,8 +606,8 @@ function calcPool(){
     const totalWinProb=opponents.reduce((s,f)=>s+poolWinProb(f.uid),0);
     const totalBouts=opponents.length;
     html+='<div style="padding:9px 12px;background:var(--bg3);border-radius:6px;font-size:11px;color:var(--t2);">';
-    html+='Pool 预期胜场：<strong style="color:var(--acc)">'+totalWinProb.toFixed(1)+'</strong>/'+totalBouts;
-    html+=' &nbsp;·&nbsp; 胜率 <strong style="color:var(--acc)">'+Math.round(totalWinProb/totalBouts*100)+'%</strong>';
+    html+='Expected pool wins: <strong style="color:var(--acc)">'+totalWinProb.toFixed(1)+'</strong>/'+totalBouts;
+    html+=' &nbsp;·&nbsp; Win rate <strong style="color:var(--acc)">'+Math.round(totalWinProb/totalBouts*100)+'%</strong><span class="zh">Pool 预期胜场 / 胜率</span>';
     html+='</div></div>';
   }
 
@@ -618,7 +628,7 @@ function calcPool(){
     html+='</div>';
   });
   html+='</div>';
-  html+='<div style="margin-top:10px;font-size:10px;color:var(--t3);padding:8px 12px;background:var(--bg2);border-radius:6px;border:1px solid var(--b);">分组规则：Rating+积分排种子 → 蛇形分配 → LAIFC同俱乐部强制分开。此为预测，实际分组由赛事主办方执行。</div>';
+  html+='<div style="margin-top:10px;font-size:10px;color:var(--t3);padding:8px 12px;background:var(--bg2);border-radius:6px;border:1px solid var(--b);">Pool rule: rating + points seeding → snake assignment → separate LAIFC clubmates when possible. Prediction only; final pools are set by the organizer.<span class="zh">分组规则：Rating+积分排种子 → 蛇形分配 → LAIFC同俱乐部尽量分开。此为预测，实际分组由赛事主办方执行。</span></div>';
 
   document.getElementById('pl-r').innerHTML=html;
 }
@@ -706,37 +716,37 @@ function buildPrediction(results,total){
   const p2=n=>Math.round(n*100);
 
   let h='<div class="card" style="margin-bottom:10px;">';
-  h+='<div class="ct">🔮 赛事预测 · 基于 USA Fencing 官方 Rating Chart</div>';
+  h+='<div class="ct">'+blockBi('🔮 Event Forecast · Based on USA Fencing Rating Chart','赛事预测 · 基于 USA Fencing 官方 Rating Chart')+'</div>';
   h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">';
-  h+='<span style="font-size:10px;color:var(--t3)">检测赛事等级：</span>';
-  h+='<span style="background:rgba(74,158,255,.14);color:var(--acc);border:1px solid rgba(74,158,255,.28);border-radius:4px;padding:1px 8px;font-family:var(--mono);font-size:11px;font-weight:700;">'+(grp||'未达标')+'</span>';
-  if(chart){const top=chart.awards[0];h+='<span style="font-size:10px;color:var(--t3)">第1名→<strong style="color:'+RC[top[2]]+'">'+top[2]+' Rating</strong></span>';}
+  h+='<span style="font-size:10px;color:var(--t3)">Detected event class <span class="zh">检测赛事等级</span></span>';
+  h+='<span style="background:rgba(74,158,255,.14);color:var(--acc);border:1px solid rgba(74,158,255,.28);border-radius:4px;padding:1px 8px;font-family:var(--mono);font-size:11px;font-weight:700;">'+(grp||'Unrated')+'</span>';
+  if(chart){const top=chart.awards[0];h+='<span style="font-size:10px;color:var(--t3)">1st → <strong style="color:'+RC[top[2]]+'">'+top[2]+' Rating</strong><span class="zh">第1名评级</span></span>';}
   h+='</div>';
   h+='<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:10px;">';
   h+='<div style="background:var(--bg3);border-radius:7px;padding:10px;text-align:center;">';
   h+='<div style="font-size:20px;font-weight:700;font-family:var(--mono);color:'+rc2+'">'+rL+'–'+rH+'</div>';
-  h+='<div style="font-size:10px;color:var(--t3);margin-top:2px;">预测名次</div>';
-  h+='<div style="font-size:9px;color:'+rc2+';margin-top:1px;">'+(inPts?'✅ 进积分区':'⚠️ 积分区边缘')+'（前'+cutoff+'名）</div>';
+  h+='<div style="font-size:10px;color:var(--t3);margin-top:2px;">Predicted finish<span class="zh">预测名次</span></div>';
+  h+='<div style="font-size:9px;color:'+rc2+';margin-top:1px;">'+(inPts?'✅ In points range':'⚠️ Points bubble')+' (top '+cutoff+')<span class="zh">'+(inPts?'进积分区':'积分区边缘')+'（前'+cutoff+'名）</span></div>';
   h+='</div>';
   h+='<div style="background:var(--bg3);border-radius:7px;padding:10px;text-align:center;">';
   h+='<div style="font-size:20px;font-weight:700;font-family:var(--mono);color:var(--acc)">'+Math.round(avgP*100)+'%</div>';
-  h+='<div style="font-size:10px;color:var(--t3);margin-top:2px;">Pool 平均胜率</div>';
-  h+='<div style="font-size:9px;color:var(--t3);margin-top:1px;">预计 '+(avgP*poolOpp).toFixed(1)+'/'+poolOpp+' 胜</div>';
+  h+='<div style="font-size:10px;color:var(--t3);margin-top:2px;">Average pool win rate<span class="zh">Pool 平均胜率</span></div>';
+  h+='<div style="font-size:9px;color:var(--t3);margin-top:1px;">Expected '+(avgP*poolOpp).toFixed(1)+'/'+poolOpp+' wins<span class="zh">预计胜场</span></div>';
   h+='</div>';
   h+='</div>';
   if(chart){
     h+='<div style="margin-bottom:10px;">';
-    h+='<div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">'+grp+' 赛事颁奖规则 + Lucas 到达概率</div>';
+    h+='<div style="font-size:9px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">'+grp+' award rules + Lucas probability<span class="zh">赛事颁奖规则 + Lucas 到达概率</span></div>';
     chart.awards.forEach(([lo,hi,rat])=>{
       let prob=0;for(let r=lo;r<=hi;r++)prob+=(dist[r]||0)/N;
       const pct=Math.round(prob*100);
       const col=RC[rat]||'#888';
       const isBetter=(RO[rat]??5)<(RO['C']??5);
       h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">';
-      h+='<span style="font-size:10px;color:var(--t2);min-width:60px;">第'+lo+(lo!==hi?'–'+hi:'')+'名</span>';
+      h+='<span style="font-size:10px;color:var(--t2);min-width:60px;">Place '+lo+(lo!==hi?'–'+hi:'')+'<span class="zh">第'+lo+(lo!==hi?'–'+hi:'')+'名</span></span>';
       h+='<span style="font-family:var(--mono);font-size:11px;font-weight:700;color:'+col+';min-width:18px;">'+rat+'</span>';
-      if(isBetter)h+='<span style="font-size:9px;background:rgba(240,133,51,.14);color:var(--org);border-radius:3px;padding:1px 4px;">↑升级</span>';
-      else h+='<span style="font-size:9px;color:var(--t3)">维持</span>';
+      if(isBetter)h+='<span style="font-size:9px;background:rgba(240,133,51,.14);color:var(--org);border-radius:3px;padding:1px 4px;">↑ upgrade<span class="zh">升级</span></span>';
+      else h+='<span style="font-size:9px;color:var(--t3)">hold<span class="zh">维持</span></span>';
       h+='<div style="flex:1;height:4px;background:var(--bg2);border-radius:2px;overflow:hidden;">';
       h+='<div style="width:'+Math.min(pct*2,100)+'%;height:100%;background:'+col+';opacity:.7;"></div></div>';
       h+='<span style="font-family:var(--mono);font-size:10px;color:'+col+';min-width:30px;text-align:right;">'+pct+'%</span>';
@@ -744,16 +754,16 @@ function buildPrediction(results,total){
     });
     if(pUpgrade>0.01){
       h+='<div style="margin-top:6px;padding:7px 10px;background:rgba(240,133,51,.07);border:1px solid rgba(240,133,51,.18);border-radius:6px;font-size:11px;">';
-      h+='<strong style="color:var(--org)">升级概率: '+p2(pUpgrade)+'%</strong>';
-      Object.entries(rPrb).forEach(([rat,p])=>{if(p>0.01)h+=' · 升'+rat+': '+p2(p)+'%';});
+      h+='<strong style="color:var(--org)">Upgrade probability: '+p2(pUpgrade)+'%<span class="zh">升级概率</span></strong>';
+      Object.entries(rPrb).forEach(([rat,p])=>{if(p>0.01)h+=' · to '+rat+': '+p2(p)+'%';});
       h+='</div>';
     }else{
-      h+='<div style="margin-top:6px;padding:7px 10px;background:var(--bg3);border-radius:6px;font-size:10px;color:var(--t3)">本场主要目标：积分（升级需更高名次）</div>';
+      h+='<div style="margin-top:6px;padding:7px 10px;background:var(--bg3);border-radius:6px;font-size:10px;color:var(--t3)">Main goal: points. Upgrade requires a higher finish.<span class="zh">本场主要目标：积分（升级需更高名次）</span></div>';
     }
     h+='</div>';
   }
   h+='<div style="padding:7px 10px;background:var(--bg3);border-radius:6px;font-size:10px;color:var(--t3);line-height:1.6;">';
-  h+='基于官方Rating Chart(2024-25手册第86页)·胜率已按年龄/赛事类别调整·Pool胜率权重60%+总胜率40%·蒙特卡洛1200次模拟';
+  h+='Based on official Rating Chart (2024-25 handbook p.86) · win rates adjusted by age/event type · pool WR 60% + overall WR 40% · 1200 Monte Carlo simulations<span class="zh">基于官方Rating Chart(2024-25手册第86页) · 胜率已按年龄/赛事类别调整 · Pool胜率权重60% + 总胜率40% · 蒙特卡洛1200次模拟</span>';
   h+='</div></div>';
   return h;
 }
@@ -777,11 +787,11 @@ function rH(){
   const tw=H2H.reduce((s,o)=>s+o.h2h_w,0);
   const tl=H2H.reduce((s,o)=>s+o.h2h_l,0);
   document.getElementById('h2-s').innerHTML=
-   '<div class="sc"><div class="n">'+H2H.length+'</div><div class="l">交手过的对手</div></div>'
-  +'<div class="sc"><div class="n" style="color:var(--grn)">'+tw+'</div><div class="l">总胜场</div></div>'
-  +'<div class="sc"><div class="n" style="color:var(--red)">'+tl+'</div><div class="l">总败场</div></div>'
-  +'<div class="sc"><div class="n" style="color:var(--acc)">'+(tw/(tw+tl)*100).toFixed(1)+'%</div><div class="l">总胜率</div></div>';
-  document.getElementById('h-cnt').textContent='显示 '+d.length+' 位对手';
+   '<div class="sc"><div class="n">'+H2H.length+'</div><div class="l">'+blockBi('Met Opponents','交手过的对手')+'</div></div>'
+  +'<div class="sc"><div class="n" style="color:var(--grn)">'+tw+'</div><div class="l">'+blockBi('Total Wins','总胜场')+'</div></div>'
+  +'<div class="sc"><div class="n" style="color:var(--red)">'+tl+'</div><div class="l">'+blockBi('Total Losses','总败场')+'</div></div>'
+  +'<div class="sc"><div class="n" style="color:var(--acc)">'+(tw/(tw+tl)*100).toFixed(1)+'%</div><div class="l">'+blockBi('Total Win Rate','总胜率')+'</div></div>';
+  document.getElementById('h-cnt').innerHTML='Showing '+d.length+' opponents <span class="zh">显示 '+d.length+' 位对手</span>';
   document.getElementById('h-body').innerHTML=d.map(o=>{
     const pct=Math.round(o.pct);
     const col=pct>=60?'var(--grn)':pct>=40?'var(--org)':'var(--red)';
@@ -794,7 +804,7 @@ function rH(){
     +'<td><div class="wr"><div class="wrt"><div class="wrf" style="width:'+pct+'%;background:'+col+'"></div></div><span class="wrn" style="color:'+col+'">'+pct+'%</span></div></td>'
     +'<td>'+pc_+'</td><td>'+dc_+'</td>'
     +'<td>'+wrBar(o.id,o.wr_cur)+'</td>'
-    +'<td><span style="font-size:10px;color:var(--t3)">'+o.met+'次同场</span></td></tr>';
+    +'<td><span style="font-size:10px;color:var(--t3)">'+o.met+' same events<span class="zh">'+o.met+'次同场</span></span></td></tr>';
   }).join('');
 }
 
@@ -809,11 +819,11 @@ function rPT(){
     {rank:10,name:'Zhou Shawn',pts:530.6,col:'var(--gld)'},
   ];
   let h='<div class="g4" style="margin-bottom:10px;">'
-  +'<div class="sc"><div class="n" style="color:var(--acc)">136</div><div class="l">当前积分</div></div>'
-  +'<div class="sc"><div class="n" style="color:var(--grn)">+16</div><div class="l">距#55</div></div>'
-  +'<div class="sc"><div class="n" style="color:var(--org)">+77</div><div class="l">距#40</div></div>'
-  +'<div class="sc"><div class="n" style="color:var(--gld)">200</div><div class="l">NAC冠军满分</div></div>'
-  +'</div><div class="card" style="margin-bottom:10px;"><div class="ct">排名提升路线图</div>';
+  +'<div class="sc"><div class="n" style="color:var(--acc)">136</div><div class="l">'+blockBi('Current Points','当前积分')+'</div></div>'
+  +'<div class="sc"><div class="n" style="color:var(--grn)">+16</div><div class="l">'+blockBi('To #55','距#55')+'</div></div>'
+  +'<div class="sc"><div class="n" style="color:var(--org)">+77</div><div class="l">'+blockBi('To #40','距#40')+'</div></div>'
+  +'<div class="sc"><div class="n" style="color:var(--gld)">200</div><div class="l">'+blockBi('NAC Champion Max','NAC冠军满分')+'</div></div>'
+  +'</div><div class="card" style="margin-bottom:10px;"><div class="ct">'+blockBi('Ranking Climb Map','排名提升路线图')+'</div>';
   targets.forEach(t=>{
     const gap=(t.pts-136).toFixed(1);
     const pct=Math.min(136/t.pts*100,100);
@@ -827,13 +837,13 @@ function rPT(){
     h+='</div>';
   });
   h+='</div><div class="g2">'
-  +'<div class="card"><div class="ct">赛事积分参考</div><div style="font-size:11px;line-height:2;color:var(--t2);">'
-  +[['🥇 NAC冠军','200','var(--gld)'],['🥈 第2名','180','var(--t2)'],['🥉 第3名','170','var(--acc)'],['第4名','160','var(--t2)'],['第5-8名','120-147','var(--t3)'],['SYC ×0.8','最高160','var(--t3)']].map(([l,v,c])=>'<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--b);padding:2px 0;"><span>'+l+'</span><span style="font-family:var(--mono);color:'+c+'">'+v+'</span></div>').join('')
+  +'<div class="card"><div class="ct">'+blockBi('Event Points Reference','赛事积分参考')+'</div><div style="font-size:11px;line-height:2;color:var(--t2);">'
+  +[['🥇 NAC Champion','200','var(--gld)','NAC冠军'],['🥈 2nd Place','180','var(--t2)','第2名'],['🥉 3rd Place','170','var(--acc)','第3名'],['4th Place','160','var(--t2)','第4名'],['5th-8th','120-147','var(--t3)','第5-8名'],['SYC ×0.8','Max 160','var(--t3)','最高160']].map(([l,v,c,z])=>'<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--b);padding:2px 0;"><span>'+l+'<span class="zh">'+z+'</span></span><span style="font-family:var(--mono);color:'+c+'">'+v+'</span></div>').join('')
   +'</div></div>'
-  +'<div class="card"><div class="ct">突破场景</div>'
-  +'<div style="padding:7px 10px;background:rgba(62,207,116,.06);border-radius:6px;border:1px solid rgba(62,207,116,.15);font-size:11px;margin-bottom:6px;"><div style="color:var(--grn);font-weight:600;margin-bottom:1px;">Summer Nationals 前8</div><div style="color:var(--t2)">+110分 → 总246 → 约#28-32</div></div>'
-  +'<div style="padding:7px 10px;background:rgba(74,158,255,.06);border-radius:6px;border:1px solid rgba(74,158,255,.15);font-size:11px;margin-bottom:6px;"><div style="color:var(--acc);font-weight:600;margin-bottom:1px;">Nov NAC 前16</div><div style="color:var(--t2)">+80分 → 总216 → 约#38-42</div></div>'
-  +'<div style="padding:7px 10px;background:rgba(240,133,51,.06);border-radius:6px;border:1px solid rgba(240,133,51,.15);font-size:11px;"><div style="color:var(--org);font-weight:600;margin-bottom:1px;">两场 NAC 各前16</div><div style="color:var(--t2)">+160分 → 总296 → 约#22-26</div></div>'
+  +'<div class="card"><div class="ct">'+blockBi('Breakthrough Scenarios','突破场景')+'</div>'
+  +'<div style="padding:7px 10px;background:rgba(62,207,116,.06);border-radius:6px;border:1px solid rgba(62,207,116,.15);font-size:11px;margin-bottom:6px;"><div style="color:var(--grn);font-weight:600;margin-bottom:1px;">Summer Nationals Top 8<span class="zh">Summer Nationals 前8</span></div><div style="color:var(--t2)">+110 pts → 246 total → about #28-32<span class="zh">+110分 → 总246 → 约#28-32</span></div></div>'
+  +'<div style="padding:7px 10px;background:rgba(74,158,255,.06);border-radius:6px;border:1px solid rgba(74,158,255,.15);font-size:11px;margin-bottom:6px;"><div style="color:var(--acc);font-weight:600;margin-bottom:1px;">Nov NAC Top 16<span class="zh">Nov NAC 前16</span></div><div style="color:var(--t2)">+80 pts → 216 total → about #38-42<span class="zh">+80分 → 总216 → 约#38-42</span></div></div>'
+  +'<div style="padding:7px 10px;background:rgba(240,133,51,.06);border-radius:6px;border:1px solid rgba(240,133,51,.15);font-size:11px;"><div style="color:var(--org);font-weight:600;margin-bottom:1px;">Two NAC Top 16 finishes<span class="zh">两场 NAC 各前16</span></div><div style="color:var(--t2)">+160 pts → 296 total → about #22-26<span class="zh">+160分 → 总296 → 约#22-26</span></div></div>'
   +'</div></div>';
   document.getElementById('pt-r').innerHTML=h;
 }
