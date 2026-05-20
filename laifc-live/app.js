@@ -627,12 +627,14 @@ function scoreFor(poolId, a, b) {
 }
 
 function setScore(poolId, a, b, side, value) {
+  const focus = getInputFocusSnapshot();
   const key = scoreKey(poolId, a, b);
   const existing = state.scores[key] || { aId: a, bId: b, a: "", b: "" };
   if (existing.aId === a) existing[side] = value;
   else existing[side === "a" ? "b" : "a"] = value;
   state.scores[key] = existing;
   render();
+  restoreInputFocus(focus);
 }
 
 function isScoreComplete(poolId, a, b) {
@@ -806,12 +808,14 @@ function secondScoreFor(poolId, a, b) {
 }
 
 function setSecondScore(poolId, a, b, side, value) {
+  const focus = getInputFocusSnapshot();
   const key = secondScoreKey(poolId, a, b);
   const existing = state.secondScores[key] || { aId: a, bId: b, a: "", b: "" };
   if (existing.aId === a) existing[side] = value;
   else existing[side === "a" ? "b" : "a"] = value;
   state.secondScores[key] = existing;
   render();
+  restoreInputFocus(focus);
 }
 
 function isSecondScoreComplete(poolId, a, b) {
@@ -1057,6 +1061,30 @@ function restoreTableauScroll(snapshot) {
   });
 }
 
+function getInputFocusSnapshot() {
+  const input = document.activeElement;
+  if (!(input instanceof HTMLInputElement) || !input.dataset.action) return null;
+  return {
+    dataset: { ...input.dataset },
+    start: input.selectionStart,
+    end: input.selectionEnd,
+  };
+}
+
+function restoreInputFocus(snapshot) {
+  if (!snapshot) return;
+  requestAnimationFrame(() => {
+    const input = [...document.querySelectorAll("input[data-action]")].find((candidate) => {
+      return Object.entries(snapshot.dataset).every(([key, value]) => candidate.dataset[key] === value);
+    });
+    if (!input) return;
+    input.focus({ preventScroll: true });
+    if (Number.isInteger(snapshot.start) && Number.isInteger(snapshot.end)) {
+      input.setSelectionRange(snapshot.start, snapshot.end);
+    }
+  });
+}
+
 function getDEMatch(side, roundIndex, matchIndex) {
   if (!state.doubleDE) return null;
   if (side === "final") return state.doubleDE.final;
@@ -1133,6 +1161,7 @@ function setDEScore(sideName, roundIndex, matchIndex, side, value) {
   const match = getDEMatch(sideName, roundIndex, matchIndex);
   if (!match) return;
   const scroll = getTableauScrollSnapshot();
+  const focus = getInputFocusSnapshot();
   match[side === "a" ? "aScore" : "bScore"] = value;
   const a = Number(match.aScore);
   const b = Number(match.bScore);
@@ -1151,6 +1180,7 @@ function setDEScore(sideName, roundIndex, matchIndex, side, value) {
   rebuildDoubleDEFromDecisions(decisions);
   render();
   restoreTableauScroll(scroll);
+  restoreInputFocus(focus);
 }
 
 function addFencer(name, club, rating) {
