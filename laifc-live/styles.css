@@ -1156,7 +1156,7 @@ h2 {
 @media print {
   @page {
     size: portrait;
-    margin: 8mm;
+    margin: 5mm;
   }
 
   * {
@@ -1217,26 +1217,26 @@ h2 {
 
   .print-pool-title {
     display: block;
-    margin: 0 0 14px;
-    font-size: 28px;
+    margin: 0 0 8px;
+    font-size: 22px;
     font-weight: 400;
   }
 
   .print-pool-heading {
     display: flex;
     align-items: baseline;
-    gap: 12px;
-    margin-bottom: 10px;
+    gap: 8px;
+    margin-bottom: 6px;
   }
 
   .print-pool-heading h2 {
-    font-size: 22px;
+    font-size: 17px;
     text-transform: uppercase;
   }
 
   .print-pool-heading span {
     color: #4e5964;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 800;
   }
 
@@ -1250,21 +1250,27 @@ h2 {
 
   .pool-sheet-table {
     width: 100%;
+    max-width: 100%;
     min-width: 0;
     table-layout: fixed;
-    font-size: 10px;
+    font-size: 8px;
+  }
+
+  .pool-sheet-table th,
+  .pool-sheet-table td {
+    padding: 1px;
   }
 
   .pool-sheet-table thead th {
     position: static;
     background: #4e71a4;
     color: #ffeb2f;
-    font-size: 11px;
+    font-size: 9px;
   }
 
   .pool-sheet-table thead .pool-name-col {
     position: static;
-    width: 30%;
+    width: 24%;
     min-width: 0;
     background: #4e71a4;
     color: #ffeb2f;
@@ -1272,27 +1278,27 @@ h2 {
 
   tbody .pool-name-col {
     position: static;
-    width: 30%;
+    width: 24%;
     min-width: 0;
     background: white;
-    gap: 5px;
+    gap: 3px;
   }
 
   tbody .pool-name-col strong {
-    font-size: 11px;
+    font-size: 9px;
   }
 
   tbody .pool-name-col span {
-    font-size: 8px;
+    font-size: 7px;
   }
 
   .pool-line-number {
-    flex-basis: 18px;
-    width: 18px;
-    height: 18px;
+    flex-basis: 14px;
+    width: 14px;
+    height: 14px;
     background: #4e71a4;
     color: #ffeb2f !important;
-    font-size: 9px !important;
+    font-size: 7px !important;
   }
 
   .opponent-col,
@@ -1304,11 +1310,16 @@ h2 {
 
   .matrix-score-input {
     width: 100%;
-    min-height: 20px;
+    min-height: 16px;
     border: 0;
     background: transparent;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 800;
+  }
+
+  .stat-cell,
+  .place-cell {
+    font-size: 9px;
   }
 
   .self-cell {

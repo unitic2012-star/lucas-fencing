@@ -1405,30 +1405,30 @@ function buildPoolPrintDocument(sheets) {
 
 function poolPrintStyles() {
   return `
-    @page { size: portrait; margin: 8mm; }
+    @page { size: portrait; margin: 5mm; }
     * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     body { margin: 0; color: #20242a; background: white; font-family: Arial, sans-serif; }
     .pool-sheet { break-after: page; page-break-after: always; }
     .pool-sheet:last-child { break-after: auto; page-break-after: auto; }
-    .print-pool-title { display: block; margin: 0 0 14px; font-size: 28px; font-weight: 400; }
-    .print-pool-heading { display: flex; align-items: baseline; gap: 12px; margin-bottom: 10px; }
-    .print-pool-heading h2 { margin: 0; font-size: 22px; text-transform: uppercase; }
-    .print-pool-heading span { color: #4e5964; font-size: 12px; font-weight: 800; }
+    .print-pool-title { display: block; margin: 0 0 8px; font-size: 22px; font-weight: 400; }
+    .print-pool-heading { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
+    .print-pool-heading h2 { margin: 0; font-size: 17px; text-transform: uppercase; }
+    .print-pool-heading span { color: #4e5964; font-size: 10px; font-weight: 800; }
     .pool-sheet-scroll { overflow: visible; }
-    .pool-sheet-table { width: 100%; min-width: 0; table-layout: fixed; border-collapse: collapse; font-size: 10px; background: white; }
-    .pool-sheet-table th, .pool-sheet-table td { border: 1px solid #d5dbe2; padding: 2px; text-align: center; }
-    .pool-sheet-table thead th { background: #4e71a4; color: #ffeb2f; font-size: 11px; font-weight: 900; }
-    .pool-sheet-table thead .pool-name-col { width: 30%; background: #4e71a4; color: #ffeb2f; text-align: left !important; }
-    tbody .pool-name-col { width: 30%; min-width: 0; background: white; text-align: left !important; display: flex; align-items: center; gap: 5px; }
+    .pool-sheet-table { width: 100%; max-width: 100%; min-width: 0; table-layout: fixed; border-collapse: collapse; font-size: 8px; background: white; }
+    .pool-sheet-table th, .pool-sheet-table td { border: 1px solid #d5dbe2; padding: 1px; text-align: center; }
+    .pool-sheet-table thead th { background: #4e71a4; color: #ffeb2f; font-size: 9px; font-weight: 900; }
+    .pool-sheet-table thead .pool-name-col { width: 24%; background: #4e71a4; color: #ffeb2f; text-align: left !important; }
+    tbody .pool-name-col { width: 24%; min-width: 0; background: white; text-align: left !important; display: flex; align-items: center; gap: 3px; }
     tbody .pool-name-col strong, tbody .pool-name-col span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    tbody .pool-name-col strong { font-size: 11px; }
-    tbody .pool-name-col span { color: #4e5964; font-size: 8px; }
-    .pool-line-number { display: grid !important; place-items: center; flex: 0 0 18px; width: 18px; height: 18px; border-radius: 3px; background: #4e71a4; color: #ffeb2f !important; font-size: 9px !important; font-weight: 900; }
-    .matrix-score-input { width: 100%; min-height: 20px; padding: 0; border: 0; background: transparent; color: #20242a; font-size: 12px; font-weight: 800; text-align: center; }
+    tbody .pool-name-col strong { font-size: 9px; }
+    tbody .pool-name-col span { color: #4e5964; font-size: 7px; }
+    .pool-line-number { display: grid !important; place-items: center; flex: 0 0 14px; width: 14px; height: 14px; border-radius: 2px; background: #4e71a4; color: #ffeb2f !important; font-size: 7px !important; font-weight: 900; }
+    .matrix-score-input { width: 100%; min-height: 16px; padding: 0; border: 0; background: transparent; color: #20242a; font-size: 10px; font-weight: 800; text-align: center; }
     .self-cell { background: #000; color: #000; font-weight: 900; }
     .won-cell { background: #c9facb; }
     .lost-cell { background: #fac5c5; }
-    .stat-cell, .place-cell { font-weight: 900; font-size: 11px; }
+    .stat-cell, .place-cell { font-weight: 900; font-size: 9px; }
   `;
 }
 
