@@ -1588,7 +1588,6 @@ document.querySelector("#clearScores").addEventListener("click", () => {
   state.secondScores = {};
   render();
 });
-document.querySelector("#printPoolSheets").addEventListener("click", () => printPool());
 document.querySelector("#generateDE").addEventListener("click", generateDE);
 document.querySelector("#clearDE").addEventListener("click", () => {
   state.seeds = [];
