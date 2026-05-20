@@ -1029,14 +1029,31 @@ function forEachDEMatch(callback) {
 
 function getTableauScrollSnapshot() {
   const scrollArea = document.querySelector(".ftl-tableau-scroll");
-  return scrollArea ? { left: scrollArea.scrollLeft, top: scrollArea.scrollTop } : null;
+  return {
+    windowX: window.scrollX,
+    windowY: window.scrollY,
+    outer: scrollArea ? { left: scrollArea.scrollLeft, top: scrollArea.scrollTop } : null,
+    brackets: [...document.querySelectorAll(".ftl-bracket-section .bracket")].map((bracket) => ({
+      left: bracket.scrollLeft,
+      top: bracket.scrollTop,
+    })),
+  };
 }
 
 function restoreTableauScroll(snapshot) {
   if (!snapshot) return;
-  requestAnimationFrame(() => {
+  const restore = () => {
     const scrollArea = document.querySelector(".ftl-tableau-scroll");
-    if (scrollArea) scrollArea.scrollTo(snapshot.left, snapshot.top);
+    if (scrollArea && snapshot.outer) scrollArea.scrollTo(snapshot.outer.left, snapshot.outer.top);
+    document.querySelectorAll(".ftl-bracket-section .bracket").forEach((bracket, index) => {
+      const saved = snapshot.brackets?.[index];
+      if (saved) bracket.scrollTo(saved.left, saved.top);
+    });
+    window.scrollTo(snapshot.windowX || 0, snapshot.windowY || 0);
+  };
+  requestAnimationFrame(() => {
+    restore();
+    requestAnimationFrame(restore);
   });
 }
 
