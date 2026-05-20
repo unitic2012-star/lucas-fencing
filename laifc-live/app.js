@@ -251,16 +251,19 @@ function renderPoolFencer(fencer, location) {
   const options = [`<option value="">Move to...</option>`, `<option value="bank">Unassigned</option>`]
     .concat(state.pools.map((pool, index) => `<option value="${pool.id}">Pool ${index + 1}</option>`))
     .join("");
+  const moveSelect = location === "bank" ? "" : `
+      <select class="move-select" data-action="move-fencer" data-id="${fencer.id}" data-location="${location}">
+        ${options}
+      </select>
+  `;
   return `
-    <div class="fencer-row pool-fencer-row" draggable="true" data-fencer-id="${fencer.id}">
+    <div class="fencer-row pool-fencer-row ${location === "bank" ? "bank-fencer-row" : ""}" draggable="true" data-fencer-id="${fencer.id}">
       <span class="rating">${fencer.rating}</span>
       <div>
         <strong>${escapeHtml(fencer.name)}</strong>
         <span>${escapeHtml(fencer.club)} · ${fencer.id}</span>
       </div>
-      <select class="move-select" data-action="move-fencer" data-id="${fencer.id}" data-location="${location}">
-        ${options}
-      </select>
+      ${moveSelect}
     </div>
   `;
 }

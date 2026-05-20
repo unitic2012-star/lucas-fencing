@@ -432,6 +432,10 @@ h2 {
   -webkit-user-drag: none;
 }
 
+.bank-fencer-row {
+  grid-template-columns: 42px minmax(0, 1fr);
+}
+
 .fencer-row[draggable="true"] {
   cursor: grab;
 }
