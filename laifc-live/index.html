@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="LAIFC Live" />
+    <meta name="theme-color" content="#f6f3ed" />
+    <title>LAIFC Fencing Live</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <img class="brand-logo" src="./assets/laifc_logo_v2.webp" alt="LAIFC" />
+        </div>
+        <nav class="steps" aria-label="Competition workflow">
+          <button class="step active" data-view="checkin">
+            <span>01</span>
+            <strong>Check-In</strong>
+          </button>
+          <button class="step" data-view="pools">
+            <span>02</span>
+            <strong>Pools</strong>
+          </button>
+          <button class="step" data-view="results">
+            <span>03</span>
+            <strong>Pool Results</strong>
+          </button>
+          <button class="step" data-view="de">
+            <span>04</span>
+            <strong>DE Tableau</strong>
+          </button>
+        </nav>
+        <div class="event-panel">
+          <label>
+            Event Name
+            <input id="eventName" type="text" />
+          </label>
+          <label>
+            Target Pool Size
+            <input id="targetPoolSize" type="number" min="3" max="8" value="6" />
+          </label>
+          <button id="loadDemo" class="ghost-button" type="button">Load Demo Data</button>
+          <button id="clearAllFencers" class="ghost-button danger-button" type="button">Clear All Fencers</button>
+        </div>
+      </aside>
+
+      <main>
+        <header class="topbar">
+          <div class="topbar-row">
+            <div>
+              <p class="eyebrow">Fencing Time Live style workflow</p>
+              <h1 id="viewTitle">Check-In</h1>
+            </div>
+            <div class="stats-strip">
+              <div><strong id="statChecked">0</strong><span>Checked In</span></div>
+              <div><strong id="statPools">0</strong><span>Pools</span></div>
+              <div><strong id="statComplete">0%</strong><span>Pool Complete</span></div>
+            </div>
+          </div>
+        </header>
+
+        <section id="checkin" class="view active">
+          <div class="self-checkin">
+            <div class="manual-panel">
+              <h2>Fencer Self Check-In</h2>
+              <div class="form-grid checkin-form">
+                <label class="wide-field autocomplete-field">
+                  Full Name
+                  <input id="newName" autocomplete="off" placeholder="e.g. Olivia Chen" />
+                  <div id="nameSuggestions" class="name-suggestions"></div>
+                </label>
+                <label>Rating
+                  <select id="newRating">
+                    <option>A</option><option>B</option><option>C</option><option>D</option>
+                    <option>E</option><option>U</option>
+                  </select>
+                </label>
+                <label>Club (optional)<input id="newClub" placeholder="LAIFC" /></label>
+                <button id="addFencer" class="secondary-button" type="button">Check In</button>
+              </div>
+            </div>
+          </div>
+          <div class="section-head">
+            <h2>Roster</h2>
+            <div class="roster-tools">
+              <input id="fencerSearch" class="search" placeholder="Search name, club, or rating" />
+              <button id="clearAllFencersInline" class="ghost-button danger-button" type="button">Clear All</button>
+            </div>
+          </div>
+          <div id="rosterList" class="roster-list"></div>
+        </section>
+
+        <section id="pools" class="view">
+          <div class="toolbar">
+            <button id="snakeSeedPools" class="primary-button" type="button">Snake Pools</button>
+            <button id="ratingClusterPools" class="secondary-button" type="button">Group Similar Ratings</button>
+            <button id="addPool" class="ghost-button" type="button">Add Pool</button>
+            <button id="clearPools" class="ghost-button" type="button">Clear Pools</button>
+          </div>
+          <div class="pool-workspace">
+            <div class="unassigned-panel">
+              <div class="section-head compact">
+                <h2>Unassigned Fencers</h2>
+                <span>Drag into any pool</span>
+              </div>
+              <div id="checkedFencerBank" class="fencer-bank"></div>
+            </div>
+            <div>
+              <div class="section-head compact pool-board-head">
+                <h2>Pools</h2>
+                <span>Empty pools can be deleted</span>
+              </div>
+              <div id="poolBoard" class="pool-board"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="results" class="view">
+          <div class="toolbar">
+            <button id="fillDemoScores" class="secondary-button" type="button">Fill Demo Scores</button>
+            <button id="clearScores" class="ghost-button" type="button">Clear Scores</button>
+          </div>
+          <div id="poolResults" class="pool-results"></div>
+        </section>
+
+        <section id="de" class="view">
+          <div class="ftl-page">
+            <div class="ftl-tableau-head">
+              <div>
+                <h2 id="tableauEventName">LAIFC Youth Foil</h2>
+                <span>Post-pool format</span>
+              </div>
+            </div>
+
+            <div class="ftl-actions">
+              <div class="segmented" role="group" aria-label="Post-pool format">
+                <button class="mode-button active" data-mode="double-de" type="button">Double DE</button>
+                <button class="mode-button" data-mode="second-pools" type="button">15-Touch Pools</button>
+              </div>
+              <button id="generateDE" class="primary-button" type="button">Generate</button>
+              <button id="clearDE" class="ghost-button" type="button">Clear</button>
+            </div>
+
+            <div class="ftl-meta">
+              <span>Round: Direct Elimination</span>
+              <span id="tableauFencerCount">0 fencers</span>
+              <span id="tableauFormatLabel">Double DE Tableau</span>
+            </div>
+
+            <div id="postModeNote" class="mode-note"></div>
+
+            <div class="de-layout">
+              <div class="ftl-seeds">
+                <div class="section-head compact">
+                  <h2>Seeding</h2>
+                  <span>V / Ind</span>
+                </div>
+                <div id="seedList" class="seed-list"></div>
+              </div>
+              <div class="ftl-tableau-scroll">
+                <div id="bracket" class="bracket"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
