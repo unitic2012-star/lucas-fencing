@@ -597,13 +597,17 @@ function ratingClusterPools() {
   render();
 }
 
-function moveFencer(fencerId, destination) {
+function moveFencer(fencerId, destination, beforeFencerId = null) {
   state.pools.forEach((pool) => {
     pool.fencerIds = pool.fencerIds.filter((id) => id !== fencerId);
   });
   if (destination && destination !== "bank") {
     const pool = state.pools.find((item) => item.id === destination);
-    if (pool && !pool.fencerIds.includes(fencerId)) pool.fencerIds.push(fencerId);
+    if (pool && !pool.fencerIds.includes(fencerId)) {
+      const beforeIndex = beforeFencerId ? pool.fencerIds.indexOf(beforeFencerId) : -1;
+      if (beforeIndex >= 0) pool.fencerIds.splice(beforeIndex, 0, fencerId);
+      else pool.fencerIds.push(fencerId);
+    }
   }
   resetPostPoolState();
   render();
@@ -620,10 +624,12 @@ function beginTouchDrag(event) {
     source: row,
     ghost: null,
     pool: null,
+    beforeFencerId: null,
     startX: event.clientX,
     startY: event.clientY,
     active: false,
   };
+  event.preventDefault();
   row.setPointerCapture?.(event.pointerId);
 }
 
@@ -648,8 +654,9 @@ function endTouchDrag(event) {
   if (!touchDrag || touchDrag.pointerId !== event.pointerId) return;
   const fencerId = touchDrag.fencerId;
   const destination = touchDrag.pool?.dataset.poolId;
+  const beforeFencerId = touchDrag.beforeFencerId;
   cleanupTouchDrag();
-  if (destination) moveFencer(fencerId, destination);
+  if (destination) moveFencer(fencerId, destination, beforeFencerId);
 }
 
 function cancelTouchDrag(event) {
@@ -661,6 +668,7 @@ function createTouchDragGhost(row) {
   const ghost = row.cloneNode(true);
   ghost.classList.add("touch-drag-ghost");
   ghost.style.width = `${row.getBoundingClientRect().width}px`;
+  ghost.querySelector("select")?.remove();
   document.body.appendChild(ghost);
   return ghost;
 }
@@ -672,11 +680,24 @@ function positionTouchDragGhost(x, y) {
 
 function setTouchDropTarget(x, y) {
   document.querySelectorAll(".pool-card.drag-over").forEach((pool) => pool.classList.remove("drag-over"));
+  document.querySelectorAll(".pool-fencer-row.drop-before").forEach((row) => row.classList.remove("drop-before"));
   if (touchDrag?.ghost) touchDrag.ghost.style.display = "none";
   const pool = document.elementFromPoint(x, y)?.closest(".pool-card") || null;
   if (touchDrag?.ghost) touchDrag.ghost.style.display = "";
   if (pool) pool.classList.add("drag-over");
   touchDrag.pool = pool;
+  touchDrag.beforeFencerId = pool ? getDropBeforeFencerId(pool, y) : null;
+}
+
+function getDropBeforeFencerId(pool, y) {
+  const rows = [...pool.querySelectorAll(".pool-fencer-row")]
+    .filter((row) => row.dataset.fencerId !== touchDrag?.fencerId);
+  const before = rows.find((row) => {
+    const rect = row.getBoundingClientRect();
+    return y < rect.top + rect.height / 2;
+  });
+  if (before) before.classList.add("drop-before");
+  return before?.dataset.fencerId || null;
 }
 
 function autoScrollDuringTouchDrag(y) {
@@ -692,6 +713,7 @@ function cleanupTouchDrag() {
   touchDrag.ghost?.remove();
   document.body.classList.remove("touch-dragging");
   document.querySelectorAll(".pool-card.drag-over").forEach((pool) => pool.classList.remove("drag-over"));
+  document.querySelectorAll(".pool-fencer-row.drop-before").forEach((row) => row.classList.remove("drop-before"));
   touchDrag = null;
 }
 

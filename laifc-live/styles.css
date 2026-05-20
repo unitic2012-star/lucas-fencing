@@ -429,6 +429,7 @@ h2 {
 
 .pool-fencer-row {
   grid-template-columns: 42px minmax(180px, 1fr) 112px;
+  -webkit-user-drag: none;
 }
 
 .fencer-row[draggable="true"] {
@@ -445,14 +446,21 @@ h2 {
   opacity: 0.35;
 }
 
+.pool-fencer-row.drop-before {
+  border-top: 4px solid var(--blue);
+  padding-top: 5px;
+}
+
 .touch-drag-ghost {
   position: fixed;
   top: 0;
   left: 0;
   z-index: 1000;
+  grid-template-columns: 42px minmax(180px, 1fr);
   pointer-events: none;
   opacity: 0.96;
   box-shadow: 0 18px 42px rgba(20, 25, 30, 0.18);
+  transform-origin: top left;
 }
 
 .touch-dragging {
