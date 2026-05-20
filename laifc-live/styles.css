@@ -433,7 +433,29 @@ h2 {
 }
 
 .bank-fencer-row {
+  grid-template-columns: 42px minmax(0, 1fr) 112px;
+}
+
+.bank-move-select {
+  display: block;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .bank-fencer-row {
+    grid-template-columns: 42px minmax(0, 1fr);
+  }
+
+  .bank-move-select {
+    display: none;
+  }
+}
+
+.touch-dragging .bank-fencer-row {
   grid-template-columns: 42px minmax(0, 1fr);
+}
+
+.touch-dragging .bank-move-select {
+  display: none;
 }
 
 .fencer-row[draggable="true"] {

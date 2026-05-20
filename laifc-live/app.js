@@ -251,8 +251,8 @@ function renderPoolFencer(fencer, location) {
   const options = [`<option value="">Move to...</option>`, `<option value="bank">Unassigned</option>`]
     .concat(state.pools.map((pool, index) => `<option value="${pool.id}">Pool ${index + 1}</option>`))
     .join("");
-  const moveSelect = location === "bank" ? "" : `
-      <select class="move-select" data-action="move-fencer" data-id="${fencer.id}" data-location="${location}">
+  const moveSelect = `
+      <select class="move-select ${location === "bank" ? "bank-move-select" : ""}" data-action="move-fencer" data-id="${fencer.id}" data-location="${location}">
         ${options}
       </select>
   `;
