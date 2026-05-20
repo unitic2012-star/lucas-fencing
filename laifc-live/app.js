@@ -1363,18 +1363,27 @@ function printPool(poolId = null) {
   const selector = poolId ? `.pool-sheet[data-pool-print-id="${poolId}"]` : ".pool-sheet";
   const sheets = [...document.querySelectorAll(selector)];
   if (!sheets.length) return;
-  const printWindow = window.open("", "_blank");
-  if (!printWindow) {
-    window.print();
-    return;
-  }
-  printWindow.document.write(buildPoolPrintDocument(sheets));
-  printWindow.document.close();
-  printWindow.focus();
-  printWindow.addEventListener("load", () => {
-    printWindow.print();
-    printWindow.close();
-  });
+  printPoolDocument(buildPoolPrintDocument(sheets));
+}
+
+function printPoolDocument(html) {
+  document.querySelector("#poolPrintFrame")?.remove();
+  const frame = document.createElement("iframe");
+  frame.id = "poolPrintFrame";
+  frame.title = "Pool score print preview";
+  frame.style.position = "fixed";
+  frame.style.right = "0";
+  frame.style.bottom = "0";
+  frame.style.width = "0";
+  frame.style.height = "0";
+  frame.style.border = "0";
+  document.body.appendChild(frame);
+  frame.onload = () => {
+    frame.contentWindow?.focus();
+    frame.contentWindow?.print();
+    setTimeout(() => frame.remove(), 1000);
+  };
+  frame.srcdoc = html;
 }
 
 function buildPoolPrintDocument(sheets) {
