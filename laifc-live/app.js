@@ -280,7 +280,7 @@ function renderPoolResult(pool, index) {
   const placeById = Object.fromEntries(standings.map((row, place) => [row.fencer.id, { ...row, place: place + 1 }]));
   const fencers = pool.fencerIds.map((id) => fencerById(id)).filter(Boolean);
   return `
-    <article class="pool-sheet">
+    <article class="pool-sheet" data-pool-print-id="${pool.id}">
       <div class="print-pool-title">Pool Scores</div>
       <div class="print-pool-heading">
         <h2>Pool #${index + 1}</h2>
@@ -291,7 +291,10 @@ function renderPoolResult(pool, index) {
           <h2>Pool ${index + 1}</h2>
           <span>${matches.filter((m) => isScoreComplete(pool.id, m[0], m[1])).length}/${matches.length} complete</span>
         </div>
-        <span>${fencers.length} fencers</span>
+        <div class="pool-sheet-actions">
+          <span>${fencers.length} fencers</span>
+          <button class="ghost-button print-pool-button" data-action="print-pool" data-pool-id="${pool.id}" type="button">Print</button>
+        </div>
       </header>
       <div class="pool-sheet-scroll">
         <table class="pool-sheet-table">
@@ -1356,6 +1359,13 @@ function fillDemoScores() {
   render();
 }
 
+function printPool(poolId = null) {
+  document.querySelectorAll(".pool-sheet.print-target").forEach((sheet) => sheet.classList.remove("print-target"));
+  document.body.classList.toggle("print-single-pool", Boolean(poolId));
+  if (poolId) document.querySelector(`[data-pool-print-id="${poolId}"]`)?.classList.add("print-target");
+  window.print();
+}
+
 
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (char) => ({
@@ -1393,6 +1403,9 @@ document.addEventListener("click", (event) => {
   }
   if (action === "delete-empty-pool") {
     deleteEmptyPool(event.target.dataset.poolId);
+  }
+  if (action === "print-pool") {
+    printPool(event.target.dataset.poolId);
   }
   if (action === "advance" && event.target.dataset.winner) {
     advanceWinner(
@@ -1509,7 +1522,7 @@ document.querySelector("#clearScores").addEventListener("click", () => {
   state.secondScores = {};
   render();
 });
-document.querySelector("#printPoolSheets").addEventListener("click", () => window.print());
+document.querySelector("#printPoolSheets").addEventListener("click", () => printPool());
 document.querySelector("#generateDE").addEventListener("click", generateDE);
 document.querySelector("#clearDE").addEventListener("click", () => {
   state.seeds = [];
@@ -1525,5 +1538,9 @@ document.querySelector("#loadDemo").addEventListener("click", () => {
 });
 document.querySelector("#clearAllFencers").addEventListener("click", clearAllFencers);
 document.querySelector("#clearAllFencersInline").addEventListener("click", clearAllFencers);
+window.addEventListener("afterprint", () => {
+  document.body.classList.remove("print-single-pool");
+  document.querySelectorAll(".pool-sheet.print-target").forEach((sheet) => sheet.classList.remove("print-target"));
+});
 
 loadNameCache().then(render);

@@ -649,6 +649,20 @@ h2 {
   font-weight: 800;
 }
 
+.pool-sheet-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.print-pool-button {
+  min-height: 34px;
+  padding: 0 12px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--blue-dark);
+  font-size: 12px;
+}
+
 .pool-sheet-scroll {
   overflow-x: auto;
 }
@@ -1184,6 +1198,16 @@ h2 {
     border: 0;
     border-radius: 0;
     box-shadow: none;
+  }
+
+  body.print-single-pool .pool-sheet {
+    display: none;
+  }
+
+  body.print-single-pool .pool-sheet.print-target {
+    display: block;
+    break-after: auto;
+    page-break-after: auto;
   }
 
   .pool-sheet:last-child {
