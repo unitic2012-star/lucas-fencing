@@ -1360,10 +1360,67 @@ function fillDemoScores() {
 }
 
 function printPool(poolId = null) {
-  document.querySelectorAll(".pool-sheet.print-target").forEach((sheet) => sheet.classList.remove("print-target"));
-  document.body.classList.toggle("print-single-pool", Boolean(poolId));
-  if (poolId) document.querySelector(`[data-pool-print-id="${poolId}"]`)?.classList.add("print-target");
-  window.print();
+  const selector = poolId ? `.pool-sheet[data-pool-print-id="${poolId}"]` : ".pool-sheet";
+  const sheets = [...document.querySelectorAll(selector)];
+  if (!sheets.length) return;
+  const printWindow = window.open("", "_blank");
+  if (!printWindow) {
+    window.print();
+    return;
+  }
+  printWindow.document.write(buildPoolPrintDocument(sheets));
+  printWindow.document.close();
+  printWindow.focus();
+  printWindow.addEventListener("load", () => {
+    printWindow.print();
+    printWindow.close();
+  });
+}
+
+function buildPoolPrintDocument(sheets) {
+  const sheetHtml = sheets.map((sheet) => {
+    const clone = sheet.cloneNode(true);
+    clone.querySelector(".pool-sheet-header")?.remove();
+    return clone.outerHTML;
+  }).join("");
+  return `<!doctype html>
+    <html>
+      <head>
+        <meta charset="UTF-8" />
+        <title>Pool Scores</title>
+        <style>${poolPrintStyles()}</style>
+      </head>
+      <body>${sheetHtml}</body>
+    </html>`;
+}
+
+function poolPrintStyles() {
+  return `
+    @page { size: landscape; margin: 10mm; }
+    * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { margin: 0; color: #20242a; background: white; font-family: Arial, sans-serif; }
+    .pool-sheet { break-after: page; page-break-after: always; }
+    .pool-sheet:last-child { break-after: auto; page-break-after: auto; }
+    .print-pool-title { display: block; margin: 0 0 22px; font-size: 34px; font-weight: 400; }
+    .print-pool-heading { display: flex; align-items: baseline; gap: 18px; margin-bottom: 14px; }
+    .print-pool-heading h2 { margin: 0; font-size: 28px; text-transform: uppercase; }
+    .print-pool-heading span { color: #4e5964; font-size: 14px; font-weight: 800; }
+    .pool-sheet-scroll { overflow: visible; }
+    .pool-sheet-table { width: 100%; min-width: 0; table-layout: fixed; border-collapse: collapse; font-size: 13px; background: white; }
+    .pool-sheet-table th, .pool-sheet-table td { border: 1px solid #d5dbe2; padding: 4px; text-align: center; }
+    .pool-sheet-table thead th { background: #4e71a4; color: #ffeb2f; font-size: 16px; font-weight: 900; }
+    .pool-name-col { width: 31%; min-width: 0; background: white; text-align: left !important; }
+    .pool-name-col { display: flex; align-items: center; gap: 8px; }
+    .pool-name-col strong, .pool-name-col span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .pool-name-col strong { font-size: 15px; }
+    .pool-name-col span { color: #4e5964; font-size: 11px; }
+    .pool-line-number { display: grid !important; place-items: center; flex: 0 0 24px; width: 24px; height: 24px; border-radius: 4px; background: #4e71a4; color: #ffeb2f !important; font-size: 12px !important; font-weight: 900; }
+    .matrix-score-input { width: 100%; min-height: 28px; border: 0; background: transparent; color: #20242a; font-size: 16px; font-weight: 800; text-align: center; }
+    .self-cell { background: #000; color: #000; font-weight: 900; }
+    .won-cell { background: #c9facb; }
+    .lost-cell { background: #fac5c5; }
+    .stat-cell, .place-cell { font-weight: 900; }
+  `;
 }
 
 
@@ -1538,9 +1595,5 @@ document.querySelector("#loadDemo").addEventListener("click", () => {
 });
 document.querySelector("#clearAllFencers").addEventListener("click", clearAllFencers);
 document.querySelector("#clearAllFencersInline").addEventListener("click", clearAllFencers);
-window.addEventListener("afterprint", () => {
-  document.body.classList.remove("print-single-pool");
-  document.querySelectorAll(".pool-sheet.print-target").forEach((sheet) => sheet.classList.remove("print-target"));
-});
 
 loadNameCache().then(render);
