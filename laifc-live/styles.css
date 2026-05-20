@@ -435,6 +435,30 @@ h2 {
   cursor: grab;
 }
 
+.pool-fencer-row {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.touch-drag-source {
+  opacity: 0.35;
+}
+
+.touch-drag-ghost {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0.96;
+  box-shadow: 0 18px 42px rgba(20, 25, 30, 0.18);
+}
+
+.touch-dragging {
+  cursor: grabbing;
+}
+
 .rating {
   display: grid;
   place-items: center;

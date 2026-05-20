@@ -26,6 +26,7 @@ const demoFencers = [
 let state = loadState();
 let currentView = "checkin";
 let draggedFencerId = null;
+let touchDrag = null;
 let nameCache = [];
 
 const els = {
@@ -606,6 +607,92 @@ function moveFencer(fencerId, destination) {
   }
   resetPostPoolState();
   render();
+}
+
+function beginTouchDrag(event) {
+  if (event.pointerType === "mouse" || currentView !== "pools") return;
+  if (event.target.closest("select, button, input, textarea, a")) return;
+  const row = event.target.closest(".pool-fencer-row");
+  if (!row) return;
+  touchDrag = {
+    pointerId: event.pointerId,
+    fencerId: row.dataset.fencerId,
+    source: row,
+    ghost: null,
+    pool: null,
+    startX: event.clientX,
+    startY: event.clientY,
+    active: false,
+  };
+  row.setPointerCapture?.(event.pointerId);
+}
+
+function moveTouchDrag(event) {
+  if (!touchDrag || touchDrag.pointerId !== event.pointerId) return;
+  const dx = event.clientX - touchDrag.startX;
+  const dy = event.clientY - touchDrag.startY;
+  if (!touchDrag.active && Math.hypot(dx, dy) < 8) return;
+  if (!touchDrag.active) {
+    touchDrag.active = true;
+    touchDrag.ghost = createTouchDragGhost(touchDrag.source);
+    touchDrag.source.classList.add("touch-drag-source");
+    document.body.classList.add("touch-dragging");
+  }
+  event.preventDefault();
+  autoScrollDuringTouchDrag(event.clientY);
+  positionTouchDragGhost(event.clientX, event.clientY);
+  setTouchDropTarget(event.clientX, event.clientY);
+}
+
+function endTouchDrag(event) {
+  if (!touchDrag || touchDrag.pointerId !== event.pointerId) return;
+  const fencerId = touchDrag.fencerId;
+  const destination = touchDrag.pool?.dataset.poolId;
+  cleanupTouchDrag();
+  if (destination) moveFencer(fencerId, destination);
+}
+
+function cancelTouchDrag(event) {
+  if (!touchDrag || touchDrag.pointerId !== event.pointerId) return;
+  cleanupTouchDrag();
+}
+
+function createTouchDragGhost(row) {
+  const ghost = row.cloneNode(true);
+  ghost.classList.add("touch-drag-ghost");
+  ghost.style.width = `${row.getBoundingClientRect().width}px`;
+  document.body.appendChild(ghost);
+  return ghost;
+}
+
+function positionTouchDragGhost(x, y) {
+  if (!touchDrag?.ghost) return;
+  touchDrag.ghost.style.transform = `translate(${x + 12}px, ${y + 12}px)`;
+}
+
+function setTouchDropTarget(x, y) {
+  document.querySelectorAll(".pool-card.drag-over").forEach((pool) => pool.classList.remove("drag-over"));
+  if (touchDrag?.ghost) touchDrag.ghost.style.display = "none";
+  const pool = document.elementFromPoint(x, y)?.closest(".pool-card") || null;
+  if (touchDrag?.ghost) touchDrag.ghost.style.display = "";
+  if (pool) pool.classList.add("drag-over");
+  touchDrag.pool = pool;
+}
+
+function autoScrollDuringTouchDrag(y) {
+  const edge = 80;
+  const step = 18;
+  if (y < edge) window.scrollBy(0, -step);
+  if (y > window.innerHeight - edge) window.scrollBy(0, step);
+}
+
+function cleanupTouchDrag() {
+  if (!touchDrag) return;
+  touchDrag.source?.classList.remove("touch-drag-source");
+  touchDrag.ghost?.remove();
+  document.body.classList.remove("touch-dragging");
+  document.querySelectorAll(".pool-card.drag-over").forEach((pool) => pool.classList.remove("drag-over"));
+  touchDrag = null;
 }
 
 function pairings(ids) {
@@ -1350,6 +1437,11 @@ document.addEventListener("drop", (event) => {
   pool.classList.remove("drag-over");
   moveFencer(event.dataTransfer.getData("text/plain") || draggedFencerId, pool.dataset.poolId);
 });
+
+document.addEventListener("pointerdown", beginTouchDrag);
+document.addEventListener("pointermove", moveTouchDrag, { passive: false });
+document.addEventListener("pointerup", endTouchDrag);
+document.addEventListener("pointercancel", cancelTouchDrag);
 
 document.querySelector("#addFencer").addEventListener("click", () => {
   const added = addFencer(
