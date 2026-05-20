@@ -281,6 +281,11 @@ function renderPoolResult(pool, index) {
   const fencers = pool.fencerIds.map((id) => fencerById(id)).filter(Boolean);
   return `
     <article class="pool-sheet">
+      <div class="print-pool-title">Pool Scores</div>
+      <div class="print-pool-heading">
+        <h2>Pool #${index + 1}</h2>
+        <span>${escapeHtml(state.eventName || "Untitled Event")}</span>
+      </div>
       <header class="pool-sheet-header">
         <div>
           <h2>Pool ${index + 1}</h2>
@@ -1504,6 +1509,7 @@ document.querySelector("#clearScores").addEventListener("click", () => {
   state.secondScores = {};
   render();
 });
+document.querySelector("#printPoolSheets").addEventListener("click", () => window.print());
 document.querySelector("#generateDE").addEventListener("click", generateDE);
 document.querySelector("#clearDE").addEventListener("click", () => {
   state.seeds = [];

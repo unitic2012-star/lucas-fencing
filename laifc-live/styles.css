@@ -621,6 +621,11 @@ h2 {
   box-shadow: var(--shadow);
 }
 
+.print-pool-title,
+.print-pool-heading {
+  display: none;
+}
+
 .pool-sheet-header {
   display: flex;
   justify-content: space-between;
@@ -1131,5 +1136,155 @@ h2 {
   .fencer-row button,
   .fencer-row select {
     grid-column: 2;
+  }
+}
+
+@media print {
+  @page {
+    size: landscape;
+    margin: 10mm;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body {
+    background: white;
+    color: #20242a;
+  }
+
+  .sidebar,
+  .topbar,
+  .toolbar,
+  .view:not(#results) {
+    display: none !important;
+  }
+
+  .app-shell,
+  main,
+  #results,
+  .pool-results {
+    display: block !important;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  .pool-results {
+    gap: 0;
+  }
+
+  .pool-sheet {
+    break-after: page;
+    page-break-after: always;
+    break-inside: avoid;
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .pool-sheet:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  .print-pool-title {
+    display: block;
+    margin: 0 0 22px;
+    font-size: 34px;
+    font-weight: 400;
+  }
+
+  .print-pool-heading {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    margin-bottom: 14px;
+  }
+
+  .print-pool-heading h2 {
+    font-size: 28px;
+    text-transform: uppercase;
+  }
+
+  .print-pool-heading span {
+    color: #4e5964;
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .pool-sheet-header {
+    display: none;
+  }
+
+  .pool-sheet-scroll {
+    overflow: visible;
+  }
+
+  .pool-sheet-table {
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+    font-size: 13px;
+  }
+
+  .pool-sheet-table thead th {
+    position: static;
+    background: #4e71a4;
+    color: #ffeb2f;
+    font-size: 16px;
+  }
+
+  .pool-name-col,
+  .pool-sheet-table thead .pool-name-col {
+    position: static;
+    width: 31%;
+    min-width: 0;
+    background: white;
+  }
+
+  .pool-name-col strong {
+    font-size: 15px;
+  }
+
+  .pool-name-col span {
+    font-size: 11px;
+  }
+
+  .pool-line-number {
+    background: #4e71a4;
+    color: #ffeb2f !important;
+  }
+
+  .opponent-col,
+  .stat-cell,
+  .place-cell {
+    width: auto;
+    min-width: 0;
+  }
+
+  .matrix-score-input {
+    width: 100%;
+    min-height: 28px;
+    border: 0;
+    background: transparent;
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  .self-cell {
+    background: #000;
+    color: #000;
+  }
+
+  .won-cell {
+    background: #c9facb;
+  }
+
+  .lost-cell {
+    background: #fac5c5;
   }
 }
