@@ -924,11 +924,11 @@ function autoAdvanceDoubleByes() {
         round.matches.forEach((match, matchIndex) => {
           if (match.winner) return;
           if (match.a && !match.b) {
-            advanceWinner(side, roundIndex, matchIndex, match.a, false);
+            applyDEWinner(side, roundIndex, matchIndex, match.a);
             changed = true;
           }
           if (!match.a && match.b) {
-            advanceWinner(side, roundIndex, matchIndex, match.b, false);
+            applyDEWinner(side, roundIndex, matchIndex, match.b);
             changed = true;
           }
         });
@@ -939,7 +939,26 @@ function autoAdvanceDoubleByes() {
 
 function advanceWinner(side, roundIndex, matchIndex, winnerId, shouldRender = true) {
   const match = getDEMatch(side, roundIndex, matchIndex);
-  if (!match || !winnerId || (match.winner && match.winner !== winnerId)) return;
+  if (!match || !winnerId) return;
+  const scroll = getTableauScrollSnapshot();
+  const decisions = snapshotDEDecisions();
+  decisions[deDecisionKey(side, roundIndex, matchIndex)] = {
+    a: match.a,
+    b: match.b,
+    aScore: match.aScore,
+    bScore: match.bScore,
+    winner: winnerId,
+  };
+  rebuildDoubleDEFromDecisions(decisions);
+  if (shouldRender) {
+    render();
+    restoreTableauScroll(scroll);
+  }
+}
+
+function applyDEWinner(side, roundIndex, matchIndex, winnerId) {
+  const match = getDEMatch(side, roundIndex, matchIndex);
+  if (!match || !winnerId || (match.a !== winnerId && match.b !== winnerId) || match.winner) return false;
   const loserId = match.a === winnerId ? match.b : match.a;
   match.winner = winnerId;
   match.loser = loserId || null;
@@ -957,11 +976,68 @@ function advanceWinner(side, roundIndex, matchIndex, winnerId, shouldRender = tr
     state.doubleDE.champion = winnerId;
     if (loserId) addLoss(loserId);
   }
+  return true;
+}
 
-  if (shouldRender) {
-    autoAdvanceDoubleByes();
-    render();
-  }
+function deDecisionKey(side, roundIndex, matchIndex) {
+  return `${side}:${roundIndex}:${matchIndex}`;
+}
+
+function snapshotDEDecisions() {
+  const decisions = {};
+  forEachDEMatch((match, side, roundIndex, matchIndex) => {
+    if (!match.winner && match.aScore === "" && match.bScore === "") return;
+    decisions[deDecisionKey(side, roundIndex, matchIndex)] = {
+      a: match.a,
+      b: match.b,
+      aScore: match.aScore,
+      bScore: match.bScore,
+      winner: match.winner,
+    };
+  });
+  return decisions;
+}
+
+function rebuildDoubleDEFromDecisions(decisions) {
+  if (!state.seeds.length) return;
+  state.doubleDE = buildDoubleDE(state.seeds);
+  autoAdvanceDoubleByes();
+  forEachDEMatch((match, side, roundIndex, matchIndex) => {
+    const decision = decisions[deDecisionKey(side, roundIndex, matchIndex)];
+    if (!decision) return;
+    if (decision.a === match.a && decision.b === match.b) {
+      match.aScore = decision.aScore ?? "";
+      match.bScore = decision.bScore ?? "";
+    }
+    if (decision.winner && (match.a === decision.winner || match.b === decision.winner)) {
+      applyDEWinner(side, roundIndex, matchIndex, decision.winner);
+      autoAdvanceDoubleByes();
+    }
+  });
+}
+
+function forEachDEMatch(callback) {
+  if (!state.doubleDE) return;
+  state.doubleDE.upper.forEach((round, roundIndex) => {
+    round.matches.forEach((match, matchIndex) => callback(match, "upper", roundIndex, matchIndex));
+  });
+  state.doubleDE.lower.forEach((round, roundIndex) => {
+    round.matches.forEach((match, matchIndex) => callback(match, "lower", roundIndex, matchIndex));
+  });
+  callback(state.doubleDE.final, "final", 0, 0);
+}
+
+function getTableauScrollSnapshot() {
+  const scrollArea = document.querySelector(".ftl-tableau-scroll");
+  return scrollArea ? { left: scrollArea.scrollLeft, top: scrollArea.scrollTop } : null;
+}
+
+function restoreTableauScroll(snapshot) {
+  if (!snapshot) return;
+  requestAnimationFrame(() => {
+    const scrollArea = document.querySelector(".ftl-tableau-scroll");
+    if (scrollArea) scrollArea.scrollTo(snapshot.left, snapshot.top);
+  });
 }
 
 function getDEMatch(side, roundIndex, matchIndex) {
@@ -1039,14 +1115,25 @@ function addLoss(fencerId) {
 function setDEScore(sideName, roundIndex, matchIndex, side, value) {
   const match = getDEMatch(sideName, roundIndex, matchIndex);
   if (!match) return;
+  const scroll = getTableauScrollSnapshot();
   match[side === "a" ? "aScore" : "bScore"] = value;
   const a = Number(match.aScore);
   const b = Number(match.bScore);
+  const decisions = snapshotDEDecisions();
+  const key = deDecisionKey(sideName, roundIndex, matchIndex);
+  decisions[key] = {
+    a: match.a,
+    b: match.b,
+    aScore: match.aScore,
+    bScore: match.bScore,
+    winner: match.winner,
+  };
   if (match.a && match.b && match.aScore !== "" && match.bScore !== "" && a !== b) {
-    advanceWinner(sideName, roundIndex, matchIndex, a > b ? match.a : match.b, false);
+    decisions[key].winner = a > b ? match.a : match.b;
   }
-  autoAdvanceDoubleByes();
+  rebuildDoubleDEFromDecisions(decisions);
   render();
+  restoreTableauScroll(scroll);
 }
 
 function addFencer(name, club, rating) {
