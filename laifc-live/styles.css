@@ -1155,8 +1155,8 @@ h2 {
 
 @media print {
   @page {
-    size: landscape;
-    margin: 10mm;
+    size: portrait;
+    margin: 8mm;
   }
 
   * {
@@ -1217,26 +1217,26 @@ h2 {
 
   .print-pool-title {
     display: block;
-    margin: 0 0 22px;
-    font-size: 34px;
+    margin: 0 0 14px;
+    font-size: 28px;
     font-weight: 400;
   }
 
   .print-pool-heading {
     display: flex;
     align-items: baseline;
-    gap: 18px;
-    margin-bottom: 14px;
+    gap: 12px;
+    margin-bottom: 10px;
   }
 
   .print-pool-heading h2 {
-    font-size: 28px;
+    font-size: 22px;
     text-transform: uppercase;
   }
 
   .print-pool-heading span {
     color: #4e5964;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 800;
   }
 
@@ -1252,35 +1252,47 @@ h2 {
     width: 100%;
     min-width: 0;
     table-layout: fixed;
-    font-size: 13px;
+    font-size: 10px;
   }
 
   .pool-sheet-table thead th {
     position: static;
     background: #4e71a4;
     color: #ffeb2f;
-    font-size: 16px;
-  }
-
-  .pool-name-col,
-  .pool-sheet-table thead .pool-name-col {
-    position: static;
-    width: 31%;
-    min-width: 0;
-    background: white;
-  }
-
-  .pool-name-col strong {
-    font-size: 15px;
-  }
-
-  .pool-name-col span {
     font-size: 11px;
   }
 
+  .pool-sheet-table thead .pool-name-col {
+    position: static;
+    width: 30%;
+    min-width: 0;
+    background: #4e71a4;
+    color: #ffeb2f;
+  }
+
+  tbody .pool-name-col {
+    position: static;
+    width: 30%;
+    min-width: 0;
+    background: white;
+    gap: 5px;
+  }
+
+  tbody .pool-name-col strong {
+    font-size: 11px;
+  }
+
+  tbody .pool-name-col span {
+    font-size: 8px;
+  }
+
   .pool-line-number {
+    flex-basis: 18px;
+    width: 18px;
+    height: 18px;
     background: #4e71a4;
     color: #ffeb2f !important;
+    font-size: 9px !important;
   }
 
   .opponent-col,
@@ -1292,10 +1304,10 @@ h2 {
 
   .matrix-score-input {
     width: 100%;
-    min-height: 28px;
+    min-height: 20px;
     border: 0;
     background: transparent;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 800;
   }
 
