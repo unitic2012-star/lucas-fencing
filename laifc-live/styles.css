@@ -820,6 +820,20 @@ h2 {
   font-weight: 900;
 }
 
+.save-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.save-status[data-tone="saved"] {
+  color: var(--green);
+}
+
 .seed-page {
   display: grid;
   gap: 20px;

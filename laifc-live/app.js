@@ -30,6 +30,8 @@ let currentView = "checkin";
 let draggedFencerId = null;
 let touchDrag = null;
 let nameCache = [];
+let saveStatusTimer = null;
+let isApplyingRemoteState = false;
 
 const els = {
   eventDate: document.querySelector("#eventDate"),
@@ -46,6 +48,7 @@ const els = {
   checkedFencerBank: document.querySelector("#checkedFencerBank"),
   poolBoard: document.querySelector("#poolBoard"),
   poolResults: document.querySelector("#poolResults"),
+  saveStatus: document.querySelector("#saveStatus"),
   seedingRows: document.querySelector("#seedingRows"),
   seedSearch: document.querySelector("#seedSearch"),
   bracket: document.querySelector("#bracket"),
@@ -126,12 +129,38 @@ function loadState(eventDate = todayIsoDate()) {
   }
 }
 
-function saveState() {
+function saveState(options = {}) {
   state.eventDate ||= todayIsoDate();
+  state.updatedAt = new Date().toISOString();
   const events = loadEventStore();
   events[state.eventDate] = state;
   saveEventStore(events);
   localStorage.setItem(storageKey, JSON.stringify(state));
+  if (options.announce) {
+    showSaveStatus(options.message || `Saved ${formatSaveTime(state.updatedAt)}`, "saved");
+  }
+}
+
+function formatSaveTime(value) {
+  try {
+    return new Date(value).toLocaleTimeString([], { hour: "numeric", minute: "2-digit", second: "2-digit" });
+  } catch {
+    return "";
+  }
+}
+
+function showSaveStatus(message, tone = "saved") {
+  if (!els.saveStatus) return;
+  els.saveStatus.textContent = message;
+  els.saveStatus.dataset.tone = tone;
+  if (saveStatusTimer) clearTimeout(saveStatusTimer);
+  if (tone !== "idle") {
+    saveStatusTimer = setTimeout(() => {
+      if (!state.updatedAt) return;
+      els.saveStatus.textContent = `Last saved ${formatSaveTime(state.updatedAt)}`;
+      els.saveStatus.dataset.tone = "idle";
+    }, 2400);
+  }
 }
 
 function fencerById(id) {
@@ -165,7 +194,7 @@ function render() {
   renderResults();
   renderSeeding();
   renderDE();
-  saveState();
+  if (!isApplyingRemoteState) saveState();
 }
 
 async function loadNameCache() {
@@ -883,6 +912,7 @@ function setScore(poolId, a, b, side, value) {
   else existing[side === "a" ? "b" : "a"] = value;
   state.scores[key] = existing;
   render();
+  showSaveStatus(`Auto-saved ${formatSaveTime(state.updatedAt)}`, "saved");
   restoreInputFocus(focus);
 }
 
@@ -1595,11 +1625,26 @@ function switchEventDate(eventDate) {
   render();
 }
 
+function saveCurrentScores() {
+  saveState({ announce: true, message: `Scores saved ${formatSaveTime(state.updatedAt)}` });
+}
+
+function applySavedStateForCurrentDate(savedState) {
+  if (!savedState || savedState.eventDate !== state.eventDate) return;
+  if (state.updatedAt && savedState.updatedAt && new Date(savedState.updatedAt) <= new Date(state.updatedAt)) return;
+  isApplyingRemoteState = true;
+  state = normalizeState(savedState, savedState.eventDate);
+  render();
+  isApplyingRemoteState = false;
+  showSaveStatus(`Updated from saved data ${formatSaveTime(state.updatedAt)}`, "saved");
+}
+
 document.addEventListener("click", (event) => {
   const stepButton = event.target.closest(".step");
   const nameOption = event.target.closest("[data-action='pick-name']");
   const action = event.target.dataset.action;
   if (stepButton) {
+    saveState();
     currentView = stepButton.dataset.view;
     document.querySelectorAll(".step").forEach((step) => step.classList.toggle("active", step.dataset.view === currentView));
     document.querySelectorAll(".view").forEach((view) => view.classList.toggle("active", view.id === currentView));
@@ -1737,6 +1782,7 @@ document.querySelector("#clearPools").addEventListener("click", () => {
   state.secondScores = {};
   render();
 });
+document.querySelector("#saveScores").addEventListener("click", saveCurrentScores);
 document.querySelector("#fillDemoScores").addEventListener("click", fillDemoScores);
 document.querySelector("#clearScores").addEventListener("click", () => {
   state.scores = {};
@@ -1762,5 +1808,20 @@ document.querySelector("#loadDemo").addEventListener("click", () => {
 });
 document.querySelector("#clearAllFencers").addEventListener("click", clearAllFencers);
 document.querySelector("#clearAllFencersInline").addEventListener("click", clearAllFencers);
+
+window.addEventListener("pagehide", () => saveState());
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden") saveState();
+});
+
+window.addEventListener("storage", (event) => {
+  if (event.key !== eventStorageKey || !event.newValue) return;
+  try {
+    const events = JSON.parse(event.newValue);
+    applySavedStateForCurrentDate(events[state.eventDate]);
+  } catch {
+    // Ignore malformed external storage updates.
+  }
+});
 
 loadNameCache().then(render);
