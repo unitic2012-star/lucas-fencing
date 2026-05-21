@@ -1,6 +1,8 @@
 const ratingOrder = { A: 1, B: 2, C: 3, D: 4, E: 5, U: 6 };
 const storageKey = "laifc-fencing-live-state-v2";
+const eventStorageKey = "laifc-fencing-live-events-v1";
 const learnedNamesKey = "laifc-learned-fencer-names-v1";
+const fencerProfilesKey = "laifc-fencer-profiles-v1";
 
 const demoFencers = [
   ["F1001", "Chen, Olivia", "LAIFC", "A"],
@@ -30,6 +32,7 @@ let touchDrag = null;
 let nameCache = [];
 
 const els = {
+  eventDate: document.querySelector("#eventDate"),
   eventName: document.querySelector("#eventName"),
   targetPoolSize: document.querySelector("#targetPoolSize"),
   viewTitle: document.querySelector("#viewTitle"),
@@ -43,7 +46,8 @@ const els = {
   checkedFencerBank: document.querySelector("#checkedFencerBank"),
   poolBoard: document.querySelector("#poolBoard"),
   poolResults: document.querySelector("#poolResults"),
-  seedList: document.querySelector("#seedList"),
+  seedingRows: document.querySelector("#seedingRows"),
+  seedSearch: document.querySelector("#seedSearch"),
   bracket: document.querySelector("#bracket"),
   postModeNote: document.querySelector("#postModeNote"),
   tableauEventName: document.querySelector("#tableauEventName"),
@@ -51,8 +55,15 @@ const els = {
   tableauFormatLabel: document.querySelector("#tableauFormatLabel"),
 };
 
-function defaultState() {
+function todayIsoDate() {
+  const now = new Date();
+  const offset = now.getTimezoneOffset() * 60000;
+  return new Date(now.getTime() - offset).toISOString().slice(0, 10);
+}
+
+function defaultState(eventDate = todayIsoDate()) {
   return {
+    eventDate,
     eventName: "LAIFC Youth Foil",
     targetPoolSize: 6,
     fencers: [],
@@ -69,21 +80,57 @@ function defaultState() {
 
 function demoState() {
   return {
-    ...defaultState(),
+    ...defaultState(state?.eventDate || todayIsoDate()),
     fencers: structuredClone(demoFencers),
   };
 }
 
-function loadState() {
+function loadEventStore() {
   try {
-    const saved = JSON.parse(localStorage.getItem(storageKey));
-    return saved || defaultState();
+    return JSON.parse(localStorage.getItem(eventStorageKey)) || {};
   } catch {
-    return defaultState();
+    return {};
+  }
+}
+
+function saveEventStore(events) {
+  localStorage.setItem(eventStorageKey, JSON.stringify(events));
+}
+
+function normalizeState(saved, eventDate = todayIsoDate()) {
+  return {
+    ...defaultState(eventDate),
+    ...(saved || {}),
+    eventDate,
+    fencers: saved?.fencers || [],
+    pools: saved?.pools || [],
+    scores: saved?.scores || {},
+    postseasonMode: saved?.postseasonMode || "double-de",
+    seeds: saved?.seeds || [],
+    bracket: saved?.bracket || [],
+    doubleDE: saved?.doubleDE || null,
+    secondPools: saved?.secondPools || [],
+    secondScores: saved?.secondScores || {},
+  };
+}
+
+function loadState(eventDate = todayIsoDate()) {
+  try {
+    const events = loadEventStore();
+    if (events[eventDate]) return normalizeState(events[eventDate], eventDate);
+    const oldSaved = JSON.parse(localStorage.getItem(storageKey));
+    if (oldSaved && eventDate === todayIsoDate()) return normalizeState(oldSaved, eventDate);
+    return defaultState(eventDate);
+  } catch {
+    return defaultState(eventDate);
   }
 }
 
 function saveState() {
+  state.eventDate ||= todayIsoDate();
+  const events = loadEventStore();
+  events[state.eventDate] = state;
+  saveEventStore(events);
   localStorage.setItem(storageKey, JSON.stringify(state));
 }
 
@@ -106,6 +153,7 @@ function render() {
   state.postseasonMode ||= "double-de";
   state.secondPools ||= [];
   state.secondScores ||= {};
+  els.eventDate.value = state.eventDate || todayIsoDate();
   els.eventName.value = state.eventName;
   els.targetPoolSize.value = state.targetPoolSize;
   document.querySelectorAll(".mode-button").forEach((button) => {
@@ -115,6 +163,7 @@ function render() {
   renderRoster();
   renderPools();
   renderResults();
+  renderSeeding();
   renderDE();
   saveState();
 }
@@ -122,9 +171,9 @@ function render() {
 async function loadNameCache() {
   try {
     const response = await fetch("./fencer-name-cache.json");
-    nameCache = mergeNameCaches(await response.json(), loadLearnedNames());
+    nameCache = mergeNameCaches(await response.json(), loadFencerProfiles(), loadLearnedNames());
   } catch {
-    nameCache = loadLearnedNames();
+    nameCache = mergeNameCaches(loadFencerProfiles(), loadLearnedNames());
   }
 }
 
@@ -140,12 +189,30 @@ function saveLearnedNames(names) {
   localStorage.setItem(learnedNamesKey, JSON.stringify(names));
 }
 
+function loadFencerProfiles() {
+  try {
+    return JSON.parse(localStorage.getItem(fencerProfilesKey)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function saveFencerProfiles(profiles) {
+  localStorage.setItem(fencerProfilesKey, JSON.stringify(profiles));
+}
+
 function mergeNameCaches(...groups) {
   const byName = new Map();
   groups.flat().forEach((entry) => {
     if (!entry?.name) return;
     const key = entry.name.trim().toLowerCase();
-    if (!byName.has(key)) byName.set(key, { id: entry.id || `LOCAL-${byName.size + 1}`, name: entry.name.trim() });
+    const existing = byName.get(key) || {};
+    byName.set(key, {
+      id: entry.id || existing.id || `LOCAL-${byName.size + 1}`,
+      name: entry.name.trim(),
+      club: entry.club || existing.club || "",
+      rating: ratingOrder[entry.rating] ? entry.rating : existing.rating || "",
+    });
   });
   return [...byName.values()].sort((a, b) => a.name.localeCompare(b.name));
 }
@@ -156,6 +223,24 @@ function rememberName(name) {
   const learned = mergeNameCaches(loadLearnedNames(), [{ id: `LOCAL-${Date.now()}`, name: cleanName }]);
   saveLearnedNames(learned);
   nameCache = mergeNameCaches(nameCache, learned);
+}
+
+function rememberFencerProfile(fencer) {
+  const cleanName = fencer.name?.trim();
+  if (!cleanName) return;
+  const profiles = loadFencerProfiles();
+  const key = cleanName.toLowerCase();
+  const existingIndex = profiles.findIndex((profile) => profile.name?.trim().toLowerCase() === key);
+  const profile = {
+    id: fencer.id,
+    name: cleanName,
+    club: fencer.club || "",
+    rating: ratingOrder[fencer.rating] ? fencer.rating : "U",
+  };
+  if (existingIndex >= 0) profiles[existingIndex] = { ...profiles[existingIndex], ...profile };
+  else profiles.push(profile);
+  saveFencerProfiles(profiles);
+  nameCache = mergeNameCaches(nameCache, profiles);
 }
 
 function renderStats() {
@@ -205,9 +290,9 @@ function renderNameSuggestions() {
     .slice(0, 10);
   els.nameSuggestions.innerHTML = matches.length
     ? matches.map((fencer) => `
-      <button type="button" data-action="pick-name" data-name="${escapeHtml(fencer.name)}">
+      <button type="button" data-action="pick-name" data-name="${escapeHtml(fencer.name)}" data-rating="${escapeHtml(fencer.rating || "")}" data-club="${escapeHtml(fencer.club || "")}">
         <strong>${escapeHtml(fencer.name)}</strong>
-        <span>${escapeHtml(fencer.id)}</span>
+        <span>${[fencer.rating, fencer.club, fencer.id].filter(Boolean).map(escapeHtml).join(" · ")}</span>
       </button>
     `).join("")
     : `<div class="suggestion-empty">No history match. Continue typing manually.</div>`;
@@ -391,22 +476,55 @@ function renderScoreRow(poolId, a, b) {
   `;
 }
 
+function currentSeeds() {
+  return state.seeds.length ? state.seeds : buildSeeds();
+}
+
+function seedPlaceLabels(seeds) {
+  return seeds.map((seed, index) => {
+    const previous = seeds[index - 1];
+    const next = seeds[index + 1];
+    const tiedWithPrevious = previous && isSeedTie(seed, previous);
+    const tiedWithNext = next && isSeedTie(seed, next);
+    return `${tiedWithPrevious ? index : index + 1}${tiedWithPrevious || tiedWithNext ? "T" : ""}`;
+  });
+}
+
+function isSeedTie(a, b) {
+  return a.winRate === b.winRate && a.indicator === b.indicator && a.touchesScored === b.touchesScored;
+}
+
+function renderSeeding() {
+  const query = (els.seedSearch?.value || "").trim().toLowerCase();
+  const seeds = currentSeeds();
+  const places = seedPlaceLabels(seeds);
+  const rows = seeds
+    .map((seed, index) => ({ seed, place: places[index], fencer: fencerById(seed.fencerId) }))
+    .filter((row) => row.fencer)
+    .filter((row) => [row.place, row.fencer.name, row.fencer.club, row.fencer.rating].join(" ").toLowerCase().includes(query));
+
+  els.seedingRows.innerHTML = rows.length
+    ? rows.map(({ seed, place, fencer }) => `
+      <tr>
+        <td>${place}</td>
+        <td><strong>${escapeHtml(fencer.name)}</strong><span>${escapeHtml(fencer.club || "")}</span></td>
+        <td>${seed.victories}</td>
+        <td>${seed.bouts}</td>
+        <td>${seed.bouts ? seed.winRate.toFixed(2) : "0.00"}</td>
+        <td>${seed.touchesScored}</td>
+        <td>${seed.touchesReceived}</td>
+        <td>${seed.indicator > 0 ? "+" : ""}${seed.indicator}</td>
+        <td class="advanced-status">Advanced</td>
+        <td>${escapeHtml(fencer.rating || "U")}</td>
+      </tr>
+    `).join("")
+    : `<tr><td colspan="10" class="empty-table-cell">Enter pool scores to calculate seeding</td></tr>`;
+}
+
 function renderDE() {
   els.tableauEventName.textContent = state.eventName || "Untitled Event";
   els.tableauFencerCount.textContent = `${checkedFencers().length} fencers`;
   els.tableauFormatLabel.textContent = state.postseasonMode === "second-pools" ? "Second 15-Touch Pools" : "Double DE Tableau";
-  els.seedList.innerHTML = state.seeds.length
-    ? state.seeds.map((seed, index) => {
-        const fencer = fencerById(seed.fencerId);
-        return `
-          <div class="seed-row">
-            <span class="seed-number">${index + 1}</span>
-            <div><strong>${escapeHtml(fencer.name)}</strong><span>${escapeHtml(fencer.club)} · ${fencer.rating}</span></div>
-            <span class="pill">${seed.victories}V / ${seed.indicator}</span>
-          </div>
-        `;
-      }).join("")
-    : `<div class="empty-state">Generate post-pool format to show seeding</div>`;
 
   if (state.postseasonMode === "second-pools") {
     els.postModeNote.textContent = "Second pools are snake-seeded from the first pool results. All bouts are scored to 15.";
@@ -1312,6 +1430,7 @@ function addFencer(name, club, rating) {
     existing.checkedIn = true;
     existing.club = club || existing.club;
     existing.rating = ratingOrder[rating] ? rating : existing.rating;
+    rememberFencerProfile(existing);
     return existing;
   }
   const fencer = {
@@ -1324,6 +1443,7 @@ function addFencer(name, club, rating) {
   state.fencers.push({
     ...fencer,
   });
+  rememberFencerProfile(fencer);
   return fencer;
 }
 
@@ -1405,30 +1525,30 @@ function buildPoolPrintDocument(sheets) {
 
 function poolPrintStyles() {
   return `
-    @page { size: portrait; margin: 5mm; }
+    @page { size: portrait; margin: 12mm; }
     * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     body { margin: 0; color: #20242a; background: white; font-family: Arial, sans-serif; }
     .pool-sheet { break-after: page; page-break-after: always; }
     .pool-sheet:last-child { break-after: auto; page-break-after: auto; }
-    .print-pool-title { display: block; margin: 0 0 8px; font-size: 22px; font-weight: 400; }
-    .print-pool-heading { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
-    .print-pool-heading h2 { margin: 0; font-size: 17px; text-transform: uppercase; }
-    .print-pool-heading span { color: #4e5964; font-size: 10px; font-weight: 800; }
+    .print-pool-title { display: block; margin: 0 0 10px; font-size: 26px; font-weight: 400; }
+    .print-pool-heading { display: flex; align-items: baseline; gap: 10px; margin-bottom: 8px; }
+    .print-pool-heading h2 { margin: 0; font-size: 20px; text-transform: uppercase; }
+    .print-pool-heading span { color: #4e5964; font-size: 11px; font-weight: 800; }
     .pool-sheet-scroll { overflow: visible; }
-    .pool-sheet-table { width: 100%; max-width: 100%; min-width: 0; table-layout: fixed; border-collapse: collapse; font-size: 8px; background: white; }
-    .pool-sheet-table th, .pool-sheet-table td { border: 1px solid #d5dbe2; padding: 1px; text-align: center; }
-    .pool-sheet-table thead th { background: #4e71a4; color: #ffeb2f; font-size: 9px; font-weight: 900; }
-    .pool-sheet-table thead .pool-name-col { width: 24%; background: #4e71a4; color: #ffeb2f; text-align: left !important; }
-    tbody .pool-name-col { width: 24%; min-width: 0; background: white; text-align: left !important; display: flex; align-items: center; gap: 3px; }
+    .pool-sheet-table { width: 100%; max-width: 100%; min-width: 0; table-layout: fixed; border-collapse: collapse; font-size: 9px; line-height: 1.08; background: white; }
+    .pool-sheet-table th, .pool-sheet-table td { border: 1px solid #d5dbe2; padding: 2px; text-align: center; }
+    .pool-sheet-table thead th { background: #4e71a4; color: #ffeb2f; font-size: 10px; font-weight: 900; }
+    .pool-sheet-table thead .pool-name-col { width: 19%; background: #4e71a4; color: #ffeb2f; text-align: left !important; }
+    tbody .pool-name-col { width: 19%; min-width: 0; background: white; text-align: left !important; display: flex; align-items: center; gap: 4px; }
     tbody .pool-name-col strong, tbody .pool-name-col span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    tbody .pool-name-col strong { font-size: 9px; }
-    tbody .pool-name-col span { color: #4e5964; font-size: 7px; }
-    .pool-line-number { display: grid !important; place-items: center; flex: 0 0 14px; width: 14px; height: 14px; border-radius: 2px; background: #4e71a4; color: #ffeb2f !important; font-size: 7px !important; font-weight: 900; }
-    .matrix-score-input { width: 100%; min-height: 16px; padding: 0; border: 0; background: transparent; color: #20242a; font-size: 10px; font-weight: 800; text-align: center; }
+    tbody .pool-name-col strong { font-size: 10px; }
+    tbody .pool-name-col span { color: #4e5964; font-size: 8px; }
+    .pool-line-number { display: grid !important; place-items: center; flex: 0 0 16px; width: 16px; height: 16px; border-radius: 2px; background: #4e71a4; color: #ffeb2f !important; font-size: 8px !important; font-weight: 900; }
+    .matrix-score-input { width: 100%; min-height: 18px; padding: 0; border: 0; background: transparent; color: #20242a; font-size: 11px; font-weight: 800; text-align: center; }
     .self-cell { background: #000; color: #000; font-weight: 900; }
     .won-cell { background: #c9facb; }
     .lost-cell { background: #fac5c5; }
-    .stat-cell, .place-cell { font-weight: 900; font-size: 9px; }
+    .stat-cell, .place-cell { font-weight: 900; font-size: 10px; }
   `;
 }
 
@@ -1441,6 +1561,13 @@ function escapeHtml(value) {
     '"': "&quot;",
     "'": "&#039;",
   })[char]);
+}
+
+function switchEventDate(eventDate) {
+  if (!eventDate || eventDate === state.eventDate) return;
+  saveState();
+  state = loadState(eventDate);
+  render();
 }
 
 document.addEventListener("click", (event) => {
@@ -1463,6 +1590,8 @@ document.addEventListener("click", (event) => {
   }
   if (nameOption) {
     els.newName.value = nameOption.dataset.name;
+    if (ratingOrder[nameOption.dataset.rating]) document.querySelector("#newRating").value = nameOption.dataset.rating;
+    if (nameOption.dataset.club) document.querySelector("#newClub").value = nameOption.dataset.club;
     els.nameSuggestions.innerHTML = "";
     els.nameSuggestions.classList.remove("active");
     els.newName.focus();
@@ -1496,6 +1625,7 @@ document.addEventListener("input", (event) => {
   if (event.target === els.eventName) state.eventName = event.target.value;
   if (event.target === els.targetPoolSize) state.targetPoolSize = Number(event.target.value);
   if (event.target === els.fencerSearch) renderRoster();
+  if (event.target === els.seedSearch) renderSeeding();
   if (event.target === els.newName) renderNameSuggestions();
   if (action === "pool-score") {
     setScore(event.target.dataset.poolId, event.target.dataset.a, event.target.dataset.b, event.target.dataset.side, event.target.value);
@@ -1516,6 +1646,10 @@ document.addEventListener("input", (event) => {
 });
 
 document.addEventListener("change", (event) => {
+  if (event.target === els.eventDate) {
+    switchEventDate(event.target.value);
+    return;
+  }
   if (event.target.dataset.action === "move-fencer") {
     moveFencer(event.target.dataset.id, event.target.value);
   }

@@ -28,12 +28,20 @@
             <span>03</span>
             <strong>Pool Results</strong>
           </button>
-          <button class="step" data-view="de">
+          <button class="step" data-view="seeding">
             <span>04</span>
+            <strong>Seeding</strong>
+          </button>
+          <button class="step" data-view="de">
+            <span>05</span>
             <strong>DE Tableau</strong>
           </button>
         </nav>
         <div class="event-panel">
+          <label>
+            Event Date
+            <input id="eventDate" type="date" />
+          </label>
           <label>
             Event Name
             <input id="eventName" type="text" />
@@ -126,6 +134,37 @@
           <div id="poolResults" class="pool-results"></div>
         </section>
 
+        <section id="seeding" class="view">
+          <div class="seed-page">
+            <div class="seed-search-row">
+              <label>
+                Search
+                <input id="seedSearch" class="search underline-search" autocomplete="off" />
+              </label>
+              <button class="primary-button seed-search-button" type="button">Search</button>
+            </div>
+            <div class="seed-results-wrap">
+              <table class="seed-results-table">
+                <thead>
+                  <tr>
+                    <th>Place</th>
+                    <th>Name</th>
+                    <th>V</th>
+                    <th>M</th>
+                    <th>V / M</th>
+                    <th>TS</th>
+                    <th>TR</th>
+                    <th>Ind</th>
+                    <th>Status</th>
+                    <th>Rating</th>
+                  </tr>
+                </thead>
+                <tbody id="seedingRows"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
         <section id="de" class="view">
           <div class="ftl-page">
             <div class="ftl-tableau-head">
@@ -153,13 +192,6 @@
             <div id="postModeNote" class="mode-note"></div>
 
             <div class="de-layout">
-              <div class="ftl-seeds">
-                <div class="section-head compact">
-                  <h2>Seeding</h2>
-                  <span>V / Ind</span>
-                </div>
-                <div id="seedList" class="seed-list"></div>
-              </div>
               <div class="ftl-tableau-scroll">
                 <div id="bracket" class="bracket"></div>
               </div>
@@ -169,6 +201,6 @@
       </main>
     </div>
 
-    <script src="./app.js?v=20260520-single-print-only"></script>
+    <script src="./app.js?v=20260520-event-history-seeding"></script>
   </body>
 </html>

@@ -820,6 +820,97 @@ h2 {
   font-weight: 900;
 }
 
+.seed-page {
+  display: grid;
+  gap: 20px;
+}
+
+.seed-search-row {
+  display: flex;
+  align-items: end;
+  gap: 12px;
+  max-width: 380px;
+}
+
+.seed-search-row label {
+  flex: 1;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.underline-search {
+  min-height: 44px;
+  border: 0;
+  border-bottom: 1px solid #cfd6df;
+  border-radius: 0;
+  background: transparent;
+  padding-inline: 0;
+  box-shadow: none;
+}
+
+.seed-search-button {
+  width: 92px;
+  min-height: 54px;
+  font-size: 14px;
+}
+
+.seed-results-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  background: white;
+}
+
+.seed-results-table {
+  width: 100%;
+  min-width: 980px;
+  border-collapse: collapse;
+  font-size: 16px;
+}
+
+.seed-results-table th,
+.seed-results-table td {
+  padding: 10px 12px;
+  border: 1px solid #d7dde5;
+  text-align: left;
+}
+
+.seed-results-table th {
+  background: #4e71a4;
+  color: #ffeb2f;
+  font-weight: 900;
+}
+
+.seed-results-table td {
+  background: white;
+}
+
+.seed-results-table td:not(:nth-child(2)) {
+  white-space: nowrap;
+}
+
+.seed-results-table td strong,
+.seed-results-table td span {
+  display: block;
+}
+
+.seed-results-table td span {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.advanced-status {
+  color: #2f7d57;
+  font-weight: 900;
+}
+
+.empty-table-cell {
+  padding: 28px !important;
+  color: var(--muted);
+  text-align: center !important;
+}
+
 .ftl-page {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -872,9 +963,6 @@ h2 {
 }
 
 .de-layout {
-  display: grid;
-  grid-template-columns: 240px minmax(0, 1fr);
-  gap: 12px;
   min-height: 760px;
   padding: 12px;
 }
@@ -1110,7 +1198,7 @@ h2 {
   }
 
   .steps {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
   }
 
   .event-panel {
@@ -1156,7 +1244,7 @@ h2 {
 @media print {
   @page {
     size: portrait;
-    margin: 5mm;
+    margin: 12mm;
   }
 
   * {
@@ -1217,26 +1305,26 @@ h2 {
 
   .print-pool-title {
     display: block;
-    margin: 0 0 8px;
-    font-size: 22px;
+    margin: 0 0 10px;
+    font-size: 26px;
     font-weight: 400;
   }
 
   .print-pool-heading {
     display: flex;
     align-items: baseline;
-    gap: 8px;
-    margin-bottom: 6px;
+    gap: 10px;
+    margin-bottom: 8px;
   }
 
   .print-pool-heading h2 {
-    font-size: 17px;
+    font-size: 20px;
     text-transform: uppercase;
   }
 
   .print-pool-heading span {
     color: #4e5964;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 800;
   }
 
@@ -1253,24 +1341,25 @@ h2 {
     max-width: 100%;
     min-width: 0;
     table-layout: fixed;
-    font-size: 8px;
+    font-size: 9px;
+    line-height: 1.08;
   }
 
   .pool-sheet-table th,
   .pool-sheet-table td {
-    padding: 1px;
+    padding: 2px;
   }
 
   .pool-sheet-table thead th {
     position: static;
     background: #4e71a4;
     color: #ffeb2f;
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .pool-sheet-table thead .pool-name-col {
     position: static;
-    width: 24%;
+    width: 19%;
     min-width: 0;
     background: #4e71a4;
     color: #ffeb2f;
@@ -1278,27 +1367,27 @@ h2 {
 
   tbody .pool-name-col {
     position: static;
-    width: 24%;
+    width: 19%;
     min-width: 0;
     background: white;
-    gap: 3px;
+    gap: 4px;
   }
 
   tbody .pool-name-col strong {
-    font-size: 9px;
+    font-size: 10px;
   }
 
   tbody .pool-name-col span {
-    font-size: 7px;
+    font-size: 8px;
   }
 
   .pool-line-number {
-    flex-basis: 14px;
-    width: 14px;
-    height: 14px;
+    flex-basis: 16px;
+    width: 16px;
+    height: 16px;
     background: #4e71a4;
     color: #ffeb2f !important;
-    font-size: 7px !important;
+    font-size: 8px !important;
   }
 
   .opponent-col,
@@ -1310,16 +1399,16 @@ h2 {
 
   .matrix-score-input {
     width: 100%;
-    min-height: 16px;
+    min-height: 18px;
     border: 0;
     background: transparent;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 800;
   }
 
   .stat-cell,
   .place-cell {
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .self-cell {
