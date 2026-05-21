@@ -1124,6 +1124,11 @@ h2 {
   font-style: italic;
 }
 
+.match-row .tbd {
+  color: var(--muted);
+  font-style: italic;
+}
+
 .match-score {
   min-height: 34px;
   padding: 0 6px;

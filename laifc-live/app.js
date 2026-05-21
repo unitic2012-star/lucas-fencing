@@ -617,34 +617,45 @@ function renderDoubleTableau() {
 }
 
 function renderDERound(round, side, roundIndex) {
+  const visibleMatches = round.matches
+    .map((match, matchIndex) => ({ match, matchIndex }))
+    .filter(({ match }) => !isHiddenByeMatch(match));
+  if (!visibleMatches.length) return "";
   return `
     <div class="round">
       <h2>${round.name}</h2>
-      ${round.matches.map((match, matchIndex) => renderDEMatch(match, side, roundIndex, matchIndex)).join("")}
+      ${visibleMatches.map(({ match, matchIndex }) => renderDEMatch(match, side, roundIndex, matchIndex)).join("")}
     </div>
   `;
+}
+
+function isHiddenByeMatch(match) {
+  const hasLegacyBye = match?.winner && Boolean(match.a) !== Boolean(match.b);
+  return Boolean(hasLegacyBye || (match?.winner && ((match.a && match.bBye) || (match.aBye && match.b))));
 }
 
 function renderDEMatch(match, side, roundIndex, matchIndex) {
   const a = match.a ? fencerById(match.a) : null;
   const b = match.b ? fencerById(match.b) : null;
+  const aLabel = match.aBye ? "BYE" : "TBD";
+  const bLabel = match.bBye ? "BYE" : "TBD";
   const locked = match.winner ? `<span class="match-status">Winner: ${escapeHtml(fencerById(match.winner)?.name || "")}</span>` : "";
   return `
     <div class="match">
       <div class="match-row ${match.winner === match.a ? "match-winner-row" : ""}">
         <span class="match-seed">${match.aSeed || ""}</span>
-        <strong class="${a ? "" : "bye"}">${a ? escapeHtml(a.name) : "BYE"}</strong>
+        <strong class="${a ? "" : match.aBye ? "bye" : "tbd"}">${a ? escapeHtml(a.name) : aLabel}</strong>
         <input class="match-score" inputmode="numeric" data-action="de-score" data-side-name="${side}" data-round="${roundIndex}" data-match="${matchIndex}" data-side="a" value="${match.aScore ?? ""}" ${a ? "" : "disabled"} />
       </div>
       <div class="match-row ${match.winner === match.b ? "match-winner-row" : ""}">
         <span class="match-seed">${match.bSeed || ""}</span>
-        <strong class="${b ? "" : "bye"}">${b ? escapeHtml(b.name) : "BYE"}</strong>
+        <strong class="${b ? "" : match.bBye ? "bye" : "tbd"}">${b ? escapeHtml(b.name) : bLabel}</strong>
         <input class="match-score" inputmode="numeric" data-action="de-score" data-side-name="${side}" data-round="${roundIndex}" data-match="${matchIndex}" data-side="b" value="${match.bScore ?? ""}" ${b ? "" : "disabled"} />
       </div>
       ${locked}
       <div class="match-actions">
-        <button class="ghost-button" data-action="advance" data-side-name="${side}" data-round="${roundIndex}" data-match="${matchIndex}" data-winner="${match.a || ""}" ${a ? "" : "disabled"}>${a ? "A Wins" : "BYE"}</button>
-        <button class="ghost-button" data-action="advance" data-side-name="${side}" data-round="${roundIndex}" data-match="${matchIndex}" data-winner="${match.b || ""}" ${b ? "" : "disabled"}>${b ? "B Wins" : "BYE"}</button>
+        <button class="ghost-button" data-action="advance" data-side-name="${side}" data-round="${roundIndex}" data-match="${matchIndex}" data-winner="${match.a || ""}" ${a ? "" : "disabled"}>${a ? "A Wins" : aLabel}</button>
+        <button class="ghost-button" data-action="advance" data-side-name="${side}" data-round="${roundIndex}" data-match="${matchIndex}" data-winner="${match.b || ""}" ${b ? "" : "disabled"}>${b ? "B Wins" : bLabel}</button>
       </div>
     </div>
   `;
@@ -975,7 +986,7 @@ function buildDoubleDE(seeds) {
   const size = nextPowerOfTwo(seeds.length);
   const slots = bracketSeedOrder(size).map((seedNumber) => {
     const seed = seeds[seedNumber - 1];
-    return seed ? { fencerId: seed.fencerId, seedNumber } : { fencerId: null, seedNumber: null };
+    return seed ? { fencerId: seed.fencerId, seedNumber, isBye: false } : { fencerId: null, seedNumber: null, isBye: true };
   });
   const rounds = [];
   const firstMatches = [];
@@ -1024,6 +1035,8 @@ function createMatch(id, aSlot, bSlot) {
     b: bSlot.fencerId,
     aSeed: aSlot.seedNumber,
     bSeed: bSlot.seedNumber,
+    aBye: Boolean(aSlot.isBye),
+    bBye: Boolean(bSlot.isBye),
     winner: null,
     loser: null,
     aScore: "",
@@ -1032,7 +1045,7 @@ function createMatch(id, aSlot, bSlot) {
 }
 
 function createEmptyMatch(id) {
-  return createMatch(id, { fencerId: null, seedNumber: null }, { fencerId: null, seedNumber: null });
+  return createMatch(id, { fencerId: null, seedNumber: null, isBye: false }, { fencerId: null, seedNumber: null, isBye: false });
 }
 
 function secondScoreKey(poolId, a, b) {
@@ -1165,11 +1178,11 @@ function autoAdvanceDoubleByes() {
       state.doubleDE[side].forEach((round, roundIndex) => {
         round.matches.forEach((match, matchIndex) => {
           if (match.winner) return;
-          if (match.a && !match.b) {
+          if (match.a && match.bBye) {
             applyDEWinner(side, roundIndex, matchIndex, match.a);
             changed = true;
           }
-          if (!match.a && match.b) {
+          if (match.aBye && match.b) {
             applyDEWinner(side, roundIndex, matchIndex, match.b);
             changed = true;
           }
@@ -1189,6 +1202,8 @@ function advanceWinner(side, roundIndex, matchIndex, winnerId, shouldRender = tr
     b: match.b,
     aScore: match.aScore,
     bScore: match.bScore,
+    aBye: match.aBye,
+    bBye: match.bBye,
     winner: winnerId,
   };
   rebuildDoubleDEFromDecisions(decisions);
@@ -1234,6 +1249,8 @@ function snapshotDEDecisions() {
       b: match.b,
       aScore: match.aScore,
       bScore: match.bScore,
+      aBye: match.aBye,
+      bBye: match.bBye,
       winner: match.winner,
     };
   });
@@ -1250,6 +1267,8 @@ function rebuildDoubleDEFromDecisions(decisions) {
     if (decision.a === match.a && decision.b === match.b) {
       match.aScore = decision.aScore ?? "";
       match.bScore = decision.bScore ?? "";
+      match.aBye = Boolean(decision.aBye);
+      match.bBye = Boolean(decision.bBye);
     }
     if (decision.winner && (match.a === decision.winner || match.b === decision.winner)) {
       applyDEWinner(side, roundIndex, matchIndex, decision.winner);
@@ -1365,21 +1384,25 @@ function placeFencer(match, fencerId, preferredSide = null) {
   if (preferredSide === "a" && !match.a) {
     match.a = fencerId;
     match.aSeed = seed;
+    match.aBye = false;
     return;
   }
   if (preferredSide === "b" && !match.b) {
     match.b = fencerId;
     match.bSeed = seed;
+    match.bBye = false;
     return;
   }
   if (!match.a) {
     match.a = fencerId;
     match.aSeed = seed;
+    match.aBye = false;
     return;
   }
   if (!match.b) {
     match.b = fencerId;
     match.bSeed = seed;
+    match.bBye = false;
   }
 }
 
@@ -1410,6 +1433,8 @@ function setDEScore(sideName, roundIndex, matchIndex, side, value) {
     b: match.b,
     aScore: match.aScore,
     bScore: match.bScore,
+    aBye: match.aBye,
+    bBye: match.bBye,
     winner: match.winner,
   };
   if (match.a && match.b && match.aScore !== "" && match.bScore !== "" && a !== b) {
