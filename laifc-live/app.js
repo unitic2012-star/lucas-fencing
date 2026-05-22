@@ -4,27 +4,6 @@ const eventStorageKey = "laifc-fencing-live-events-v1";
 const learnedNamesKey = "laifc-learned-fencer-names-v1";
 const fencerProfilesKey = "laifc-fencer-profiles-v1";
 
-const demoFencers = [
-  ["F1001", "Chen, Olivia", "LAIFC", "A"],
-  ["F1002", "Park, Daniel", "LAIFC", "B"],
-  ["F1003", "Garcia, Mia", "SDFC", "C"],
-  ["F1004", "Wang, Ethan", "LAIFC", "D"],
-  ["F1005", "Kim, Noah", "OCFC", "U"],
-  ["F1006", "Li, Sophia", "LAIFC", "B"],
-  ["F1007", "Johnson, Ava", "Fortune", "E"],
-  ["F1008", "Nguyen, Leo", "SDFC", "C"],
-  ["F1009", "Zhang, Emma", "LAIFC", "A"],
-  ["F1010", "Brown, Lucas", "OCFC", "D"],
-  ["F1011", "Hernandez, Zoe", "Fortune", "U"],
-  ["F1012", "Xu, Mason", "LAIFC", "B"],
-].map(([id, name, club, rating], index) => ({
-  id,
-  name,
-  club,
-  rating,
-  checkedIn: index < 10,
-}));
-
 let state = loadState();
 let currentView = "checkin";
 let draggedFencerId = null;
@@ -84,9 +63,16 @@ function defaultState(eventDate = todayIsoDate()) {
 }
 
 function demoState() {
+  const demoFencers = nameCache.length ? nameCache : loadFencerProfiles();
   return {
     ...defaultState(state?.eventDate || todayIsoDate()),
-    fencers: structuredClone(demoFencers),
+    fencers: demoFencers.map((fencer) => ({
+      id: fencer.id || `DEMO-${fencer.name}`,
+      name: fencer.name,
+      club: fencer.club || "LAIFC",
+      rating: ratingOrder[fencer.rating] ? fencer.rating : "U",
+      checkedIn: true,
+    })),
   };
 }
 
