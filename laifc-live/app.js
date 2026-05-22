@@ -71,6 +71,8 @@ function demoState() {
       name: fencer.name,
       club: fencer.club || "LAIFC",
       rating: ratingOrder[fencer.rating] ? fencer.rating : "U",
+      ratingFull: fencer.ratingFull || fencer.rating || "U",
+      weapon: primaryWeapon(fencer),
       checkedIn: true,
     })),
   };
@@ -153,6 +155,20 @@ function showSaveStatus(message, tone = "saved") {
 
 function fencerById(id) {
   return state.fencers.find((fencer) => fencer.id === id);
+}
+
+function primaryWeapon(fencer) {
+  if (fencer.weapon) return fencer.weapon;
+  if (fencer.ratings?.foil) return "Foil";
+  if (fencer.ratings?.epee) return "Epee";
+  if (fencer.ratings?.saber) return "Saber";
+  return "";
+}
+
+function fencerInfoLine(fencer) {
+  const weapon = primaryWeapon(fencer);
+  const rating = fencer.ratingFull || fencer.rating || "";
+  return [fencer.club, [weapon, rating].filter(Boolean).join(" ")].filter(Boolean).join(" · ");
 }
 
 function checkedFencers() {
@@ -302,7 +318,7 @@ function renderFencerRow(fencer) {
       <span class="rating">${fencer.rating}</span>
       <div>
         <strong>${escapeHtml(fencer.name)}</strong>
-        <span>${escapeHtml(fencer.club)} · ${fencer.id}</span>
+        <span>${escapeHtml(fencerInfoLine(fencer))}</span>
       </div>
       <span class="pill ${fencer.checkedIn ? "ready" : ""}">${fencer.checkedIn ? "Checked In" : "Not Checked In"}</span>
       <button class="${fencer.checkedIn ? "ghost-button" : "secondary-button"}" data-action="toggle-checkin" data-id="${fencer.id}" type="button">
@@ -327,7 +343,7 @@ function renderNameSuggestions() {
     ? matches.map((fencer) => `
       <button type="button" data-action="pick-name" data-name="${escapeHtml(fencer.name)}" data-rating="${escapeHtml(fencer.rating || "")}" data-club="${escapeHtml(fencer.club || "")}">
         <strong>${escapeHtml(fencer.name)}</strong>
-        <span>${[fencer.ratingFull || fencer.rating, fencer.club, fencer.id].filter(Boolean).map(escapeHtml).join(" · ")}</span>
+        <span>${escapeHtml(fencerInfoLine(fencer))}</span>
       </button>
     `).join("")
     : `<div class="suggestion-empty">No history match. Continue typing manually.</div>`;
@@ -381,7 +397,7 @@ function renderPoolFencer(fencer, location) {
       <span class="rating">${fencer.rating}</span>
       <div>
         <strong>${escapeHtml(fencer.name)}</strong>
-        <span>${escapeHtml(fencer.club)} · ${fencer.id}</span>
+        <span>${escapeHtml(fencerInfoLine(fencer))}</span>
       </div>
       ${moveSelect}
     </div>
@@ -1546,19 +1562,24 @@ function addFencer(name, club, rating) {
   const cleanName = name.trim();
   if (!cleanName) return null;
   rememberName(cleanName);
+  const cached = nameCache.find((entry) => entry.name.toLowerCase() === cleanName.toLowerCase());
   const existing = state.fencers.find((fencer) => fencer.name.toLowerCase() === cleanName.toLowerCase());
   if (existing) {
     existing.checkedIn = true;
     existing.club = club || existing.club;
     existing.rating = ratingOrder[rating] ? rating : existing.rating;
+    existing.ratingFull = cached?.ratingFull || existing.ratingFull || existing.rating;
+    existing.weapon = cached ? primaryWeapon(cached) : existing.weapon;
     rememberFencerProfile(existing);
     return existing;
   }
   const fencer = {
-    id: `F${Math.floor(1000 + Math.random() * 9000)}`,
+    id: cached?.id || `F${Math.floor(1000 + Math.random() * 9000)}`,
     name: cleanName,
     club: club || "Unattached",
     rating: ratingOrder[rating] ? rating : "U",
+    ratingFull: cached?.ratingFull || (ratingOrder[rating] ? rating : "U"),
+    weapon: cached ? primaryWeapon(cached) : "",
     checkedIn: true,
   };
   state.fencers.push({
