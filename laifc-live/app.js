@@ -157,6 +157,11 @@ function fencerById(id) {
   return state.fencers.find((fencer) => fencer.id === id);
 }
 
+function cachedFencerByName(name) {
+  if (!name) return null;
+  return nameCache.find((entry) => entry.name.toLowerCase() === name.toLowerCase()) || null;
+}
+
 function primaryWeapon(fencer) {
   if (fencer.weapon) return fencer.weapon;
   if (fencer.ratings?.foil) return "Foil";
@@ -166,9 +171,10 @@ function primaryWeapon(fencer) {
 }
 
 function fencerInfoLine(fencer) {
-  const weapon = primaryWeapon(fencer);
-  const rating = fencer.ratingFull || fencer.rating || "";
-  return [fencer.club, [weapon, rating].filter(Boolean).join(" ")].filter(Boolean).join(" · ");
+  const cached = cachedFencerByName(fencer.name);
+  const weapon = primaryWeapon(fencer) || primaryWeapon(cached || {});
+  const rating = fencer.ratingFull || cached?.ratingFull || fencer.rating || "";
+  return [fencer.club || cached?.club, [weapon, rating].filter(Boolean).join(" ")].filter(Boolean).join(" · ");
 }
 
 function checkedFencers() {
