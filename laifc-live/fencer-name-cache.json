@@ -1,6 +1,6 @@
 [
   {
-    "id": "LAIFC-001",
+    "id": "LAIFC-F-001",
     "name": "Ashida, Tomoaki",
     "club": "LAIFC",
     "rating": "A",
@@ -10,17 +10,7 @@
     }
   },
   {
-    "id": "LAIFC-002",
-    "name": "Bauer, Hank E",
-    "club": "LAIFC",
-    "rating": "B",
-    "ratingFull": "B25",
-    "ratings": {
-      "saber": "B25"
-    }
-  },
-  {
-    "id": "LAIFC-003",
+    "id": "LAIFC-F-002",
     "name": "Bieler, Mason",
     "club": "LAIFC",
     "rating": "A",
@@ -30,17 +20,7 @@
     }
   },
   {
-    "id": "LAIFC-004",
-    "name": "Brown, Riley",
-    "club": "LAIFC",
-    "rating": "B",
-    "ratingFull": "B25",
-    "ratings": {
-      "epee": "B25"
-    }
-  },
-  {
-    "id": "LAIFC-005",
+    "id": "LAIFC-F-003",
     "name": "Canlas, Nathan",
     "club": "LAIFC",
     "rating": "A",
@@ -50,7 +30,7 @@
     }
   },
   {
-    "id": "LAIFC-006",
+    "id": "LAIFC-F-011",
     "name": "Chamley-Watson, Miles C",
     "club": "LAIFC",
     "rating": "A",
@@ -60,7 +40,7 @@
     }
   },
   {
-    "id": "LAIFC-007",
+    "id": "LAIFC-F-045",
     "name": "Chan, Howie Ho Yin",
     "club": "LAIFC",
     "rating": "C",
@@ -70,48 +50,17 @@
     }
   },
   {
-    "id": "LAIFC-008",
-    "name": "Chao, Warren",
-    "club": "LAIFC",
-    "rating": "C",
-    "ratingFull": "C26",
-    "ratings": {
-      "epee": "C26"
-    }
-  },
-  {
-    "id": "LAIFC-009",
+    "id": "LAIFC-F-049",
     "name": "Charette, Alex",
     "club": "LAIFC",
-    "rating": "D",
-    "ratingFull": "D26",
+    "rating": "E",
+    "ratingFull": "E26",
     "ratings": {
-      "epee": "D26",
       "foil": "E26"
     }
   },
   {
-    "id": "LAIFC-010",
-    "name": "Cheong, Cameron",
-    "club": "LAIFC",
-    "rating": "C",
-    "ratingFull": "C26",
-    "ratings": {
-      "epee": "C26"
-    }
-  },
-  {
-    "id": "LAIFC-011",
-    "name": "Cheong, Chloe",
-    "club": "LAIFC",
-    "rating": "D",
-    "ratingFull": "D26",
-    "ratings": {
-      "epee": "D26"
-    }
-  },
-  {
-    "id": "LAIFC-012",
+    "id": "LAIFC-F-055",
     "name": "Dacko, Nolan",
     "club": "LAIFC",
     "rating": "E",
@@ -121,7 +70,7 @@
     }
   },
   {
-    "id": "LAIFC-013",
+    "id": "LAIFC-F-016",
     "name": "De La Cruz, Eden",
     "club": "LAIFC",
     "rating": "A",
@@ -131,7 +80,7 @@
     }
   },
   {
-    "id": "LAIFC-014",
+    "id": "LAIFC-F-004",
     "name": "Dekouche, Smain",
     "club": "LAIFC",
     "rating": "A",
@@ -141,7 +90,7 @@
     }
   },
   {
-    "id": "LAIFC-015",
+    "id": "LAIFC-F-018",
     "name": "Douraghy, Jamie M",
     "club": "LAIFC",
     "rating": "A",
@@ -151,67 +100,7 @@
     }
   },
   {
-    "id": "LAIFC-016",
-    "name": "Du, Evan",
-    "club": "LAIFC",
-    "rating": "B",
-    "ratingFull": "B26",
-    "ratings": {
-      "epee": "B26"
-    }
-  },
-  {
-    "id": "LAIFC-017",
-    "name": "Du, Yiwei",
-    "club": "LAIFC",
-    "rating": "C",
-    "ratingFull": "C25",
-    "ratings": {
-      "epee": "C25"
-    }
-  },
-  {
-    "id": "LAIFC-018",
-    "name": "Elston, Sophia",
-    "club": "LAIFC",
-    "rating": "A",
-    "ratingFull": "A26",
-    "ratings": {
-      "epee": "A26"
-    }
-  },
-  {
-    "id": "LAIFC-019",
-    "name": "Eng, Kyler",
-    "club": "LAIFC",
-    "rating": "B",
-    "ratingFull": "B26",
-    "ratings": {
-      "epee": "B26"
-    }
-  },
-  {
-    "id": "LAIFC-020",
-    "name": "Erlikhman, Adrian",
-    "club": "LAIFC",
-    "rating": "A",
-    "ratingFull": "A26",
-    "ratings": {
-      "epee": "A26"
-    }
-  },
-  {
-    "id": "LAIFC-021",
-    "name": "Evers, Gabriel",
-    "club": "LAIFC",
-    "rating": "A",
-    "ratingFull": "A23",
-    "ratings": {
-      "epee": "A23"
-    }
-  },
-  {
-    "id": "LAIFC-022",
+    "id": "LAIFC-F-029",
     "name": "Foellmer, Oliver K",
     "club": "LAIFC",
     "rating": "B",
@@ -221,17 +110,7 @@
     }
   },
   {
-    "id": "LAIFC-023",
-    "name": "Gilshteyn, Jacob",
-    "club": "LAIFC",
-    "rating": "C",
-    "ratingFull": "C24",
-    "ratings": {
-      "saber": "C24"
-    }
-  },
-  {
-    "id": "LAIFC-024",
+    "id": "LAIFC-F-019",
     "name": "Godzhik, Zachary",
     "club": "LAIFC",
     "rating": "A",
@@ -241,27 +120,7 @@
     }
   },
   {
-    "id": "LAIFC-025",
-    "name": "Greenstein, Viktor",
-    "club": "LAIFC",
-    "rating": "B",
-    "ratingFull": "B25",
-    "ratings": {
-      "saber": "B25"
-    }
-  },
-  {
-    "id": "LAIFC-026",
-    "name": "Guerville, Angelique",
-    "club": "LAIFC",
-    "rating": "E",
-    "ratingFull": "E26",
-    "ratings": {
-      "saber": "E26"
-    }
-  },
-  {
-    "id": "LAIFC-027",
+    "id": "LAIFC-F-023",
     "name": "Guo, Austin",
     "club": "LAIFC",
     "rating": "B",
@@ -271,27 +130,7 @@
     }
   },
   {
-    "id": "LAIFC-028",
-    "name": "Halushko, Liliia",
-    "club": "LAIFC",
-    "rating": "E",
-    "ratingFull": "E26",
-    "ratings": {
-      "epee": "E26"
-    }
-  },
-  {
-    "id": "LAIFC-029",
-    "name": "Hansen, Eric J",
-    "club": "LAIFC",
-    "rating": "A",
-    "ratingFull": "A24",
-    "ratings": {
-      "epee": "A24"
-    }
-  },
-  {
-    "id": "LAIFC-030",
+    "id": "LAIFC-F-012",
     "name": "HASHIMOTO, Shoei",
     "club": "LAIFC",
     "rating": "A",
@@ -301,37 +140,7 @@
     }
   },
   {
-    "id": "LAIFC-031",
-    "name": "Hepler, Sarah",
-    "club": "LAIFC",
-    "rating": "B",
-    "ratingFull": "B26",
-    "ratings": {
-      "epee": "B26"
-    }
-  },
-  {
-    "id": "LAIFC-032",
-    "name": "Hsiu, Elizabeth",
-    "club": "LAIFC",
-    "rating": "C",
-    "ratingFull": "C23",
-    "ratings": {
-      "epee": "C23"
-    }
-  },
-  {
-    "id": "LAIFC-033",
-    "name": "Huang, Lanlan",
-    "club": "LAIFC",
-    "rating": "B",
-    "ratingFull": "B25",
-    "ratings": {
-      "epee": "B25"
-    }
-  },
-  {
-    "id": "LAIFC-034",
+    "id": "LAIFC-F-056",
     "name": "Karpman, Benny",
     "club": "LAIFC",
     "rating": "E",
@@ -341,7 +150,7 @@
     }
   },
   {
-    "id": "LAIFC-035",
+    "id": "LAIFC-F-020",
     "name": "Kelly, William J",
     "club": "LAIFC",
     "rating": "A",
@@ -351,7 +160,7 @@
     }
   },
   {
-    "id": "LAIFC-036",
+    "id": "LAIFC-F-038",
     "name": "Kensicki, Phoebe",
     "club": "LAIFC",
     "rating": "C",
@@ -361,7 +170,7 @@
     }
   },
   {
-    "id": "LAIFC-037",
+    "id": "LAIFC-F-030",
     "name": "kerneis, eliot",
     "club": "LAIFC",
     "rating": "B",
@@ -371,7 +180,7 @@
     }
   },
   {
-    "id": "LAIFC-038",
+    "id": "LAIFC-F-031",
     "name": "Kim, Aiden",
     "club": "LAIFC",
     "rating": "B",
@@ -381,17 +190,7 @@
     }
   },
   {
-    "id": "LAIFC-039",
-    "name": "Kim, Alexander",
-    "club": "LAIFC",
-    "rating": "A",
-    "ratingFull": "A26",
-    "ratings": {
-      "epee": "A26"
-    }
-  },
-  {
-    "id": "LAIFC-040",
+    "id": "LAIFC-F-021",
     "name": "Kim, Brandon Jun",
     "club": "LAIFC",
     "rating": "A",
@@ -401,48 +200,17 @@
     }
   },
   {
-    "id": "LAIFC-041",
-    "name": "Kim, Remington",
-    "club": "LAIFC",
-    "rating": "B",
-    "ratingFull": "B25",
-    "ratings": {
-      "epee": "B25"
-    }
-  },
-  {
-    "id": "LAIFC-042",
-    "name": "Kim, Sterling Sunghyun",
-    "club": "LAIFC",
-    "rating": "A",
-    "ratingFull": "A25",
-    "ratings": {
-      "epee": "A25"
-    }
-  },
-  {
-    "id": "LAIFC-043",
+    "id": "LAIFC-F-060",
     "name": "Kim, Sullivan",
     "club": "LAIFC",
-    "rating": "A",
-    "ratingFull": "A26",
+    "rating": "E",
+    "ratingFull": "E23",
     "ratings": {
-      "epee": "A26",
       "foil": "E23"
     }
   },
   {
-    "id": "LAIFC-044",
-    "name": "Kleeman, Maxwell J",
-    "club": "LAIFC",
-    "rating": "D",
-    "ratingFull": "D23",
-    "ratings": {
-      "epee": "D23"
-    }
-  },
-  {
-    "id": "LAIFC-045",
+    "id": "LAIFC-F-024",
     "name": "Lee, Abin",
     "club": "LAIFC",
     "rating": "B",
@@ -452,7 +220,7 @@
     }
   },
   {
-    "id": "LAIFC-046",
+    "id": "LAIFC-F-046",
     "name": "Lee, Lucas",
     "club": "LAIFC",
     "rating": "D",
@@ -462,7 +230,7 @@
     }
   },
   {
-    "id": "LAIFC-047",
+    "id": "LAIFC-F-039",
     "name": "Li, Lucas",
     "club": "LAIFC",
     "rating": "C",
@@ -472,27 +240,7 @@
     }
   },
   {
-    "id": "LAIFC-048",
-    "name": "liao, irene",
-    "club": "LAIFC",
-    "rating": "C",
-    "ratingFull": "C26",
-    "ratings": {
-      "epee": "C26"
-    }
-  },
-  {
-    "id": "LAIFC-049",
-    "name": "Lin, Ashley",
-    "club": "LAIFC",
-    "rating": "B",
-    "ratingFull": "B25",
-    "ratings": {
-      "epee": "B25"
-    }
-  },
-  {
-    "id": "LAIFC-050",
+    "id": "LAIFC-F-013",
     "name": "Lin, Xilong",
     "club": "LAIFC",
     "rating": "A",
@@ -502,7 +250,7 @@
     }
   },
   {
-    "id": "LAIFC-051",
+    "id": "LAIFC-F-005",
     "name": "Lin, Youlong",
     "club": "LAIFC",
     "rating": "A",
@@ -512,17 +260,7 @@
     }
   },
   {
-    "id": "LAIFC-052",
-    "name": "Lipton, Jason S",
-    "club": "LAIFC",
-    "rating": "B",
-    "ratingFull": "B24",
-    "ratings": {
-      "epee": "B24"
-    }
-  },
-  {
-    "id": "LAIFC-053",
+    "id": "LAIFC-F-050",
     "name": "Liu, Zichen",
     "club": "LAIFC",
     "rating": "E",
@@ -532,27 +270,7 @@
     }
   },
   {
-    "id": "LAIFC-054",
-    "name": "Locasale, Nicholas A",
-    "club": "LAIFC",
-    "rating": "B",
-    "ratingFull": "B23",
-    "ratings": {
-      "epee": "B23"
-    }
-  },
-  {
-    "id": "LAIFC-055",
-    "name": "Loeffler, Carl E",
-    "club": "LAIFC",
-    "rating": "B",
-    "ratingFull": "B26",
-    "ratings": {
-      "epee": "B26"
-    }
-  },
-  {
-    "id": "LAIFC-056",
+    "id": "LAIFC-F-051",
     "name": "Lopes-Eason, Liam James",
     "club": "LAIFC",
     "rating": "E",
@@ -562,7 +280,7 @@
     }
   },
   {
-    "id": "LAIFC-057",
+    "id": "LAIFC-F-037",
     "name": "louie, brennan",
     "club": "LAIFC",
     "rating": "B",
@@ -572,7 +290,7 @@
     }
   },
   {
-    "id": "LAIFC-058",
+    "id": "LAIFC-F-006",
     "name": "Lozano, Veyron Jericho",
     "club": "LAIFC",
     "rating": "A",
@@ -582,17 +300,7 @@
     }
   },
   {
-    "id": "LAIFC-059",
-    "name": "Lucero-Olson, Aydin",
-    "club": "LAIFC",
-    "rating": "A",
-    "ratingFull": "A23",
-    "ratings": {
-      "epee": "A23"
-    }
-  },
-  {
-    "id": "LAIFC-060",
+    "id": "LAIFC-F-036",
     "name": "Martin, Elmer D",
     "club": "LAIFC",
     "rating": "B",
@@ -602,28 +310,17 @@
     }
   },
   {
-    "id": "LAIFC-061",
-    "name": "Maxu, Tiger",
-    "club": "LAIFC",
-    "rating": "C",
-    "ratingFull": "C25",
-    "ratings": {
-      "epee": "C25"
-    }
-  },
-  {
-    "id": "LAIFC-062",
+    "id": "LAIFC-F-007",
     "name": "Mazaheri, Fletcher",
     "club": "LAIFC",
     "rating": "A",
     "ratingFull": "A26",
     "ratings": {
-      "epee": "B25",
       "foil": "A26"
     }
   },
   {
-    "id": "LAIFC-063",
+    "id": "LAIFC-F-057",
     "name": "Mazaheri, Theodore",
     "club": "LAIFC",
     "rating": "E",
@@ -633,17 +330,7 @@
     }
   },
   {
-    "id": "LAIFC-064",
-    "name": "McDaniels, Jeremy",
-    "club": "LAIFC",
-    "rating": "A",
-    "ratingFull": "A26",
-    "ratings": {
-      "epee": "A26"
-    }
-  },
-  {
-    "id": "LAIFC-065",
+    "id": "LAIFC-F-032",
     "name": "Medvidovic, Pavle",
     "club": "LAIFC",
     "rating": "B",
@@ -653,27 +340,7 @@
     }
   },
   {
-    "id": "LAIFC-066",
-    "name": "Mendoza, Zandro",
-    "club": "LAIFC",
-    "rating": "A",
-    "ratingFull": "A26",
-    "ratings": {
-      "epee": "A26"
-    }
-  },
-  {
-    "id": "LAIFC-067",
-    "name": "mendoza, zoie",
-    "club": "LAIFC",
-    "rating": "A",
-    "ratingFull": "A25",
-    "ratings": {
-      "epee": "A25"
-    }
-  },
-  {
-    "id": "LAIFC-068",
+    "id": "LAIFC-F-042",
     "name": "Monsefi, Amir",
     "club": "LAIFC",
     "rating": "C",
@@ -683,17 +350,7 @@
     }
   },
   {
-    "id": "LAIFC-069",
-    "name": "Mun, Brianna Kim",
-    "club": "LAIFC",
-    "rating": "A",
-    "ratingFull": "A24",
-    "ratings": {
-      "epee": "A24"
-    }
-  },
-  {
-    "id": "LAIFC-070",
+    "id": "LAIFC-F-040",
     "name": "Nacu, Robert",
     "club": "LAIFC",
     "rating": "C",
@@ -703,7 +360,7 @@
     }
   },
   {
-    "id": "LAIFC-071",
+    "id": "LAIFC-F-008",
     "name": "Nguyen, Martin",
     "club": "LAIFC",
     "rating": "A",
@@ -713,37 +370,7 @@
     }
   },
   {
-    "id": "LAIFC-072",
-    "name": "Nixon, Caroline L",
-    "club": "LAIFC",
-    "rating": "A",
-    "ratingFull": "A25",
-    "ratings": {
-      "epee": "A25"
-    }
-  },
-  {
-    "id": "LAIFC-073",
-    "name": "Nixon, Mark",
-    "club": "LAIFC",
-    "rating": "A",
-    "ratingFull": "A25",
-    "ratings": {
-      "epee": "A25"
-    }
-  },
-  {
-    "id": "LAIFC-074",
-    "name": "Pak, Elliot",
-    "club": "LAIFC",
-    "rating": "A",
-    "ratingFull": "A23",
-    "ratings": {
-      "epee": "A23"
-    }
-  },
-  {
-    "id": "LAIFC-075",
+    "id": "LAIFC-F-052",
     "name": "Park, Kaiden",
     "club": "LAIFC",
     "rating": "E",
@@ -753,7 +380,7 @@
     }
   },
   {
-    "id": "LAIFC-076",
+    "id": "LAIFC-F-025",
     "name": "Park, Sky",
     "club": "LAIFC",
     "rating": "B",
@@ -763,17 +390,7 @@
     }
   },
   {
-    "id": "LAIFC-077",
-    "name": "Primes, Amanda M",
-    "club": "LAIFC",
-    "rating": "D",
-    "ratingFull": "D26",
-    "ratings": {
-      "epee": "D26"
-    }
-  },
-  {
-    "id": "LAIFC-078",
+    "id": "LAIFC-F-017",
     "name": "Sadovsky, Leor Bar",
     "club": "LAIFC",
     "rating": "A",
@@ -783,17 +400,7 @@
     }
   },
   {
-    "id": "LAIFC-079",
-    "name": "Sahagian, Izzy C",
-    "club": "LAIFC",
-    "rating": "C",
-    "ratingFull": "C26",
-    "ratings": {
-      "epee": "C26"
-    }
-  },
-  {
-    "id": "LAIFC-080",
+    "id": "LAIFC-F-043",
     "name": "Schieneman, Valentine",
     "club": "LAIFC",
     "rating": "C",
@@ -803,17 +410,7 @@
     }
   },
   {
-    "id": "LAIFC-081",
-    "name": "Schwartzman, Ethan",
-    "club": "LAIFC",
-    "rating": "C",
-    "ratingFull": "C26",
-    "ratings": {
-      "epee": "C26"
-    }
-  },
-  {
-    "id": "LAIFC-082",
+    "id": "LAIFC-F-053",
     "name": "Shadravan, Arash",
     "club": "LAIFC",
     "rating": "E",
@@ -823,37 +420,7 @@
     }
   },
   {
-    "id": "LAIFC-083",
-    "name": "Shen, Jiayi",
-    "club": "LAIFC",
-    "rating": "D",
-    "ratingFull": "D23",
-    "ratings": {
-      "epee": "D23"
-    }
-  },
-  {
-    "id": "LAIFC-084",
-    "name": "Shin, Ryan",
-    "club": "LAIFC",
-    "rating": "A",
-    "ratingFull": "A25",
-    "ratings": {
-      "epee": "A25"
-    }
-  },
-  {
-    "id": "LAIFC-085",
-    "name": "Shourie, Neel",
-    "club": "LAIFC",
-    "rating": "E",
-    "ratingFull": "E26",
-    "ratings": {
-      "epee": "E26"
-    }
-  },
-  {
-    "id": "LAIFC-086",
+    "id": "LAIFC-F-058",
     "name": "Shum, Maya",
     "club": "LAIFC",
     "rating": "E",
@@ -863,17 +430,7 @@
     }
   },
   {
-    "id": "LAIFC-087",
-    "name": "Smith, Justin C",
-    "club": "LAIFC",
-    "rating": "A",
-    "ratingFull": "A25",
-    "ratings": {
-      "epee": "A25"
-    }
-  },
-  {
-    "id": "LAIFC-088",
+    "id": "LAIFC-F-033",
     "name": "Snytsheuvel, John Evan",
     "club": "LAIFC",
     "rating": "B",
@@ -883,27 +440,7 @@
     }
   },
   {
-    "id": "LAIFC-089",
-    "name": "Teng, Lucas",
-    "club": "LAIFC",
-    "rating": "E",
-    "ratingFull": "E26",
-    "ratings": {
-      "saber": "E26"
-    }
-  },
-  {
-    "id": "LAIFC-090",
-    "name": "Tsang, Gary",
-    "club": "LAIFC",
-    "rating": "B",
-    "ratingFull": "B22",
-    "ratings": {
-      "epee": "B22"
-    }
-  },
-  {
-    "id": "LAIFC-091",
+    "id": "LAIFC-F-022",
     "name": "Vazquez, Zander",
     "club": "LAIFC",
     "rating": "A",
@@ -913,17 +450,7 @@
     }
   },
   {
-    "id": "LAIFC-092",
-    "name": "WANG, DEVON",
-    "club": "LAIFC",
-    "rating": "A",
-    "ratingFull": "A23",
-    "ratings": {
-      "epee": "A23"
-    }
-  },
-  {
-    "id": "LAIFC-093",
+    "id": "LAIFC-F-047",
     "name": "Wang, Doreen",
     "club": "LAIFC",
     "rating": "D",
@@ -933,17 +460,7 @@
     }
   },
   {
-    "id": "LAIFC-094",
-    "name": "Wang, Dylan",
-    "club": "LAIFC",
-    "rating": "C",
-    "ratingFull": "C26",
-    "ratings": {
-      "epee": "C26"
-    }
-  },
-  {
-    "id": "LAIFC-095",
+    "id": "LAIFC-F-026",
     "name": "Wang, Elijah",
     "club": "LAIFC",
     "rating": "B",
@@ -953,7 +470,7 @@
     }
   },
   {
-    "id": "LAIFC-096",
+    "id": "LAIFC-F-034",
     "name": "Wang, Michael",
     "club": "LAIFC",
     "rating": "B",
@@ -963,27 +480,7 @@
     }
   },
   {
-    "id": "LAIFC-097",
-    "name": "wang, owen",
-    "club": "LAIFC",
-    "rating": "B",
-    "ratingFull": "B24",
-    "ratings": {
-      "epee": "B24"
-    }
-  },
-  {
-    "id": "LAIFC-098",
-    "name": "Weiss, Lewis E",
-    "club": "LAIFC",
-    "rating": "A",
-    "ratingFull": "A23",
-    "ratings": {
-      "epee": "A23"
-    }
-  },
-  {
-    "id": "LAIFC-099",
+    "id": "LAIFC-F-009",
     "name": "XIAO, EDWARD",
     "club": "LAIFC",
     "rating": "A",
@@ -993,7 +490,7 @@
     }
   },
   {
-    "id": "LAIFC-100",
+    "id": "LAIFC-F-035",
     "name": "Xinyao, Zhou",
     "club": "LAIFC",
     "rating": "B",
@@ -1003,27 +500,7 @@
     }
   },
   {
-    "id": "LAIFC-101",
-    "name": "Xue, Chenming",
-    "club": "LAIFC",
-    "rating": "E",
-    "ratingFull": "E25",
-    "ratings": {
-      "epee": "E25"
-    }
-  },
-  {
-    "id": "LAIFC-102",
-    "name": "Xue, Michael",
-    "club": "LAIFC",
-    "rating": "B",
-    "ratingFull": "B26",
-    "ratings": {
-      "epee": "B26"
-    }
-  },
-  {
-    "id": "LAIFC-103",
+    "id": "LAIFC-F-041",
     "name": "Yang, Hanli",
     "club": "LAIFC",
     "rating": "C",
@@ -1033,7 +510,7 @@
     }
   },
   {
-    "id": "LAIFC-104",
+    "id": "LAIFC-F-014",
     "name": "Yao, Pincheng",
     "club": "LAIFC",
     "rating": "A",
@@ -1043,7 +520,7 @@
     }
   },
   {
-    "id": "LAIFC-105",
+    "id": "LAIFC-F-015",
     "name": "Yi, William",
     "club": "LAIFC",
     "rating": "A",
@@ -1053,17 +530,7 @@
     }
   },
   {
-    "id": "LAIFC-106",
-    "name": "Yoon, Claire",
-    "club": "LAIFC",
-    "rating": "C",
-    "ratingFull": "C26",
-    "ratings": {
-      "epee": "C26"
-    }
-  },
-  {
-    "id": "LAIFC-107",
+    "id": "LAIFC-F-054",
     "name": "Young, Luke",
     "club": "LAIFC",
     "rating": "E",
@@ -1073,17 +540,7 @@
     }
   },
   {
-    "id": "LAIFC-108",
-    "name": "Youssef, Caroline",
-    "club": "LAIFC",
-    "rating": "E",
-    "ratingFull": "E23",
-    "ratings": {
-      "epee": "E23"
-    }
-  },
-  {
-    "id": "LAIFC-109",
+    "id": "LAIFC-F-044",
     "name": "Zapozdaev, Igor",
     "club": "LAIFC",
     "rating": "C",
@@ -1093,7 +550,7 @@
     }
   },
   {
-    "id": "LAIFC-110",
+    "id": "LAIFC-F-010",
     "name": "Zhang, Aaron",
     "club": "LAIFC",
     "rating": "A",
@@ -1103,17 +560,7 @@
     }
   },
   {
-    "id": "LAIFC-111",
-    "name": "zhang, angelina",
-    "club": "LAIFC",
-    "rating": "E",
-    "ratingFull": "E25",
-    "ratings": {
-      "saber": "E25"
-    }
-  },
-  {
-    "id": "LAIFC-112",
+    "id": "LAIFC-F-048",
     "name": "Zhang, Hannah",
     "club": "LAIFC",
     "rating": "D",
@@ -1123,7 +570,7 @@
     }
   },
   {
-    "id": "LAIFC-113",
+    "id": "LAIFC-F-027",
     "name": "Zhang, Ivy",
     "club": "LAIFC",
     "rating": "B",
@@ -1133,7 +580,7 @@
     }
   },
   {
-    "id": "LAIFC-114",
+    "id": "LAIFC-F-028",
     "name": "Zhang, Jacob",
     "club": "LAIFC",
     "rating": "B",
@@ -1143,23 +590,13 @@
     }
   },
   {
-    "id": "LAIFC-115",
+    "id": "LAIFC-F-059",
     "name": "Zhang, Yankai",
     "club": "LAIFC",
     "rating": "E",
     "ratingFull": "E25",
     "ratings": {
       "foil": "E25"
-    }
-  },
-  {
-    "id": "LAIFC-116",
-    "name": "Zheng, Haoran",
-    "club": "LAIFC",
-    "rating": "A",
-    "ratingFull": "A25",
-    "ratings": {
-      "epee": "A25"
     }
   }
 ]
