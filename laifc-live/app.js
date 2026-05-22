@@ -813,7 +813,8 @@ function moveFencer(fencerId, destination, beforeFencerId = null) {
 }
 
 function beginTouchDrag(event) {
-  if (event.pointerType === "mouse" || currentView !== "pools") return;
+  if (currentView !== "pools") return;
+  if (event.pointerType === "mouse" && event.button !== 0) return;
   if (event.target.closest("select, button, input, textarea, a")) return;
   const row = event.target.closest(".pool-fencer-row");
   if (!row) return;

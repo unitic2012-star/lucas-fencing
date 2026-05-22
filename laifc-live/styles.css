@@ -429,7 +429,6 @@ h2 {
 
 .pool-fencer-row {
   grid-template-columns: 42px minmax(180px, 1fr) 112px;
-  -webkit-user-drag: none;
 }
 
 .bank-fencer-row {
