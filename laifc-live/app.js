@@ -878,19 +878,23 @@ function positionTouchDragGhost(x, y) {
 }
 
 function setTouchDropTarget(x, y) {
-  document.querySelectorAll(".pool-card.drag-over").forEach((pool) => pool.classList.remove("drag-over"));
-  document.querySelectorAll(".pool-fencer-row.drop-before").forEach((row) => row.classList.remove("drop-before"));
+  clearPoolDropMarkers();
   if (touchDrag?.ghost) touchDrag.ghost.style.display = "none";
   const pool = document.elementFromPoint(x, y)?.closest(".pool-card") || null;
   if (touchDrag?.ghost) touchDrag.ghost.style.display = "";
   if (pool) pool.classList.add("drag-over");
   touchDrag.pool = pool;
-  touchDrag.beforeFencerId = pool ? getDropBeforeFencerId(pool, y) : null;
+  touchDrag.beforeFencerId = pool ? getDropBeforeFencerId(pool, y, touchDrag.fencerId) : null;
 }
 
-function getDropBeforeFencerId(pool, y) {
+function clearPoolDropMarkers() {
+  document.querySelectorAll(".pool-card.drag-over").forEach((pool) => pool.classList.remove("drag-over"));
+  document.querySelectorAll(".pool-fencer-row.drop-before").forEach((row) => row.classList.remove("drop-before"));
+}
+
+function getDropBeforeFencerId(pool, y, draggedId) {
   const rows = [...pool.querySelectorAll(".pool-fencer-row")]
-    .filter((row) => row.dataset.fencerId !== touchDrag?.fencerId);
+    .filter((row) => row.dataset.fencerId !== draggedId);
   const before = rows.find((row) => {
     const rect = row.getBoundingClientRect();
     return y < rect.top + rect.height / 2;
@@ -1843,10 +1847,12 @@ document.addEventListener("dragstart", (event) => {
     event.dataTransfer.setData("text/plain", `de-fencer:${draggedDEFencerId}`);
     return;
   }
-  const row = event.target.closest("[data-fencer-id]");
+  if (event.target.closest("select, button, input, textarea, a")) return;
+  const row = event.target.closest(".pool-fencer-row");
   if (!row) return;
   draggedFencerId = row.dataset.fencerId;
   event.dataTransfer.setData("text/plain", draggedFencerId);
+  event.dataTransfer.effectAllowed = "move";
 });
 
 document.addEventListener("dragover", (event) => {
@@ -1859,12 +1865,16 @@ document.addEventListener("dragover", (event) => {
   const pool = event.target.closest(".pool-card");
   if (!pool) return;
   event.preventDefault();
+  clearPoolDropMarkers();
   pool.classList.add("drag-over");
+  getDropBeforeFencerId(pool, event.clientY, draggedFencerId);
 });
 
 document.addEventListener("dragleave", (event) => {
   event.target.closest(".de-draggable-row")?.classList.remove("drag-over");
-  event.target.closest(".pool-card")?.classList.remove("drag-over");
+  if (!event.relatedTarget || !event.target.closest(".pool-card")?.contains(event.relatedTarget)) {
+    clearPoolDropMarkers();
+  }
 });
 
 document.addEventListener("drop", (event) => {
@@ -1879,13 +1889,17 @@ document.addEventListener("drop", (event) => {
   const pool = event.target.closest(".pool-card");
   if (!pool) return;
   event.preventDefault();
-  pool.classList.remove("drag-over");
-  moveFencer(event.dataTransfer.getData("text/plain") || draggedFencerId, pool.dataset.poolId);
+  const fencerId = event.dataTransfer.getData("text/plain") || draggedFencerId;
+  const beforeFencerId = getDropBeforeFencerId(pool, event.clientY, fencerId);
+  clearPoolDropMarkers();
+  moveFencer(fencerId, pool.dataset.poolId, beforeFencerId);
 });
 
 document.addEventListener("dragend", () => {
   draggedDEFencerId = null;
+  draggedFencerId = null;
   document.querySelectorAll(".de-draggable-row.drag-over").forEach((row) => row.classList.remove("drag-over"));
+  clearPoolDropMarkers();
 });
 
 document.addEventListener("pointerdown", beginTouchDrag);
