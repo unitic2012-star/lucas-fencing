@@ -1740,12 +1740,18 @@ document.addEventListener("click", (event) => {
     deleteFencer(event.target.dataset.id);
   }
   if (nameOption) {
-    els.newName.value = nameOption.dataset.name;
-    if (ratingOrder[nameOption.dataset.rating]) document.querySelector("#newRating").value = nameOption.dataset.rating;
-    if (nameOption.dataset.club) document.querySelector("#newClub").value = nameOption.dataset.club;
+    const rating = ratingOrder[nameOption.dataset.rating] ? nameOption.dataset.rating : document.querySelector("#newRating").value;
+    const added = addFencer(nameOption.dataset.name, nameOption.dataset.club || "LAIFC", rating);
+    if (added) {
+      document.querySelector("#newName").value = "";
+      document.querySelector("#newClub").value = "";
+      document.querySelector("#newRating").value = rating;
+    }
     els.nameSuggestions.innerHTML = "";
     els.nameSuggestions.classList.remove("active");
     els.newName.focus();
+    render();
+    return;
   }
   if (action === "delete-empty-pool") {
     deleteEmptyPool(event.target.dataset.poolId);
