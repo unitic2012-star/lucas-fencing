@@ -6,3 +6,4 @@
 *.HEIC
 *.heic
 fencer-name-cache.json
+!laifc-live/fencer-name-cache.json

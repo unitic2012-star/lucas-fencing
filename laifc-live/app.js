@@ -238,14 +238,32 @@ function mergeNameCaches(...groups) {
     if (!entry?.name) return;
     const key = entry.name.trim().toLowerCase();
     const existing = byName.get(key) || {};
+    const ratingFull = entry.ratingFull || existing.ratingFull || entry.rating || existing.rating || "";
     byName.set(key, {
       id: entry.id || existing.id || `LOCAL-${byName.size + 1}`,
       name: entry.name.trim(),
       club: entry.club || existing.club || "",
-      rating: ratingOrder[entry.rating] ? entry.rating : existing.rating || "",
+      rating: ratingOrder[entry.rating] ? entry.rating : existing.rating || ratingFull[0] || "",
+      ratingFull,
+      ratings: { ...(existing.ratings || {}), ...(entry.ratings || {}) },
+      searchText: nameSearchText(entry),
     });
   });
   return [...byName.values()].sort((a, b) => a.name.localeCompare(b.name));
+}
+
+function nameSearchText(entry) {
+  const name = entry.name?.trim() || "";
+  const [last = "", first = ""] = name.split(",").map((part) => part.trim());
+  return [
+    name,
+    `${first} ${last}`.trim(),
+    `${last} ${first}`.trim(),
+    entry.id,
+    entry.club,
+    entry.rating,
+    entry.ratingFull,
+  ].filter(Boolean).join(" ").toLowerCase();
 }
 
 function rememberName(name) {
@@ -317,13 +335,13 @@ function renderNameSuggestions() {
     return;
   }
   const matches = nameCache
-    .filter((fencer) => fencer.name.toLowerCase().includes(query) || fencer.id.includes(query))
+    .filter((fencer) => (fencer.searchText || nameSearchText(fencer)).includes(query))
     .slice(0, 10);
   els.nameSuggestions.innerHTML = matches.length
     ? matches.map((fencer) => `
       <button type="button" data-action="pick-name" data-name="${escapeHtml(fencer.name)}" data-rating="${escapeHtml(fencer.rating || "")}" data-club="${escapeHtml(fencer.club || "")}">
         <strong>${escapeHtml(fencer.name)}</strong>
-        <span>${[fencer.rating, fencer.club, fencer.id].filter(Boolean).map(escapeHtml).join(" · ")}</span>
+        <span>${[fencer.ratingFull || fencer.rating, fencer.club, fencer.id].filter(Boolean).map(escapeHtml).join(" · ")}</span>
       </button>
     `).join("")
     : `<div class="suggestion-empty">No history match. Continue typing manually.</div>`;
