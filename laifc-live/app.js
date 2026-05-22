@@ -32,8 +32,8 @@ let touchDrag = null;
 let nameCache = [];
 let saveStatusTimer = null;
 let isApplyingRemoteState = false;
-let draggedDESlotIndex = null;
-let selectedDESlotIndex = null;
+let draggedDEFencerId = null;
+let selectedDEFencerId = null;
 
 const els = {
   eventDate: document.querySelector("#eventDate"),
@@ -628,13 +628,6 @@ function renderSecondScoreRow(poolId, a, b) {
 
 function renderDoubleTableau() {
   return `
-    <section class="ftl-bracket-section custom-slots-section">
-      <div class="custom-slots-head">
-        <h2>Custom Seed Slots</h2>
-        <span>Drag two slots, or tap one then another on iPad, to swap. Reset restores seeding order.</span>
-      </div>
-      <div class="de-seed-slots">${renderDESeedSlots()}</div>
-    </section>
     <section class="ftl-bracket-section">
       <h2>Winner Bracket</h2>
       <div class="bracket">${state.doubleDE.upper.map((round, index) => renderDERound(round, "upper", index)).join("")}</div>
@@ -652,19 +645,6 @@ function renderDoubleTableau() {
       <div class="elimination-list">${renderEliminated()}</div>
     </section>
   `;
-}
-
-function renderDESeedSlots() {
-  return getDoubleDESlots().map((slot, index) => {
-    const fencer = slot.fencerId ? fencerById(slot.fencerId) : null;
-    return `
-      <button class="de-seed-slot ${slot.isBye ? "bye-slot" : ""} ${selectedDESlotIndex === index ? "selected" : ""}" data-action="select-de-slot" data-slot-index="${index}" draggable="${slot.isBye ? "false" : "true"}" type="button">
-        <span>${index + 1}</span>
-        <strong>${fencer ? escapeHtml(fencer.name) : "BYE"}</strong>
-        <em>${fencer ? `Seed ${slot.seedNumber}` : "Empty slot"}</em>
-      </button>
-    `;
-  }).join("");
 }
 
 function renderDERound(round, side, roundIndex) {
@@ -690,15 +670,17 @@ function renderDEMatch(match, side, roundIndex, matchIndex) {
   const b = match.b ? fencerById(match.b) : null;
   const aLabel = match.aBye ? "BYE" : "TBD";
   const bLabel = match.bBye ? "BYE" : "TBD";
+  const canEditA = canCustomizeDoubleDE() && side === "upper" && Boolean(a);
+  const canEditB = canCustomizeDoubleDE() && side === "upper" && Boolean(b);
   const locked = match.winner ? `<span class="match-status">Winner: ${escapeHtml(fencerById(match.winner)?.name || "")}</span>` : "";
   return `
     <div class="match">
-      <div class="match-row ${match.winner === match.a ? "match-winner-row" : ""}">
+      <div class="match-row ${match.winner === match.a ? "match-winner-row" : ""} ${canEditA ? "de-draggable-row" : ""} ${selectedDEFencerId === match.a ? "selected" : ""}" ${canEditA ? `draggable="true" data-action="select-de-fencer" data-de-fencer-id="${match.a}"` : ""}>
         <span class="match-seed">${match.aSeed || ""}</span>
         <strong class="${a ? "" : match.aBye ? "bye" : "tbd"}">${a ? escapeHtml(a.name) : aLabel}</strong>
         <input class="match-score" inputmode="numeric" data-action="de-score" data-side-name="${side}" data-round="${roundIndex}" data-match="${matchIndex}" data-side="a" value="${match.aScore ?? ""}" ${a ? "" : "disabled"} />
       </div>
-      <div class="match-row ${match.winner === match.b ? "match-winner-row" : ""}">
+      <div class="match-row ${match.winner === match.b ? "match-winner-row" : ""} ${canEditB ? "de-draggable-row" : ""} ${selectedDEFencerId === match.b ? "selected" : ""}" ${canEditB ? `draggable="true" data-action="select-de-fencer" data-de-fencer-id="${match.b}"` : ""}>
         <span class="match-seed">${match.bSeed || ""}</span>
         <strong class="${b ? "" : match.bBye ? "bye" : "tbd"}">${b ? escapeHtml(b.name) : bLabel}</strong>
         <input class="match-score" inputmode="numeric" data-action="de-score" data-side-name="${side}" data-round="${roundIndex}" data-match="${matchIndex}" data-side="b" value="${match.bScore ?? ""}" ${b ? "" : "disabled"} />
@@ -1096,14 +1078,35 @@ function getDoubleDESlots() {
   ]));
 }
 
-function swapDoubleDESlots(fromIndex, toIndex) {
-  if (!state.doubleDE || fromIndex === toIndex) return;
+function slotIndexForFencer(fencerId) {
+  return getDoubleDESlots().findIndex((slot) => slot.fencerId === fencerId);
+}
+
+function canCustomizeDoubleDE() {
+  if (!state.doubleDE || state.postseasonMode !== "double-de") return false;
+  return !hasStartedDoubleDE();
+}
+
+function hasStartedDoubleDE() {
+  if (!state.doubleDE) return false;
+  let started = false;
+  forEachDEMatch((match) => {
+    if (isHiddenByeMatch(match)) return;
+    if (match.winner || match.aScore !== "" || match.bScore !== "") started = true;
+  });
+  return started;
+}
+
+function swapDoubleDEFencers(fromFencerId, toFencerId) {
+  if (!canCustomizeDoubleDE() || fromFencerId === toFencerId) return;
   const slots = getDoubleDESlots();
+  const fromIndex = slotIndexForFencer(fromFencerId);
+  const toIndex = slotIndexForFencer(toFencerId);
   if (!slots[fromIndex] || !slots[toIndex]) return;
   [slots[fromIndex], slots[toIndex]] = [slots[toIndex], slots[fromIndex]];
   state.doubleDE = buildDoubleDEFromSlots(slots, state.seeds);
   autoAdvanceDoubleByes();
-  selectedDESlotIndex = null;
+  selectedDEFencerId = null;
   render();
 }
 
@@ -1112,7 +1115,7 @@ function resetDEToSeeding() {
   state.doubleDE = buildDoubleDE(state.seeds);
   state.secondPools = [];
   state.secondScores = {};
-  selectedDESlotIndex = null;
+  selectedDEFencerId = null;
   autoAdvanceDoubleByes();
   render();
 }
@@ -1701,6 +1704,7 @@ function applySavedStateForCurrentDate(savedState) {
 document.addEventListener("click", (event) => {
   const stepButton = event.target.closest(".step");
   const nameOption = event.target.closest("[data-action='pick-name']");
+  const deFencerRow = event.target.closest("[data-action='select-de-fencer']");
   const action = event.target.dataset.action;
   if (stepButton) {
     saveState();
@@ -1731,13 +1735,14 @@ document.addEventListener("click", (event) => {
   if (action === "print-pool") {
     printPool(event.target.dataset.poolId);
   }
-  if (action === "select-de-slot") {
-    const slotIndex = Number(event.target.closest(".de-seed-slot").dataset.slotIndex);
-    if (selectedDESlotIndex === null || selectedDESlotIndex === slotIndex) {
-      selectedDESlotIndex = selectedDESlotIndex === slotIndex ? null : slotIndex;
+  if (deFencerRow) {
+    const fencerId = deFencerRow.dataset.deFencerId;
+    if (!fencerId || !canCustomizeDoubleDE()) return;
+    if (selectedDEFencerId === null || selectedDEFencerId === fencerId) {
+      selectedDEFencerId = selectedDEFencerId === fencerId ? null : fencerId;
       render();
     } else {
-      swapDoubleDESlots(selectedDESlotIndex, slotIndex);
+      swapDoubleDEFencers(selectedDEFencerId, fencerId);
     }
     return;
   }
@@ -1795,10 +1800,10 @@ document.addEventListener("change", (event) => {
 });
 
 document.addEventListener("dragstart", (event) => {
-  const deSlot = event.target.closest(".de-seed-slot");
-  if (deSlot && !deSlot.classList.contains("bye-slot")) {
-    draggedDESlotIndex = Number(deSlot.dataset.slotIndex);
-    event.dataTransfer.setData("text/plain", `de-slot:${draggedDESlotIndex}`);
+  const deRow = event.target.closest(".de-draggable-row");
+  if (deRow && canCustomizeDoubleDE()) {
+    draggedDEFencerId = deRow.dataset.deFencerId;
+    event.dataTransfer.setData("text/plain", `de-fencer:${draggedDEFencerId}`);
     return;
   }
   const row = event.target.closest("[data-fencer-id]");
@@ -1808,10 +1813,10 @@ document.addEventListener("dragstart", (event) => {
 });
 
 document.addEventListener("dragover", (event) => {
-  const deSlot = event.target.closest(".de-seed-slot");
-  if (deSlot && draggedDESlotIndex !== null) {
+  const deRow = event.target.closest(".de-draggable-row");
+  if (deRow && draggedDEFencerId) {
     event.preventDefault();
-    deSlot.classList.add("drag-over");
+    deRow.classList.add("drag-over");
     return;
   }
   const pool = event.target.closest(".pool-card");
@@ -1821,17 +1826,17 @@ document.addEventListener("dragover", (event) => {
 });
 
 document.addEventListener("dragleave", (event) => {
-  event.target.closest(".de-seed-slot")?.classList.remove("drag-over");
+  event.target.closest(".de-draggable-row")?.classList.remove("drag-over");
   event.target.closest(".pool-card")?.classList.remove("drag-over");
 });
 
 document.addEventListener("drop", (event) => {
-  const deSlot = event.target.closest(".de-seed-slot");
-  if (deSlot && draggedDESlotIndex !== null) {
+  const deRow = event.target.closest(".de-draggable-row");
+  if (deRow && draggedDEFencerId) {
     event.preventDefault();
-    deSlot.classList.remove("drag-over");
-    swapDoubleDESlots(draggedDESlotIndex, Number(deSlot.dataset.slotIndex));
-    draggedDESlotIndex = null;
+    deRow.classList.remove("drag-over");
+    swapDoubleDEFencers(draggedDEFencerId, deRow.dataset.deFencerId);
+    draggedDEFencerId = null;
     return;
   }
   const pool = event.target.closest(".pool-card");
@@ -1842,8 +1847,8 @@ document.addEventListener("drop", (event) => {
 });
 
 document.addEventListener("dragend", () => {
-  draggedDESlotIndex = null;
-  document.querySelectorAll(".de-seed-slot.drag-over").forEach((slot) => slot.classList.remove("drag-over"));
+  draggedDEFencerId = null;
+  document.querySelectorAll(".de-draggable-row.drag-over").forEach((row) => row.classList.remove("drag-over"));
 });
 
 document.addEventListener("pointerdown", beginTouchDrag);
