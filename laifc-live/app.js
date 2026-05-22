@@ -32,6 +32,8 @@ let touchDrag = null;
 let nameCache = [];
 let saveStatusTimer = null;
 let isApplyingRemoteState = false;
+let draggedDESlotIndex = null;
+let selectedDESlotIndex = null;
 
 const els = {
   eventDate: document.querySelector("#eventDate"),
@@ -626,6 +628,13 @@ function renderSecondScoreRow(poolId, a, b) {
 
 function renderDoubleTableau() {
   return `
+    <section class="ftl-bracket-section custom-slots-section">
+      <div class="custom-slots-head">
+        <h2>Custom Seed Slots</h2>
+        <span>Drag two slots, or tap one then another on iPad, to swap. Reset restores seeding order.</span>
+      </div>
+      <div class="de-seed-slots">${renderDESeedSlots()}</div>
+    </section>
     <section class="ftl-bracket-section">
       <h2>Winner Bracket</h2>
       <div class="bracket">${state.doubleDE.upper.map((round, index) => renderDERound(round, "upper", index)).join("")}</div>
@@ -643,6 +652,19 @@ function renderDoubleTableau() {
       <div class="elimination-list">${renderEliminated()}</div>
     </section>
   `;
+}
+
+function renderDESeedSlots() {
+  return getDoubleDESlots().map((slot, index) => {
+    const fencer = slot.fencerId ? fencerById(slot.fencerId) : null;
+    return `
+      <button class="de-seed-slot ${slot.isBye ? "bye-slot" : ""} ${selectedDESlotIndex === index ? "selected" : ""}" data-action="select-de-slot" data-slot-index="${index}" draggable="${slot.isBye ? "false" : "true"}" type="button">
+        <span>${index + 1}</span>
+        <strong>${fencer ? escapeHtml(fencer.name) : "BYE"}</strong>
+        <em>${fencer ? `Seed ${slot.seedNumber}` : "Empty slot"}</em>
+      </button>
+    `;
+  }).join("");
 }
 
 function renderDERound(round, side, roundIndex) {
@@ -1013,11 +1035,19 @@ function buildSecondPools(seeds) {
 
 function buildDoubleDE(seeds) {
   if (!seeds.length) return null;
+  return buildDoubleDEFromSlots(defaultDoubleDESlots(seeds), seeds);
+}
+
+function defaultDoubleDESlots(seeds) {
   const size = nextPowerOfTwo(seeds.length);
-  const slots = bracketSeedOrder(size).map((seedNumber) => {
+  return bracketSeedOrder(size).map((seedNumber) => {
     const seed = seeds[seedNumber - 1];
     return seed ? { fencerId: seed.fencerId, seedNumber, isBye: false } : { fencerId: null, seedNumber: null, isBye: true };
   });
+}
+
+function buildDoubleDEFromSlots(slots, seeds) {
+  const size = slots.length;
   const rounds = [];
   const firstMatches = [];
   for (let i = 0; i < slots.length; i += 2) {
@@ -1056,6 +1086,35 @@ function buildDoubleDE(seeds) {
     losses: Object.fromEntries(seeds.map((seed) => [seed.fencerId, 0])),
     eliminated: [],
   };
+}
+
+function getDoubleDESlots() {
+  if (!state.doubleDE?.upper?.[0]) return [];
+  return state.doubleDE.upper[0].matches.flatMap((match) => ([
+    { fencerId: match.a, seedNumber: match.aSeed, isBye: match.aBye },
+    { fencerId: match.b, seedNumber: match.bSeed, isBye: match.bBye },
+  ]));
+}
+
+function swapDoubleDESlots(fromIndex, toIndex) {
+  if (!state.doubleDE || fromIndex === toIndex) return;
+  const slots = getDoubleDESlots();
+  if (!slots[fromIndex] || !slots[toIndex]) return;
+  [slots[fromIndex], slots[toIndex]] = [slots[toIndex], slots[fromIndex]];
+  state.doubleDE = buildDoubleDEFromSlots(slots, state.seeds);
+  autoAdvanceDoubleByes();
+  selectedDESlotIndex = null;
+  render();
+}
+
+function resetDEToSeeding() {
+  if (!state.seeds.length) state.seeds = buildSeeds();
+  state.doubleDE = buildDoubleDE(state.seeds);
+  state.secondPools = [];
+  state.secondScores = {};
+  selectedDESlotIndex = null;
+  autoAdvanceDoubleByes();
+  render();
 }
 
 function createMatch(id, aSlot, bSlot) {
@@ -1672,6 +1731,16 @@ document.addEventListener("click", (event) => {
   if (action === "print-pool") {
     printPool(event.target.dataset.poolId);
   }
+  if (action === "select-de-slot") {
+    const slotIndex = Number(event.target.closest(".de-seed-slot").dataset.slotIndex);
+    if (selectedDESlotIndex === null || selectedDESlotIndex === slotIndex) {
+      selectedDESlotIndex = selectedDESlotIndex === slotIndex ? null : slotIndex;
+      render();
+    } else {
+      swapDoubleDESlots(selectedDESlotIndex, slotIndex);
+    }
+    return;
+  }
   if (action === "advance" && event.target.dataset.winner) {
     advanceWinner(
       event.target.dataset.sideName,
@@ -1726,6 +1795,12 @@ document.addEventListener("change", (event) => {
 });
 
 document.addEventListener("dragstart", (event) => {
+  const deSlot = event.target.closest(".de-seed-slot");
+  if (deSlot && !deSlot.classList.contains("bye-slot")) {
+    draggedDESlotIndex = Number(deSlot.dataset.slotIndex);
+    event.dataTransfer.setData("text/plain", `de-slot:${draggedDESlotIndex}`);
+    return;
+  }
   const row = event.target.closest("[data-fencer-id]");
   if (!row) return;
   draggedFencerId = row.dataset.fencerId;
@@ -1733,6 +1808,12 @@ document.addEventListener("dragstart", (event) => {
 });
 
 document.addEventListener("dragover", (event) => {
+  const deSlot = event.target.closest(".de-seed-slot");
+  if (deSlot && draggedDESlotIndex !== null) {
+    event.preventDefault();
+    deSlot.classList.add("drag-over");
+    return;
+  }
   const pool = event.target.closest(".pool-card");
   if (!pool) return;
   event.preventDefault();
@@ -1740,15 +1821,29 @@ document.addEventListener("dragover", (event) => {
 });
 
 document.addEventListener("dragleave", (event) => {
+  event.target.closest(".de-seed-slot")?.classList.remove("drag-over");
   event.target.closest(".pool-card")?.classList.remove("drag-over");
 });
 
 document.addEventListener("drop", (event) => {
+  const deSlot = event.target.closest(".de-seed-slot");
+  if (deSlot && draggedDESlotIndex !== null) {
+    event.preventDefault();
+    deSlot.classList.remove("drag-over");
+    swapDoubleDESlots(draggedDESlotIndex, Number(deSlot.dataset.slotIndex));
+    draggedDESlotIndex = null;
+    return;
+  }
   const pool = event.target.closest(".pool-card");
   if (!pool) return;
   event.preventDefault();
   pool.classList.remove("drag-over");
   moveFencer(event.dataTransfer.getData("text/plain") || draggedFencerId, pool.dataset.poolId);
+});
+
+document.addEventListener("dragend", () => {
+  draggedDESlotIndex = null;
+  document.querySelectorAll(".de-seed-slot.drag-over").forEach((slot) => slot.classList.remove("drag-over"));
 });
 
 document.addEventListener("pointerdown", beginTouchDrag);
@@ -1794,6 +1889,7 @@ document.querySelector("#clearScores").addEventListener("click", () => {
   render();
 });
 document.querySelector("#generateDE").addEventListener("click", generateDE);
+document.querySelector("#resetDESeeding").addEventListener("click", resetDEToSeeding);
 document.querySelector("#clearDE").addEventListener("click", () => {
   state.seeds = [];
   state.bracket = [];
